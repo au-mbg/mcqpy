@@ -1,4 +1,3 @@
-from annotated_types import doc
 from pylatex import (
     Document,
     Enumerate,
@@ -9,80 +8,17 @@ from pylatex import (
     PageStyle,
     Head,
     Foot,
-    simple_page_number,
 )
-from pylatex.base_classes import Environment
 from pylatex.package import Package
 from pylatex.utils import NoEscape
 
 from mcqpy.question import Question
+from mcqpy.create import FrontMatterOptions, HeaderFooterOptions
+from mcqpy.create.latex_helpers import Form, multi_checkbox, radio_option
+
 from pathlib import Path
-from dataclasses import dataclass, field
 
 from mcqpy.create.manifest import Manifest, ManifestItem
-
-
-class Form(Environment):
-    """Form environment from hyperref."""
-
-    _latex_name = "Form"
-
-    packages = [Package("hyperref")]
-    escape = False
-    content_separator = " "
-
-
-def radio_option(quiz_index: int, q_slug: str, q_qid: str, i: int) -> NoEscape:
-    # One field name for the whole question; value carries which option is selected
-    # return NoEscape(
-    #     r"\raisebox{0pt}[0pt][0pt]{"
-    #     + r"\CheckBox[radio,"
-    #     + rf"name=Q{quiz_index}-slug={q_slug}-qid={q_qid},"
-    #     + rf"value={i},"
-    #     r"width=5mm,height=5mm,borderwidth=0.5,"
-    #     r"bordercolor=0 0 0,backgroundcolor=1 1 1,color=0 0 0,"
-    #     r"radiosymbol=circle"  # or: star, cross, square, diamond
-    #     + rf"]{{{i}}}"
-    #     + "}"
-    # )
-    return multi_checkbox(
-        quiz_index=quiz_index,
-        q_slug=q_slug,
-        q_qid=q_qid,
-        i=i,
-    )
-
-
-def multi_checkbox(quiz_index: int, q_slug: str, q_qid: str, i: int) -> NoEscape:
-    command = NoEscape(
-        r"\raisebox{0pt}[0pt][0pt]{\CheckBox"
-        + f"[name=Q{quiz_index}-opt={i}-slug={q_slug}-qid={q_qid},"
-        + r"width=1em,"
-        + r"height=1em,"
-        + r"bordercolor=0 0 0,"
-        + r"backgroundcolor=1 1 1"
-        + r"]{{}}"
-        + "}"
-    )
-    return command
-
-
-@dataclass
-class FrontMatterOptions:
-    title: str | None = None
-    author: str | None = None
-    date: str | None | bool = None
-    exam_information: str | None = None
-
-
-@dataclass
-class HeaderFooterOptions:
-    header_left: str | None = None
-    header_center: str | None = None
-    header_right: str | None = field(default=r"Page \thepage \ of \ \pageref{LastPage}")
-    footer_left: str | None = None
-    footer_center: str | None = None
-    footer_right: str | None = None
 
 class MultipleChoiceQuiz:
     def __init__(
@@ -109,7 +45,6 @@ class MultipleChoiceQuiz:
         self._questions = questions or []
         self.front_matter = front_matter or FrontMatterOptions()
         self.header_footer = header_footer or HeaderFooterOptions()
-         # Default to page number on the right if nothing specified
         self.file = Path(file) if file is not None else Path("default_quiz")
 
     def get_questions(self) -> list[Question]:
@@ -141,10 +76,8 @@ class MultipleChoiceQuiz:
     def _build_header(self):
         # Check if any header/footer option is not None
         if not any(value is not None for value in self.header_footer.__dict__.values()):
-            print('No header or footer specified, skipping header/footer build.')
             return  # No header/footer to build
 
-        print('Building header and footer...')
         header = PageStyle("header")
 
         for position, content in [
@@ -153,8 +86,16 @@ class MultipleChoiceQuiz:
             ("R", self.header_footer.header_right),
         ]:  
             if content is not None:
-                print(f'Adding header {position} with content: {content}')
                 with header.create(Head(position)):
+                    header.append(NoEscape(content))
+
+        for position, content in [
+            ("L", self.header_footer.footer_left),
+            ("C", self.header_footer.footer_center),
+            ("R", self.header_footer.footer_right),
+        ]:
+            if content is not None:
+                with header.create(Foot(position)):
                     header.append(NoEscape(content))
 
         self.document.preamble.append(header)

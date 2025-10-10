@@ -1,0 +1,48 @@
+from pylatex.base_classes import Environment
+from pylatex.package import Package
+from pylatex.utils import NoEscape
+
+
+class Form(Environment):
+    """Form environment from hyperref."""
+
+    _latex_name = "Form"
+
+    packages = [Package("hyperref")]
+    escape = False
+    content_separator = " "
+
+
+def radio_option(quiz_index: int, q_slug: str, q_qid: str, i: int) -> NoEscape:
+    # One field name for the whole question; value carries which option is selected
+    # return NoEscape(
+    #     r"\raisebox{0pt}[0pt][0pt]{"
+    #     + r"\CheckBox[radio,"
+    #     + rf"name=Q{quiz_index}-slug={q_slug}-qid={q_qid},"
+    #     + rf"value={i},"
+    #     r"width=5mm,height=5mm,borderwidth=0.5,"
+    #     r"bordercolor=0 0 0,backgroundcolor=1 1 1,color=0 0 0,"
+    #     r"radiosymbol=circle"  # or: star, cross, square, diamond
+    #     + rf"]{{{i}}}"
+    #     + "}"
+    # )
+    return multi_checkbox(
+        quiz_index=quiz_index,
+        q_slug=q_slug,
+        q_qid=q_qid,
+        i=i,
+    )
+
+
+def multi_checkbox(quiz_index: int, q_slug: str, q_qid: str, i: int) -> NoEscape:
+    command = NoEscape(
+        r"\raisebox{0pt}[0pt][0pt]{\CheckBox"
+        + f"[name=Q{quiz_index}-opt={i}-slug={q_slug}-qid={q_qid},"
+        + r"width=1em,"
+        + r"height=1em,"
+        + r"bordercolor=0 0 0,"
+        + r"backgroundcolor=1 1 1"
+        + r"]{{}}"
+        + "}"
+    )
+    return command
