@@ -64,6 +64,9 @@ class Question(BaseModel):
         False, description="If true, do not permute the choices when presenting"
     )
 
+    # Grading: 
+    point_value: int = Field(1, ge=0, description="Point value of the question")
+
     # Metadata
     difficulty: Optional[str] = None
     tags: Optional[List[str]] = None

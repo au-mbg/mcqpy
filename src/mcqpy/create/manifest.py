@@ -35,6 +35,7 @@ class ManifestItem(BaseModel):
     )
 
     sha256: str | None = Field(..., description="SHA256 hash of the question blob")
+    point_value: int | None = Field(..., description="Point value of the question")
 
     @classmethod
     def from_question(
@@ -62,6 +63,7 @@ class ManifestItem(BaseModel):
             ],
             sha256=sha256,
             correct_onehot=correct_onehot,
+            point_value=question.point_value,
         )
 
 

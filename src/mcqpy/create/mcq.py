@@ -45,7 +45,7 @@ class MultipleChoiceQuiz:
         self._questions = questions or []
         self.front_matter = front_matter or FrontMatterOptions()
         self.header_footer = header_footer or HeaderFooterOptions()
-        self.file = Path(file) if file is not None else Path("default_quiz")
+        self.file = Path(file) if file is not None else Path("default_quiz.pdf")
 
     def get_questions(self) -> list[Question]:
         return self._questions
@@ -70,8 +70,9 @@ class MultipleChoiceQuiz:
         if generate_pdf:
             default_kwargs = {"clean_tex": True}
             default_kwargs.update(kwargs)
-            self.document.generate_pdf(self.file, **default_kwargs)
+            self.document.generate_pdf(self.file.with_suffix(""), **default_kwargs)
             self._build_manifest(manifest_items)
+            print(f"Generated quiz PDF at: {self.file}")
 
     def _build_header(self):
         # Check if any header/footer option is not None
@@ -106,10 +107,11 @@ class MultipleChoiceQuiz:
 
     def _build_manifest(self, manifest_items: list[ManifestItem]):
         manifest = Manifest(items=manifest_items)
-        manifest_path = self.file.with_name(self.file.name + "_manifest").with_suffix(
+        manifest_path = self.file.with_name(self.file.stem + "_manifest").with_suffix(
             ".json"
         )
         manifest.save_to_file(manifest_path)
+        print(f"Generated manifest file at: {manifest_path}")
 
     def _build_front_matter(self):
         doc = self.document
@@ -121,7 +123,7 @@ class MultipleChoiceQuiz:
 
         if self.front_matter.date is not None:
             if isinstance(self.front_matter.date, str):
-                doc.preamble.append(Command("date", self.front_matter.date))
+                doc.preamble.append(Command("date", NoEscape(self.front_matter.date)))
             elif self.front_matter.date is True:
                 doc.preamble.append(Command("date", NoEscape(r"\today")))
 
@@ -180,7 +182,7 @@ class MultipleChoiceQuiz:
         with doc.create(
             Section(
                 NoEscape(
-                    rf"Question {quiz_index + 1} \hfill {{\small \textit{{{extra_section_header}}}}}"
+                    rf"Question {quiz_index + 1} {{\small [{question.point_value} points]}} \hfill {{\small \textit{{{extra_section_header}}}}}"
                 ),
                 numbering=False,
             )
