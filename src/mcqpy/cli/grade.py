@@ -8,6 +8,8 @@ from mcqpy.create.manifest import Manifest
 from mcqpy.grade.rubric import StrictRubric
 from rich.progress import track
 
+from mcqpy.question.question_bank import QuestionBank
+
 
 @main.command(name="grade", help="Grade student submissions")
 @click.option("-c", "--config", type=click.Path(exists=True, path_type=Path), default="config.yaml", help="Path to the config file", show_default=True)
@@ -39,8 +41,11 @@ def grade_command(config, verbose: bool, file_format: str, analysis: bool):
         df.to_csv(output_path, index=False)
 
     if analysis:
-        from mcqpy.grade.analysis import question_analysis    
+        from mcqpy.grade.analysis import QuizAnalysis
         analysis_directory = Path('analysis/')
         analysis_directory.mkdir(exist_ok=True)
-        for qidx in track(range(len(graded_sets[0].graded_questions)), description="Generating question analyses", total=len(graded_sets[0].graded_questions)):
-            question_analysis([gs.graded_questions[qidx] for gs in graded_sets], out_directory=analysis_directory)
+
+        question_bank = QuestionBank.from_directories(config.questions_paths)
+
+        quiz_analysis = QuizAnalysis(graded_sets, question_bank=question_bank, output_dir=analysis_directory)
+        quiz_analysis.build()
