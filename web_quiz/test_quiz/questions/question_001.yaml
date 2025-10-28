@@ -1,0 +1,25 @@
+slug: michaelis-menten-km-description
+text: >
+  According to the Michaelis-Menten model, which of the following statements
+  correctly describes the meaning of the parameter $K_M$?
+choices:
+  - It is the turnover number of the enzyme $\mathrm{s^{-1}}$.
+  - It equals the substrate concentration at which the reaction rate is half of $V_{max}$.
+  - It represents the rate constant for the formation of the enzyme-substrate complex.
+  - It is always identical to the dissociation constant of the enzyme-substrate complex, with a 
+    unit of concentration (e.g., M). This means something very complicated, which makes thiis 
+    sentence very long and therefore it is less likely that you will choose it by mistake and 
+    allows me to have an option that is spanning multiple lines.
+correct_answers: [1]
+question_type: single
+difficulty: medium
+point_value: 2
+tags:
+  - enzymology
+  - michaelis-menten
+  - kinetics
+explanation: >
+  $K_M$ is defined as the substrate concentration at which the velocity equals
+  half of the maximal rate $V_{max}$. It reflects both binding and catalytic
+  steps but is not necessarily identical to the dissociation constant $K_d$.
+point_value: 2

@@ -1,0 +1,23 @@
+slug: protein-denaturation-agents
+text: >
+  Which of the following agents would most effectively denature a protein by
+  disrupting hydrophobic interactions?
+choices:
+  - High concentrations of urea or guanidinium chloride.
+  - Low pH (< 3).
+  - High temperature (> 80°C).
+  - Detergents such as sodium dodecyl sulfate (SDS).
+  - Oxidizing agents.
+correct_answers: [3]
+question_type: single
+difficulty: medium
+tags:
+  - protein-structure
+  - denaturation
+  - biochemistry
+explanation: >
+  Detergents like SDS are amphipathic molecules that disrupt hydrophobic interactions
+  by inserting their hydrophobic tails into the protein core, effectively unfolding
+  the protein. While urea and heat also denature proteins, detergents specifically
+  target hydrophobic interactions.
+point_value: 2

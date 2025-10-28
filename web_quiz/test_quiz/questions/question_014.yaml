@@ -1,0 +1,23 @@
+slug: equilibrium-constant-temperature
+text: >
+  According to the van't Hoff equation, how does the equilibrium constant $K$
+  change with temperature for an exothermic reaction?
+choices:
+  - $K$ increases with increasing temperature.
+  - $K$ decreases with increasing temperature.
+  - $K$ remains constant regardless of temperature.
+  - $K$ first increases then decreases with temperature.
+  - The relationship depends on the pressure.
+correct_answers: [1]
+question_type: single
+difficulty: medium
+tags:
+  - thermodynamics
+  - equilibrium
+  - vant-hoff
+explanation: >
+  For an exothermic reaction ($\Delta H < 0$), the van't Hoff equation predicts
+  that the equilibrium constant $K$ decreases with increasing temperature. This
+  is because raising the temperature favors the endothermic direction (reverse
+  reaction for exothermic processes).
+point_value: 2

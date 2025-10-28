@@ -1,0 +1,22 @@
+slug: dna-melting-temperature
+text: >
+  Which factor would increase the melting temperature ($T_m$) of a DNA double helix?
+choices:
+  - Higher AT content compared to GC content.
+  - Shorter DNA fragment length.
+  - Higher GC content compared to AT content.
+  - Lower salt concentration in the solution.
+  - Lower pH of the solution.
+  - Presence of denaturing agents like formamide.
+correct_answers: [2]
+question_type: single
+difficulty: medium
+tags:
+  - dna-structure
+  - melting-temperature
+  - nucleic-acids
+explanation: >
+  GC base pairs form three hydrogen bonds compared to two for AT pairs, making
+  DNA with higher GC content more thermally stable and requiring higher temperatures
+  to denature. Thus, higher GC content increases $T_m$.
+point_value: 2

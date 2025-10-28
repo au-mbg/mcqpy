@@ -1,0 +1,21 @@
+slug: reaction-order-kinetics
+text: >
+  For a first-order reaction, what is the relationship between the rate constant
+  $k$ and the half-life $t_{1/2}$?
+choices:
+  - $t_{1/2} = \frac{1}{k}$
+  - $t_{1/2} = \frac{\ln 2}{k}$
+  - $t_{1/2} = \frac{k}{\ln 2}$
+  - $t_{1/2} = k \cdot \ln 2$
+  - $t_{1/2} = 2k$
+correct_answers: [1]
+question_type: single
+difficulty: medium
+tags:
+  - kinetics
+  - reaction-order
+  - half-life
+explanation: >
+  For a first-order reaction, the half-life is independent of the initial
+  concentration and is given by $t_{1/2} = \frac{\ln 2}{k} \approx \frac{0.693}{k}$.
+point_value: 2

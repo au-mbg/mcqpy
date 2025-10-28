@@ -1,0 +1,22 @@
+slug: enzyme-inhibition-competitive
+text: >
+  In competitive inhibition, how does the inhibitor affect the kinetic parameters
+  of an enzyme-catalyzed reaction?
+choices:
+  - Both $K_M$ and $V_{max}$ increase.
+  - $K_M$ increases while $V_{max}$ remains unchanged.
+  - $K_M$ remains unchanged while $V_{max}$ decreases.
+  - Both $K_M$ and $V_{max}$ decrease.
+correct_answers: [1]
+question_type: single
+difficulty: medium
+tags:
+  - enzymology
+  - inhibition
+  - kinetics
+explanation: >
+  Competitive inhibitors compete with the substrate for the active site, increasing
+  the apparent $K_M$ (requiring more substrate to reach half-maximal velocity), but
+  they do not affect $V_{max}$ because high substrate concentrations can overcome
+  the inhibition.
+point_value: 2

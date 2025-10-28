@@ -1,0 +1,21 @@
+slug: enzyme-cofactors-coenzymes
+text: >
+  What is the primary distinction between a cofactor and a coenzyme?
+choices:
+  - Cofactors are organic molecules, while coenzymes are inorganic ions.
+  - Cofactors are inorganic ions or small molecules, while coenzymes are organic molecules often derived from vitamins.
+  - Cofactors permanently bind to enzymes, while coenzymes transiently associate.
+  - There is no distinction; the terms are interchangeable.
+  - Cofactors increase enzyme activity, while coenzymes decrease it.
+correct_answers: [1]
+question_type: single
+difficulty: easy
+tags:
+  - enzymology
+  - cofactors
+  - coenzymes
+explanation: >
+  Cofactors include inorganic ions (like Mg²⁺, Zn²⁺) or small molecules required
+  for enzyme activity, while coenzymes are organic molecules (often vitamin-derived)
+  that assist enzymes by carrying chemical groups or electrons.
+point_value: 2

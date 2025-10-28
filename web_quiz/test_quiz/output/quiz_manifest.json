@@ -1,0 +1,512 @@
+{
+  "items": [
+    {
+      "qid": "48e217c9-657a-5e9f-8211-068f8bf8a63c",
+      "slug": "spectroscopy-beer-lambert-law",
+      "non_permuted_correct_answers": [
+        3
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "permuted_correct_answers": [
+        3
+      ],
+      "correct_onehot": [
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "sha256": "a4e18805d4aa33011c13f1d2e22a8d465286e607f60e3258f614b07e8aad9743",
+      "point_value": 2
+    },
+    {
+      "qid": "d0111a8c-40f2-532e-a9cd-03348c2fe3f1",
+      "slug": "cooperativity-allosteric-regulation",
+      "non_permuted_correct_answers": [
+        1
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "permuted_correct_answers": [
+        1
+      ],
+      "correct_onehot": [
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "sha256": "5ee71bf76b4718b349b4bc198e55accc7e2ca75b8673d3ef27ccae7460877cc3",
+      "point_value": 2
+    },
+    {
+      "qid": "d3be233e-aca4-5e7e-8d0f-3b4a44ff193a",
+      "slug": "thermodynamics-gibbs-free-energy",
+      "non_permuted_correct_answers": [
+        1
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "permuted_correct_answers": [
+        1
+      ],
+      "correct_onehot": [
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "sha256": "27ef17e989667c0980ad3353ba251081a1481731da3fed2423ca2406081c7bf0",
+      "point_value": 2
+    },
+    {
+      "qid": "0fdf994a-bf40-5052-81d7-0f09ff674fd6",
+      "slug": "enzyme-inhibition-competitive",
+      "non_permuted_correct_answers": [
+        1
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "permuted_correct_answers": [
+        1
+      ],
+      "correct_onehot": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "sha256": "a9c2d0882db4f0d80e352bbc09e0197785220cac590e452dae751f34aff40663",
+      "point_value": 2
+    },
+    {
+      "qid": "933ad2dd-a8b5-5e80-9469-07f23edb4eb8",
+      "slug": "redox-potential-electron-transfer",
+      "non_permuted_correct_answers": [
+        1
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "permuted_correct_answers": [
+        1
+      ],
+      "correct_onehot": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "sha256": "10a569c304de3ccfb3a2f14c75ecdbbfc63ce063788fdf7a7ddfd2c02ceb7808",
+      "point_value": 2
+    },
+    {
+      "qid": "358d103f-dc5b-5eaf-ab2a-dc015cd428bc",
+      "slug": "atp-hydrolysis-energy",
+      "non_permuted_correct_answers": [
+        1
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "permuted_correct_answers": [
+        1
+      ],
+      "correct_onehot": [
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "sha256": "43e878c44dbdf8d188383d3c564c1caadadd92928a2a7896357b93b1c6784818",
+      "point_value": 2
+    },
+    {
+      "qid": "2bc40053-56ba-523c-9289-f09506285d5b",
+      "slug": "membrane-transport-facilitated-diffusion",
+      "non_permuted_correct_answers": [
+        1
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "permuted_correct_answers": [
+        1
+      ],
+      "correct_onehot": [
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "sha256": "fa2cf65df0ecb3e53f09b9425c58e01f6249d9227e50896056550da65849302f",
+      "point_value": 2
+    },
+    {
+      "qid": "88f41f27-0d14-521e-912a-ff50bc0f5438",
+      "slug": "dummy-question2",
+      "non_permuted_correct_answers": [
+        0
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "permuted_correct_answers": [
+        0
+      ],
+      "correct_onehot": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "sha256": "44ba2240db97b8092e7c34cf3ea45eecba2518f803a7226446cf98a8cef9e22d",
+      "point_value": 2
+    },
+    {
+      "qid": "adbaa0da-d3ee-540c-ad3e-11195008c810",
+      "slug": "protein-isoelectric-point",
+      "non_permuted_correct_answers": [
+        2
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "permuted_correct_answers": [
+        2
+      ],
+      "correct_onehot": [
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "sha256": "3aef99318ba6e0282774400a505a58d3d4dc8985adf930c3dfabf9260c0a85e5",
+      "point_value": 2
+    },
+    {
+      "qid": "00fb216b-9bac-5654-b5c9-6fccddff658f",
+      "slug": "dna-melting-temperature",
+      "non_permuted_correct_answers": [
+        2
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "permuted_correct_answers": [
+        2
+      ],
+      "correct_onehot": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "sha256": "afd108c37db595448993e25f51b1702b1effcfce5b58c2c18a8086484a5cdfa6",
+      "point_value": 2
+    },
+    {
+      "qid": "b3b403fa-9514-531c-b134-7be2ea0a13c3",
+      "slug": "weird-molecule-question",
+      "non_permuted_correct_answers": [
+        1
+      ],
+      "permutation": [
+        0,
+        1,
+        2
+      ],
+      "permuted_correct_answers": [
+        1
+      ],
+      "correct_onehot": [
+        0,
+        1,
+        0
+      ],
+      "sha256": "32fa66f4106704625e53b39ab9d5872ae6134156c733dad92f0aed1fde59a38b",
+      "point_value": 2
+    },
+    {
+      "qid": "a2528c5d-e1b5-57d1-97bf-af9f3775b17d",
+      "slug": "equilibrium-constant-temperature",
+      "non_permuted_correct_answers": [
+        1
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "permuted_correct_answers": [
+        1
+      ],
+      "correct_onehot": [
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "sha256": "ede2ba6937e388e68b038638b21001993108c88b2d92aecbc3f3ba8a1b917752",
+      "point_value": 2
+    },
+    {
+      "qid": "c6b77587-2840-57ac-91f9-584e9eeb1c81",
+      "slug": "michaelis-menten-km-description",
+      "non_permuted_correct_answers": [
+        1
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "permuted_correct_answers": [
+        1
+      ],
+      "correct_onehot": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "sha256": "e3229b6fc475ca9a9c7a7f5033105b4bfc478b30e125119c91b6a74412009c32",
+      "point_value": 2
+    },
+    {
+      "qid": "9cc90382-bb7f-5222-bed6-b11e181e83fd",
+      "slug": "enzyme-cofactors-coenzymes",
+      "non_permuted_correct_answers": [
+        1
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "permuted_correct_answers": [
+        1
+      ],
+      "correct_onehot": [
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "sha256": "ade5b4993ade580e167bca3b27f75fc628b3123404fa51a85f9ef29f3b753849",
+      "point_value": 2
+    },
+    {
+      "qid": "b9103152-9079-5e53-8ed4-31668788c2a0",
+      "slug": "ligand-binding-kd-dissociation",
+      "non_permuted_correct_answers": [
+        1
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "permuted_correct_answers": [
+        1
+      ],
+      "correct_onehot": [
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "sha256": "4d7b7c009b90ac2a594fe7a15c620fb0d55c636d3c94762dad3faf03aab061db",
+      "point_value": 2
+    },
+    {
+      "qid": "2fe7bb32-d19a-5f04-bbb2-c8712940d1ba",
+      "slug": "photosynthesis-light-reactions",
+      "non_permuted_correct_answers": [
+        2
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "permuted_correct_answers": [
+        2
+      ],
+      "correct_onehot": [
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "sha256": "37db7ddfb3086414fff37aa57a42aad273ec6999e70a72d200928174ac3da982",
+      "point_value": 2
+    },
+    {
+      "qid": "8c800d8c-0144-59ee-8c16-47bea2fc1a91",
+      "slug": "buffer-henderson-hasselbalch",
+      "non_permuted_correct_answers": [
+        1
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "permuted_correct_answers": [
+        1
+      ],
+      "correct_onehot": [
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "sha256": "011cbb0001d96f683a1ff455618268699f8db86a8c92adcf61b820146f953d90",
+      "point_value": 2
+    },
+    {
+      "qid": "f652b31c-68c3-51ec-9baf-8b3898e21b3b",
+      "slug": "protein-denaturation-agents",
+      "non_permuted_correct_answers": [
+        3
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "permuted_correct_answers": [
+        3
+      ],
+      "correct_onehot": [
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "sha256": "35a49c38e5b87cb366f84bb4fe9d18e76abec131dec3d86c4f4565e86fad42b2",
+      "point_value": 2
+    },
+    {
+      "qid": "0c8e86b4-26ba-5eb9-8df9-2b3cdc7ea054",
+      "slug": "reaction-order-kinetics",
+      "non_permuted_correct_answers": [
+        1
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "permuted_correct_answers": [
+        1
+      ],
+      "correct_onehot": [
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "sha256": "942e1dd2076ad67c861c82718c7c484b7931676c97e75e1b4bf076ec90989195",
+      "point_value": 2
+    },
+    {
+      "qid": "ed3934cc-0618-5ebd-8045-b403e335ff4b",
+      "slug": "protein-structure-alpha-helix",
+      "non_permuted_correct_answers": [
+        1
+      ],
+      "permutation": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "permuted_correct_answers": [
+        1
+      ],
+      "correct_onehot": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "sha256": "6cb0e119cc0337ba915c8a5697a0a4b22e3946ab01fbe51a9cf96b4e3786d8ba",
+      "point_value": 2
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+slug: redox-potential-electron-transfer
+text: >
+  In a redox reaction, electrons spontaneously flow from:
+choices:
+  - A species with a more positive reduction potential to one with a more negative reduction potential.
+  - A species with a more negative reduction potential to one with a more positive reduction potential.
+  - The oxidizing agent to the reducing agent.
+  - A species at higher pH to one at lower pH.
+correct_answers: [1]
+question_type: single
+difficulty: medium
+tags:
+  - redox
+  - electrochemistry
+  - electron-transfer
+explanation: >
+  Electrons spontaneously flow from species with more negative (less positive)
+  reduction potentials to those with more positive reduction potentials. The
+  species with the lower reduction potential acts as the electron donor (reducing agent).
+point_value: 2

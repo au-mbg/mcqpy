@@ -1,0 +1,23 @@
+slug: atp-hydrolysis-energy
+text: >
+  Under standard biochemical conditions (pH 7, 25$^{\circ}$C, 1 mM Mg$^{2+}$), what is the
+  approximate standard free energy change ($\Delta G^{\circ\prime}$) for ATP
+  hydrolysis to ADP and inorganic phosphate?
+choices:
+  - $+30.5$ kJ/mol
+  - $-30.5$ kJ/mol
+  - $+7.3$ kJ/mol
+  - $-7.3$ kJ/mol
+  - $0$ kJ/mol
+correct_answers: [1]
+question_type: single
+difficulty: medium
+tags:
+  - bioenergetics
+  - atp
+  - thermodynamics
+explanation: >
+  The standard free energy change for ATP hydrolysis under biochemical standard
+  conditions is approximately $-30.5$ kJ/mol, indicating that the reaction is
+  highly exergonic and provides significant energy for cellular processes.
+point_value: 2
