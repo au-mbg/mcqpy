@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [
     { name = "Mads-Peter", email = "machri@phys.au.dk" }
 ]
-requires-python = ">=3.14"
+requires-python = ">=3.13"
 dependencies = [
     "click>=8.3.0",
     "matplotlib>=3.10.7",
@@ -17,12 +17,17 @@ dependencies = [
     "pylatex>=1.4.2",
     "pypdf>=6.1.1",
     "pyyaml>=6.0.3",
+    "requests>=2.28.0",
     "rich>=14.2.0",
     "rich-click>=1.9.3",
+    "streamlit>=1.50.0",
+    "streamlit-shortcuts>=1.2.1",
+    "watchdog>=6.0.0",
 ]
 
 [project.scripts]
 mcqpy = "mcqpy.cli.main:main"
+mcqpy-web = "mcqpy.web.launcher:main"
 
 [build-system]
 requires = ["uv_build>=0.8.18,<0.9.0"]

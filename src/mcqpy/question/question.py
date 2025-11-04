@@ -157,6 +157,12 @@ class Question(BaseModel):
 
         full_paths = []
         for item in v:
+
+            # Check if a web URL
+            if isinstance(item, str) and (item.startswith("http://") or item.startswith("https://")):
+                full_paths.append(item)
+                continue
+
             p = Path(item)
             # Resolve relative to the YAML file directory, if provided via context
             base_dir = info.context.get("base_dir", Path.cwd())
@@ -181,3 +187,8 @@ class Question(BaseModel):
         with open(filepath, "r", encoding="utf-8") as f:
             data = yaml.safe_load(f)
         return cls.model_validate(data, context={"base_dir": Path(filepath).parent})
+
+    def as_yaml(self) -> str:
+        """Serialize the Question to a YAML string."""
+        import yaml
+        return yaml.safe_dump(self.model_dump(), sort_keys=False)

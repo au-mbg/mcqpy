@@ -1,0 +1,124 @@
+/* MCQPy Web Interface Styles */
+
+/* Main container styling */
+.main > div {
+    padding-top: 1rem;
+}
+
+/* Custom button styling */
+.stButton > button {
+    width: 100%;
+    border-radius: 0.5rem;
+    border: none;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* File uploader styling */
+.stFileUploader > div > div > div {
+    border: 2px dashed #667eea;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    text-align: center;
+    background: rgba(102, 126, 234, 0.05);
+}
+
+/* Metric cards styling */
+.metric-container {
+    background: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #667eea;
+}
+
+/* Progress bar styling */
+.stProgress > div > div > div {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border-radius: 0.5rem;
+}
+
+/* Success message styling */
+.stSuccess {
+    background: rgba(40, 167, 69, 0.1);
+    border: 1px solid rgba(40, 167, 69, 0.3);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+}
+
+/* Error message styling */
+.stError {
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+}
+
+/* Info message styling */
+.stInfo {
+    background: rgba(23, 162, 184, 0.1);
+    border: 1px solid rgba(23, 162, 184, 0.3);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+}
+
+/* Warning message styling */
+.stWarning {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+}
+
+/* Sidebar styling */
+.css-1d391kg {
+    background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* Expander styling */
+.streamlit-expanderHeader {
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* DataFrame styling */
+.dataframe {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Chart styling */
+.stChart {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom classes for question status */
+.question-correct {
+    background: rgba(40, 167, 69, 0.1);
+    border-left: 4px solid #28a745;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    margin: 0.25rem 0;
+}
+
+.question-incorrect {
+    background: rgba(220, 53, 69, 0.1);
+    border-left: 4px solid #dc3545;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    margin: 0.25rem 0;
+}

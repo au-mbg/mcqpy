@@ -19,6 +19,12 @@ def build_command(config):
 
     questions = question_bank.get_all_questions()
 
+    # If the slugs contain a number sort by that number
+    if all(q.slug.split("_")[-1].isdigit() for q in questions):
+        questions.sort(key=lambda q: int(q.slug.split("_")[-1]))
+    else:
+        questions.sort(key=lambda q: q.slug)
+
     console = Console()
     console.print("[bold green]Quiz Configuration:[/bold green]")
     console.print(Pretty(config))

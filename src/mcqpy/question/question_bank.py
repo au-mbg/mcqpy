@@ -19,8 +19,7 @@ class QuestionBank:
 
     @classmethod
     def from_directories(
-        cls, directories: list[str], glob_pattern="*.yaml"
-    ) -> QuestionBank:
+        cls, directories: list[str], glob_pattern="*.yaml"):
         items = []
         qids, slugs = set(), set()
         for directory in directories:

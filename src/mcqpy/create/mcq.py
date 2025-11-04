@@ -15,6 +15,7 @@ from pylatex.utils import NoEscape
 from mcqpy.question import Question
 from mcqpy.create import FrontMatterOptions, HeaderFooterOptions
 from mcqpy.create.latex_helpers import Form, multi_checkbox, radio_option
+from mcqpy.utils.image import check_and_download_tmp
 
 from pathlib import Path
 
@@ -57,6 +58,7 @@ class MultipleChoiceQuiz:
     def build(self, generate_pdf: bool = False, **kwargs):
         doc = self.document
         doc.preamble.append(Package("caption"))
+        doc.preamble.append(Package("xcolor", options=["dvipsnames"]))
         doc.preamble.append(NoEscape(r"\captionsetup[figure]{labelformat=empty}"))
 
         # Front matter
@@ -200,6 +202,7 @@ class MultipleChoiceQuiz:
 
         if len(question.image) == 1:
             image = question.image[0]
+            image = check_and_download_tmp(image, f"tmp_question_{question.qid}_image_0")
             options = (
                 question.image_options.get(0, {}) if question.image_options else {}
             )
@@ -220,6 +223,10 @@ class MultipleChoiceQuiz:
                         question.image_options.get(index, {})
                         if question.image_options
                         else {}
+                    )
+
+                    image = check_and_download_tmp(
+                        image, f"tmp_question_{question.qid}_image_{index}"
                     )
 
                     newline = options.pop(

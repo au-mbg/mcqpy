@@ -1,0 +1,1 @@
+"""Utility functions for MCQPy web interface"""

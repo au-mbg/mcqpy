@@ -1,31 +1,31 @@
-from annotated_types import doc
-from pylatex import (
-    Document,
-    Enumerate,
-    NoEscape,
-    Section,
-    Command,
-    Figure,
-    SubFigure,
-    PageStyle,
-    NewPage,
-    Head,
-    Foot,
-    LongTable,
-    MultiColumn,
-)
-
-from rich.console import Console
-from rich.progress import track
-
-import pandas as pd
-from mcqpy.grade.utils import GradedSet, GradedQuestion
-from mcqpy.question import QuestionBank, Question
-
-import numpy as np
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from annotated_types import doc
+from pylatex import (
+    Command,
+    Document,
+    Enumerate,
+    Figure,
+    Foot,
+    Head,
+    LongTable,
+    MultiColumn,
+    NewPage,
+    NoEscape,
+    Package,
+    PageStyle,
+    Section,
+    SubFigure,
+)
+from rich.console import Console
+from rich.progress import track
+
+from mcqpy.grade.utils import GradedQuestion, GradedSet
+from mcqpy.question import Question, QuestionBank
+
 
 def get_grade_dataframe(graded_sets: list[GradedSet]) -> pd.DataFrame:
     records = []
@@ -50,7 +50,6 @@ def get_grade_dataframe(graded_sets: list[GradedSet]) -> pd.DataFrame:
 def question_analysis(
     graded_questions: list[GradedQuestion], out_directory: str | Path = None
 ):
-
     fig, axes = plt.subplots(1, 2, figsize=(10, 5), layout="constrained")
 
     fig.suptitle(f"Question Analysis: {graded_questions[0].slug}")
@@ -88,17 +87,15 @@ def question_analysis(
     ax.set_ylabel("Number of Students")
     ax.set_title("Distribution of Points Awarded")
 
-
     # Save figure
     name = f"{graded_questions[0].slug}.pdf"
-    output_path = (
-        Path(out_directory) / name
-    )
+    output_path = Path(out_directory) / name
 
     plt.savefig(output_path) if out_directory else None
     plt.close(fig)
 
     return name
+
 
 def make_quiz_analysis(graded_sets: list[GradedSet], output_dir: str | Path):
     point_distribution = np.array([gs.points for gs in graded_sets])
@@ -106,12 +103,12 @@ def make_quiz_analysis(graded_sets: list[GradedSet], output_dir: str | Path):
 
     fig, ax = plt.subplots(figsize=(6, 4))
     ax.hist(
-            point_distribution,
-            bins=np.arange(-0.5, max_points + 1.5, 1),
-            color="blue",
-            alpha=0.7,
-            edgecolor="black",
-        )
+        point_distribution,
+        bins=np.arange(-0.5, max_points + 1.5, 1),
+        color="blue",
+        alpha=0.7,
+        edgecolor="black",
+    )
 
     ax.axvline(max_points, color="red", linestyle="dashed", linewidth=1)
 
@@ -154,8 +151,8 @@ class QuizAnalysis(Document):
         self.question_bank = question_bank
 
     def build(self):
-
         # Added TOC
+        self.preamble.append(Package("xcolor", options=["dvipsnames"]))
         self.preamble.append(Command("title", "Quiz Analysis Report"))
         self.preamble.append(Command("author", "MCQPy"))
         self.preamble.append(Command("date", NoEscape(r"\today")))
@@ -200,21 +197,23 @@ class QuizAnalysis(Document):
 
                 self.append(NoEscape(question.text))
 
-                with self.create(Enumerate(enumeration_symbol=r"(\alph*)", options={})) as enum:
+                with self.create(
+                    Enumerate(enumeration_symbol=r"(\alph*)", options={})
+                ) as enum:
                     for choice in question.choices:
                         enum.add_item(NoEscape(choice))
 
                 with self.create(Figure(position="h!")) as fig:
-                    fig.add_image((Path("figures") / fig_name).as_posix(), width="400px")
+                    fig.add_image(
+                        (Path("figures") / fig_name).as_posix(), width="400px"
+                    )
                     fig.add_caption(
                         f"Analysis for Question {q_index + 1}: {graded_questions[0].slug}"
                     )
 
                 self.append(NewPage())
 
-
     def build_grade_table(self):
-
         df = get_grade_dataframe(self.graded_sets)
 
         with self.create(Section("Grade Summary Table")):
@@ -224,7 +223,9 @@ class QuizAnalysis(Document):
                 data_table.add_hline()
                 data_table.end_table_header()
                 data_table.add_hline()
-                data_table.add_row((MultiColumn(3, align="r", data="Continued on Next Page"),))
+                data_table.add_row(
+                    (MultiColumn(3, align="r", data="Continued on Next Page"),)
+                )
                 data_table.add_hline()
                 data_table.end_table_footer()
                 data_table.add_hline()
@@ -235,6 +236,6 @@ class QuizAnalysis(Document):
                 data_table.end_table_last_footer()
 
                 for row in df.itertuples(index=False):
-                    data_table.add_row([row.student_id, row.student_name, f"{row.total_points}"])
-                    
-
+                    data_table.add_row(
+                        [row.student_id, row.student_name, f"{row.total_points}"]
+                    )

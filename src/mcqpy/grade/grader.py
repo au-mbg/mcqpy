@@ -97,8 +97,9 @@ class MCQGrader:
     # Grade the parsed student answers
     ############################################################################
 
-    def grade(self, student_answer: str | Path) -> GradedSet:
-        parsed_set = self._read_student_answer(student_answer)
+    def grade(self, student_answer: str | Path = None, parsed_set: ParsedSet = None) -> GradedSet:
+        if parsed_set is None:
+            parsed_set = self._read_student_answer(student_answer)
         graded_set = GradedSet(
             student_id=parsed_set.student_id,
             student_name=parsed_set.student_name,
