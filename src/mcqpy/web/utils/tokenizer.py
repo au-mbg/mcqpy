@@ -218,9 +218,6 @@ def test_tokenizer():
 
 
 if __name__ == "__main__":
-    token = create_token("https://raw.githubusercontent.com/au-mbg/mcqpy/refs/heads/main/web_quiz/test_quiz/output/quiz_manifest.json")
+    token = create_token("https://github.com/au-mbg/mcqpy/blob/main/web_quiz/fsb_exam_2024.tar.gz")
     print(token)
-
-    token = 'zq_eyJNaUsiNyFycnBKIkBiaCI3IkUwUSJKImUyMCI3Imk/P0B4NyMjMmJRL1ttP2llZGV4RTJNLDQ/RTQ/L00seiNiZSp6ZFsjek1JQDsjMkVmeCNpRWJoeCN6Ym00I1FFZHdJZW05Iz9FeD93SWVtOSMsZT9AZT8jSWVtOXd6YjRtZkV4Py8peCw0In0=_m'
-
     print(decode_token(token))
