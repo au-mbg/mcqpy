@@ -13,3 +13,7 @@ wheels/
 local_tests/
 .vscode/
 *DS_Store
+
+# Testing
+*.coverage
+*/*.report.xml
