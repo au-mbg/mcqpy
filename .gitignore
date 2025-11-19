@@ -12,3 +12,4 @@ wheels/
 # Ignore 
 local_tests/
 .vscode/
+*DS_Store
