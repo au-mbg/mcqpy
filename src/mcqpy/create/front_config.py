@@ -8,4 +8,5 @@ class FrontMatterOptions(BaseModel):
     author: Optional[str] = Field(default=None, description="Author of the document")
     date: Optional[str | bool] = Field(default=None, description="Date of the document")
     exam_information: Optional[str] = Field(default=None, description="Exam information")
+    id_fields: bool = Field(default=False, description="Include ID fields")
 

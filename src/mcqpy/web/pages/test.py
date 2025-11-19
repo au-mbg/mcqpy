@@ -230,7 +230,7 @@ def _show_answer_summary():
         with tab1:
             st.table(df)
         with tab2:
-            st.bar_chart(df.set_index("Question"))
+            st.bar_chart(df.set_index("Question")["Points Earned"])
 
 def _upload_questions():
     import yaml

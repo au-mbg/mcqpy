@@ -14,7 +14,7 @@ from pylatex.utils import NoEscape
 
 from mcqpy.question import Question
 from mcqpy.create import FrontMatterOptions, HeaderFooterOptions
-from mcqpy.create.latex_helpers import Form, multi_checkbox, radio_option
+from mcqpy.create.latex_helpers import Form, code_block, multi_checkbox, radio_option
 from mcqpy.utils.image import check_and_download_tmp
 
 from pathlib import Path
@@ -59,6 +59,8 @@ class MultipleChoiceQuiz:
         doc = self.document
         doc.preamble.append(Package("caption"))
         doc.preamble.append(Package("xcolor", options=["dvipsnames"]))
+        doc.preamble.append(Package("minted"))
+        doc.preamble.append(NoEscape(r'\usemintedstyle{vs}'))
         doc.preamble.append(NoEscape(r"\captionsetup[figure]{labelformat=empty}"))
 
         # Front matter
@@ -130,7 +132,9 @@ class MultipleChoiceQuiz:
                 doc.preamble.append(Command("date", NoEscape(r"\today")))
 
         doc.append(NoEscape(r"\maketitle"))
-        self._build_id_fields()
+
+        if self.front_matter.id_fields:
+            self._build_id_fields()
 
         if self.front_matter.exam_information is not None:
             with doc.create(Section("Exam Information", numbering=False)):
@@ -190,10 +194,27 @@ class MultipleChoiceQuiz:
             )
         ):
             doc.append(NoEscape(question.text))
-            doc.append(NoEscape(r"\\[10pt]"))  # add some vertical space
 
             self._build_question_image(question)
+            self._build_question_code(question)
+
+            # doc.append(NoEscape(r"\\[10pt]"))  # add some vertical space
             self._build_question_form(question, quiz_index)
+
+    def _build_question_code(self, question: Question):
+        doc = self.document
+        if not question.code:
+            return
+
+        for index, code_snippet in enumerate(question.code):
+            if code_snippet is None:
+                continue
+            language = (
+                question.code_language[index]
+                if index < len(question.code_language)
+                else "python"
+            )
+            doc.append(code_block(code_snippet, language))
 
     def _build_question_image(self, question: Question):
         doc = self.document

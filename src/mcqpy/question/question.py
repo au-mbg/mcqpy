@@ -55,6 +55,14 @@ class Question(BaseModel):
         None, description="Caption(s) for each image(s), if any"
     )
 
+    # Code: 
+    code: list[Optional[str]] | Optional[str] = Field(
+        None, description="Code snippet associated with the question"
+    )
+    code_language: Optional[list[str]] | Optional[str] = Field(
+        None, description="Programming language of the code snippet(s)"
+    )
+
     # Presentation
     permutation: List[int] | None = Field(
         None,
@@ -191,4 +199,125 @@ class Question(BaseModel):
     def as_yaml(self) -> str:
         """Serialize the Question to a YAML string."""
         import yaml
+
         return yaml.safe_dump(self.model_dump(), sort_keys=False)
+
+    @classmethod
+    def get_yaml_template(cls) -> str:
+        """Get the YAML schema for the Question model, generated from the model's schema."""
+        import yaml
+        
+        lines = ["# Question Template (auto-generated from model schema)", ""]
+        
+        schema = cls.model_json_schema()
+        properties = schema.get("properties", {})
+        required_fields = set(schema.get("required", []))
+        
+        # Helper to get example value based on type
+        def get_example_value(field_name: str, field_info: dict):
+            field_type = field_info.get("type")
+            
+            # Special cases based on field name
+            if field_name == "slug":
+                return "my-unique-question-slug"
+            elif field_name == "qid":
+                return None  # Skip, it's auto-generated
+            elif field_name == "text":
+                return "Your question text here (LaTeX supported)"
+            elif field_name == "choices":
+                return ["Answer choice 1", "Answer choice 2", "Answer choice 3", "Answer choice 4"]
+            elif field_name == "correct_answers":
+                return [0]
+            elif field_name == "question_type":
+                enum_vals = field_info.get("enum", [])
+                return enum_vals[0] if enum_vals else "single"
+            elif field_name == "image":
+                return "path/to/image.png"
+            elif field_name == "image_options":
+                return {0: {"width": "0.5\\textwidth"}}
+            elif field_name == "image_caption":
+                return {-1: "Caption for all images"}
+            elif field_name == "code":
+                return "print('Hello, world!')"
+            elif field_name == "code_language":
+                return "python"
+            elif field_name == "permutation":
+                return None  # Auto-generated
+            elif field_name == "fixed_permutation":
+                return False
+            elif field_name == "point_value":
+                return field_info.get("default", 1)
+            elif field_name == "difficulty":
+                return "medium"
+            elif field_name == "tags":
+                return ["tag1", "tag2"]
+            elif field_name == "explanation":
+                return "Optional explanation of the correct answer"
+            
+            # Generic fallbacks
+            if field_type == "string":
+                return "example string"
+            elif field_type == "integer":
+                return field_info.get("default", 1)
+            elif field_type == "boolean":
+                return field_info.get("default", False)
+            elif field_type == "array":
+                return ["item1", "item2"]
+            elif field_type == "object":
+                return {}
+            return None
+        
+        # Process fields in order
+        for field_name, field_info in properties.items():
+            if field_name == "qid":
+                continue  # Skip qid as it's auto-generated
+            
+            is_required = field_name in required_fields
+            description = field_info.get("description", "")
+            example_value = get_example_value(field_name, field_info)
+            
+            # Add section header comments
+            if is_required:
+                lines.append(f"# {field_name} (Required)")
+            else:
+                lines.append(f"# {field_name} (Optional)")
+            
+            if description:
+                lines.append(f"# {description}")
+            
+            # Add the field
+            if example_value is not None:
+                if is_required:
+                    yaml_str = yaml.dump({field_name: example_value}, sort_keys=False, default_flow_style=False).strip()
+                    lines.append(yaml_str)
+                else:
+                    yaml_str = yaml.dump({field_name: example_value}, sort_keys=False, default_flow_style=False).strip()
+                    # Comment out optional fields
+                    for line in yaml_str.split('\n'):
+                        lines.append(f"# {line}")
+            
+            lines.append("")  # Blank line between fields
+        
+        return "\n".join(lines)
+
+    @model_validator(mode="before")
+    @classmethod
+    def validate_code(cls, data: dict):
+        """
+        Ensure that if code is provided as a single string, it is converted to a list.
+        Similarly for code_language.
+        """
+        if not isinstance(data, dict):
+            return data
+
+        # Normalize code
+        raw_code = data.get("code")
+        if raw_code is not None and not isinstance(raw_code, list):
+            data["code"] = [raw_code]
+
+        # Normalize code_language
+        raw_lang = data.get("code_language")
+        if raw_lang is not None and not isinstance(raw_lang, list):
+            data["code_language"] = [raw_lang]
+
+        return data

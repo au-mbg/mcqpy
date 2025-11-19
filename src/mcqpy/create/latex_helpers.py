@@ -46,3 +46,17 @@ def multi_checkbox(quiz_index: int, q_slug: str, q_qid: str, i: int) -> NoEscape
         + "}"
     )
     return command
+
+def code_block(code: str, language: str = "python") -> NoEscape:
+    latex_block = rf"""\begin{{minted}}
+    [
+    frame=lines,
+    framesep=2mm,
+    baselinestretch=1.2,
+    fontsize=\footnotesize,
+    linenos
+    ]
+    {{{language}}}
+{code}\end{{minted}}
+"""
+    return NoEscape(latex_block)
