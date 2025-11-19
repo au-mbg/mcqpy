@@ -35,3 +35,23 @@ build-backend = "uv_build"
 
 [tool.ruff]
 line-length = 88
+
+
+[tool.pytest.ini_options]
+testpaths = ["pytest/"]
+addopts = [
+  "--cov-report", "term",
+  "--cov-report", "html:.coverage-html",
+  "--cov-report", "xml:.coverage.xml",
+  "--junitxml", ".report.xml",
+  "--cov", "src/mcqpy"
+]
+
+[tool.coverage.run]
+omit = []
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.1",
+    "pytest-cov>=7.0.0",
+]
