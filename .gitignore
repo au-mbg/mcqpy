@@ -16,4 +16,6 @@ local_tests/
 
 # Testing
 *.coverage
-*/*.report.xml
+.coverage.xml
+.coverage-html/
+.report.xml

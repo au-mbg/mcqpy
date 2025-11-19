@@ -1,7 +1,5 @@
-from io import BytesIO
 import pytest
 from mcqpy.question import Question
-
 
 @pytest.fixture()
 def basic_question():
