@@ -4,7 +4,7 @@ from mcqpy.cli.config import QuizConfig
 from pathlib import Path
 
 from mcqpy.grade import MCQGrader, get_grade_dataframe
-from mcqpy.create.manifest import Manifest
+from mcqpy.build.manifest import Manifest
 from mcqpy.grade.rubric import StrictRubric
 from rich.progress import track
 

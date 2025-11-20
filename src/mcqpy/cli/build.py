@@ -3,7 +3,7 @@ from mcqpy.cli.main import main
 from mcqpy.cli.config import QuizConfig
 from pathlib import Path
 
-from mcqpy.create import MultipleChoiceQuiz
+from mcqpy.build import MultipleChoiceQuiz
 from mcqpy.question import QuestionBank
 
 from rich.pretty import Pretty
@@ -32,7 +32,6 @@ def build_command(config):
 
 
     mcq = MultipleChoiceQuiz(
-        document=None,
         file=file_path,
         questions=questions,
         front_matter=config.front_matter,

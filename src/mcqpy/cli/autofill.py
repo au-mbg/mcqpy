@@ -9,7 +9,7 @@ from rich.progress import track
 
 from mcqpy.cli.config import QuizConfig
 from mcqpy.cli.main import main
-from mcqpy.create.manifest import Manifest
+from mcqpy.build.manifest import Manifest
 
 
 def get_student_name():

@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import List
 
 from mcqpy.grade import MCQGrader
-from mcqpy.create.manifest import Manifest
+from mcqpy.build.manifest import Manifest
 from mcqpy.grade.rubric import StrictRubric
 from mcqpy.web.components.grading_display import GradingDisplayComponent
 

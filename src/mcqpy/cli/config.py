@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field, ConfigDict
 import yaml
-from mcqpy.create import HeaderFooterOptions, FrontMatterOptions
+from mcqpy.build import HeaderFooterOptions, FrontMatterOptions
 
 class QuizConfig(BaseModel):
     model_config = ConfigDict(extra="forbid", validate_assignment=True)

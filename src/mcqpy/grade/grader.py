@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 from pypdf import PdfReader
 
-from mcqpy.create.manifest import Manifest
+from mcqpy.build.manifest import Manifest
 from mcqpy.grade.utils import GradedQuestion, GradedSet, ParsedQuestion, ParsedSet
 from mcqpy.grade.rubric import Rubric
 
