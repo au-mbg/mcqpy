@@ -45,6 +45,7 @@ jobs:
       uses: actions/upload-artifact@v4
       if: matrix.python-version == '3.13'
       with:
+        if-no-files-found: error
         name: coverage-reports
         path: |
           .coverage.xml
