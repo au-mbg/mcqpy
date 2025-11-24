@@ -48,6 +48,6 @@ jobs:
         if-no-files-found: error
         name: coverage-reports
         path: |
-          ~/.coverage.xml
-          ~/.coverage-html/
-          ~/.report.xml
+          .coverage.xml
+          .coverage-html/
+          .report.xml
