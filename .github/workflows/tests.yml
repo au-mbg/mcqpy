@@ -35,11 +35,9 @@ jobs:
       run: |
         uv run pytest
 
-    - name: Debug - List files
+    - name: Fix permissions
       run: |
-        pwd
-        ls -la
-        find . -name "*.coverage*" -o -name "*report.xml"
+        chmod -R a+r .coverage* .report.xml        
         
     - name: Upload coverage reports
       uses: actions/upload-artifact@v4
