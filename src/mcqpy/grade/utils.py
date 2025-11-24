@@ -13,6 +13,7 @@ class ParsedSet:
     student_id: str
     student_name: str
     questions: list[ParsedQuestion]
+    file: str | None = None
 
 
 @dataclass

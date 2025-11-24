@@ -48,7 +48,7 @@ addopts = [
 ]
 
 [tool.coverage.run]
-omit = []
+omit = ['src/mcqpy/web/*']
 
 [dependency-groups]
 dev = [

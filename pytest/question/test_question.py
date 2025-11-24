@@ -3,6 +3,9 @@ from mcqpy.question import Question
 
 @pytest.fixture()
 def basic_question():
+    """
+    Doesn't use the factory, just a basic question for testing.
+    """
     question = Question(
         slug="sample-question",
         text="What is the capital of France?",
