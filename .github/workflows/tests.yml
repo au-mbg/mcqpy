@@ -9,6 +9,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/xu-cheng/texlive:small
     strategy:
       matrix:
         python-version: ['3.13']
@@ -16,17 +18,22 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Run tests with pytest
-      uses: xu-cheng/texlive-action@v3
+    - name: Install uv
+      uses: astral-sh/setup-uv@v4
       with:
-        run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          export PATH="$HOME/.local/bin:$PATH"
-          uv python install ${{ matrix.python-version }}
-          uv sync --all-extras --dev
-          uv run pytest
-          ls -la
-          find . -name ".coverage*" -o -name ".report.xml"
+        version: "latest"
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      run: |
+        uv python install ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        uv sync --all-extras --dev
+    
+    - name: Run tests with pytest
+      run: |
+        uv run pytest
     
     - name: Upload coverage reports
       uses: actions/upload-artifact@v4
