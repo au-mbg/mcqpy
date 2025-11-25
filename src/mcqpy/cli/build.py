@@ -5,9 +5,20 @@ from pathlib import Path
 
 from mcqpy.build import MultipleChoiceQuiz
 from mcqpy.question import QuestionBank
+from mcqpy.build.manifest import Manifest
 
 from rich.pretty import Pretty
 from rich.console import Console
+
+def build_solution(questions, manifest, output_path: Path):
+    from mcqpy.build.solution_pdf import SolutionPDF    
+    solution_pdf = SolutionPDF(
+        file=output_path,
+        questions=questions,
+        manifest=manifest
+    )
+
+    solution_pdf.build(generate_pdf=True)
 
 @main.command(name="build", help="Build the quiz PDF from question files")
 @click.option("-c", "--config", type=click.Path(exists=True, path_type=Path), default="config.yaml", help="Path to the config file", show_default=True)
@@ -39,5 +50,12 @@ def build_command(config):
     )
 
     mcq.build(generate_pdf=True)
+
+    # Build solution PDF
+    manifest_path = mcq.get_manifest_path()
+    manifest = Manifest.load_from_file(manifest_path)
+    solution_output_path = Path(config.output_directory) / f"{config.file_name.replace('.pdf', '')}_solution.pdf"
+    print(solution_output_path)
+    build_solution(questions, manifest, solution_output_path)
 
 

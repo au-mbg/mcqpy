@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Any, List, Optional, Literal
 from pydantic import BaseModel, Field, ConfigDict, field_validator, model_validator
 import uuid
+from datetime import date as dt_date
 
 from mcqpy.question import (
     Image,
@@ -76,9 +77,13 @@ class Question(BaseModel):
     point_value: int = Field(1, ge=0, description="Point value of the question")
 
     # Metadata
-    difficulty: Optional[str] = None
+    difficulty: Optional[Literal["very easy" ,"easy", "medium", "hard", "very hard"]] = None
     tags: Optional[List[str]] = None
     explanation: Optional[str] = None
+    created_date: Optional[str] = Field(
+        None, 
+        description="Date question was created. Stored as 'dd/mm/yyyy' (input accepts 'yyyy' or 'dd/mm/yyyy')"
+    )
 
     @model_validator(mode="before")
     @classmethod
@@ -321,3 +326,39 @@ class Question(BaseModel):
             data["code_language"] = [raw_lang]
 
         return data
+    
+    @field_validator("created_date")
+    @classmethod
+    def validate_and_normalize_date(cls, v: Optional[str]) -> Optional[str]:
+        """Validate and normalize date to 'dd/mm/yyyy' format.
+        
+        Accepts:
+        - 'yyyy' -> normalized to '01/01/yyyy'
+        - 'dd/mm/yyyy' -> validated and returned as-is
+        """
+        if v is None:
+            return v
+        
+        # Try year-only format first
+        if len(v) == 4 and v.isdigit():
+            year = int(v)
+            if not (1900 <= year <= 2100):
+                raise ValueError(f"Year {year} is outside reasonable range (1900-2100)")
+            # Normalize to dd/mm/yyyy format (use January 1st)
+            return f"01/01/{year}"
+        
+        # Try dd/mm/yyyy format
+        try:
+            parts = v.split('/')
+            if len(parts) != 3:
+                raise ValueError("Date must be in format 'dd/mm/yyyy' or 'yyyy'")
+            
+            day, month, year = map(int, parts)
+            # Validate using Python's date
+            dt_date(year, month, day)
+            return v
+        except (ValueError, TypeError) as e:
+            raise ValueError(
+                f"Invalid date format: '{v}'. Use 'dd/mm/yyyy' or 'yyyy'"
+            ) from e
+

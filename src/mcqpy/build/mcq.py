@@ -103,11 +103,12 @@ class MultipleChoiceQuiz(Document):
     def _build_metadata(self):
         pass
 
+    def get_manifest_path(self) -> Path:
+        return self.file.with_name(self.file.stem + "_manifest").with_suffix(".json")
+
     def _build_manifest(self, manifest_items: list[ManifestItem]):
         manifest = Manifest(items=manifest_items)
-        manifest_path = self.file.with_name(self.file.stem + "_manifest").with_suffix(
-            ".json"
-        )
+        manifest_path = self.get_manifest_path()
         manifest.save_to_file(manifest_path)
         print(f"Generated manifest file at: {manifest_path}")
 

@@ -5,6 +5,7 @@ from pylatex import (
     Figure,
     Section,
     SubFigure,
+    Subsection
 )
 from pylatex.utils import NoEscape
 
@@ -13,7 +14,7 @@ from mcqpy.question import Question
 from mcqpy.utils.image import check_and_download_tmp
 
 
-def build_question(document: Document, question: Question, quiz_index: int):
+def build_question(document: Document, question: Question, quiz_index: int, add_solution: bool = False):
     if question.question_type == "single":
         extra_section_header = r"Select \underline{one} answer"
     elif question.question_type == "multiple":
@@ -33,7 +34,22 @@ def build_question(document: Document, question: Question, quiz_index: int):
 
         _build_question_image(document, question)
         _build_question_code(document, question)
-        _build_question_form(document, question, quiz_index)
+        _build_question_form(document, question, quiz_index, add_solution)
+        if add_solution:
+            _build_question_explanation(document, question)
+
+def _build_question_explanation(document, question: Question):
+    with document.create(Subsection("Explanation", numbering=False)):
+
+        permuted_correct_answers = [
+            question.permutation.index(ans_idx) for ans_idx in question.correct_answers
+        ]
+
+        answer_string = ", ".join(
+            [chr(97 + idx) for idx in permuted_correct_answers]
+        )
+        document.append(f"Correct answer(s): {answer_string}\n\n")
+        document.append(NoEscape(question.explanation))
 
 
 def _build_question_code(document, question: Question):
@@ -100,7 +116,7 @@ def _build_question_image(document, question: Question):
                 fig.add_caption(NoEscape(f"Figure: {question.image_caption[-1]}"))
 
 
-def _build_question_form(document, question: Question, quiz_index: int):
+def _build_question_form(document, question: Question, quiz_index: int, add_solution: bool = False):
     with document.create(Form()):
         q_slug = question.slug
         q_qid = question.qid
@@ -109,12 +125,18 @@ def _build_question_form(document, question: Question, quiz_index: int):
             for i, permute_index in enumerate(question.permutation):
                 choice = question.choices[permute_index]
 
+                if add_solution and permute_index in question.correct_answers:
+                    checked = True
+                else:
+                    checked = False
+
                 if question.question_type == "multiple":
                     command = multi_checkbox(
                         quiz_index=quiz_index,
                         q_slug=q_slug,
                         q_qid=q_qid,
                         i=i,
+                        checked=checked,
                     )
 
                 elif question.question_type == "single":
@@ -123,6 +145,7 @@ def _build_question_form(document, question: Question, quiz_index: int):
                         q_slug=q_slug,
                         q_qid=q_qid,
                         i=i,
+                        checked=checked,
                     )
 
                 enum.add_item(command)

@@ -50,12 +50,3 @@ class QuestionBank:
     
     def get_all_questions(self) -> list[Question]:
         return [item.question for item in self._items]
-
-if __name__ == "__main__":
-
-    path = "/Users/au616397/Library/CloudStorage/Dropbox/mbg/fysisk_biokemi/fsb_exam/testing/question_generation/questions"
-    directories = [path]
-    bank = QuestionBank.from_directories(directories, glob_pattern="question_*.yaml")
-
-    for item in bank._items:
-        print(f"Loaded question {item.question.qid} from {item.path}")
