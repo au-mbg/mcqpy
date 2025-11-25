@@ -109,8 +109,8 @@ class QuestionFactory:
 def question_factory():
     return QuestionFactory()
 
-@pytest.fixture(scope="session", params=[True, False])
-def mcq(request, tmp_path_factory, question_factory) -> MultipleChoiceQuiz:
+@pytest.fixture(scope="session")
+def question_set(question_factory):
     n_questions = 20
     image = [0 for _ in range(n_questions)]
     code = [0 for _ in range(n_questions)]
@@ -122,8 +122,11 @@ def mcq(request, tmp_path_factory, question_factory) -> MultipleChoiceQuiz:
     code[4] = True
     image[5] = 2
     code[5] = 2
-
     questions = [question_factory(image=image[i], code=code[i]) for i in range(0, 20)]
+    return questions
+
+@pytest.fixture(scope="session", params=[True, False])
+def mcq(request, tmp_path_factory, question_set) -> MultipleChoiceQuiz:
     tmp_path = tmp_path_factory.mktemp("mcq_build_test")
     path = tmp_path / "test_quiz.pdf"
 
@@ -140,7 +143,7 @@ def mcq(request, tmp_path_factory, question_factory) -> MultipleChoiceQuiz:
         footer_right="Sample Footer"
     )
 
-    mcq = MultipleChoiceQuiz(file=path, questions=questions, front_matter=front_matter, header_footer=header_footer)
+    mcq = MultipleChoiceQuiz(file=path, questions=question_set, front_matter=front_matter, header_footer=header_footer)
 
     return mcq
 

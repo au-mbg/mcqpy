@@ -30,8 +30,20 @@ from pathlib import Path
     help="Directory for output files",
     show_default=True,
 )
+@click.option(
+    "-s",
+    "--submission-directory",
+    type=str,
+    default="submissions",
+    help="Directory for student submissions",
+    show_default=True,
+)
 def init_command(
-    name: str, file_name: str, make_questions_directory: bool, output_directory: str
+    name: str,
+    file_name: str,
+    make_questions_directory: bool,
+    output_directory: str,
+    submission_directory: str,
 ):
     # Create project directory
     project_path = Path(name)
@@ -44,12 +56,16 @@ def init_command(
         questions_dir.mkdir(parents=True, exist_ok=False)
         print(f"Created questions directory at: {questions_dir}")
 
+    submission_directory_path = project_path / submission_directory
+    submission_directory_path.mkdir(parents=True, exist_ok=False)
+
     # Create example config.yaml
     config_file = project_path / "config.yaml"
     config = QuizConfig(
         questions_paths=["questions"],
         file_name=file_name,
         output_directory=output_directory,
+        submission_directory=submission_directory,
     )
     config_file.write_text(config.yaml_dump())
     print(f"Created config file at: {config_file}")

@@ -115,9 +115,13 @@ class MultipleChoiceQuiz(Document):
 
         if self.front_matter.title is not None:
             self.preamble.append(Command("title", self.front_matter.title))
+        else:
+            self.preamble.append(Command("title", " "))
 
         if self.front_matter.author is not None:
-            self.preamble.append(Command("author", self.front_matter.author))
+            self.preamble.append(Command("author", self.front_matter.author))        
+        else:
+            self.preamble.append(Command("author", " "))
 
         if self.front_matter.date is not None:
             if isinstance(self.front_matter.date, str):

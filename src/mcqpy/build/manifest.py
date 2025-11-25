@@ -1,6 +1,3 @@
-import hashlib
-import json
-
 from pydantic import BaseModel, ConfigDict, Field
 
 from mcqpy.question import Question, compute_question_sha256

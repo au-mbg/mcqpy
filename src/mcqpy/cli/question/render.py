@@ -4,7 +4,7 @@ import rich_click as click
 from mcqpy.cli.question.main import question_group
 
 
-@question_group.command(name="render", help="Validate question files")
+@question_group.command(name="render", help="Render a question as PDF. Useful to check LaTeX formatting.")
 @click.argument("path", type=click.Path(exists=True))
 def render_command(path):
     from mcqpy.question import Question

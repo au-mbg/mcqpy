@@ -183,7 +183,7 @@ class Question(BaseModel):
                     f"Unsupported image extension '{resolved.suffix}'. "
                     f"Allowed: {sorted(ALLOWED_IMAGE_EXTS)}"
                 )
-            full_paths.append(resolved)
+            full_paths.append(str(resolved))
 
         return full_paths
 
