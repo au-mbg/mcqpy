@@ -2,3 +2,47 @@
 
 Generate and grade multiple-choice quiz PDF documents. 
 
+## Example
+
+The simplest way to use `mcqpy` is through the command line interface (CLI). A project 
+can be initialized like so
+```
+mcqpy init <PROJECT_NAME>
+```
+Which will create a directory `<PROJECT_NAME>` containing the following: 
+
+- `config.yaml`: Overall configuration of the project, including author, document name, header, footer and preface options. 
+- `questions/`: A directory where the project expects question `.yaml` files to be located. 
+- `output/`: Where the built documents will be put. 
+- `submissions/`: A directory where submitted quizzes should be put for grading. 
+
+For a quiz to be interesting it needs questions, the template structure of a question 
+can be created using 
+```
+mcqpy question init <QUESTION_PATH>
+```
+where `<QUESTION_PATH>` could be `questions/q1.yaml`. Once the desired number of questions have been 
+written the quiz can be compiled using 
+```
+mcqpy build 
+```
+Which produces a number of files in the `output/` directory the important ones being 
+
+- `<NAME>.pdf`: The quiz document
+- `<NAME>_solution.pdf`: A human readable solution key to all questions contained in the quiz. 
+- `<NAME>_manifest.json`: Quiz key used by `mcqpy` to grade quizzes. 
+
+The `<NMAE>.pdf` document can be distributed to quiz takers through any means and once 
+returned and placed in the `submissions/` directory be graded by the program. 
+A number of test submissions can be created using
+```
+mcqpy test-autofill -n 50 
+```
+Which here generates 50 randomly filled quizzes. To grade run 
+```
+mcqpy grade -a 
+```
+Which will produce the files `<NAME>_grades.xlsx` containing the grades of all submissions and `analysis/<NAME>_analysis.pdf` containing statistics about overall point distributions as well as question level statistics. 
+
+
+
