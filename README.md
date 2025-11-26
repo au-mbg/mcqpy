@@ -44,5 +44,40 @@ mcqpy grade -a
 ```
 Which will produce the files `<NAME>_grades.xlsx` containing the grades of all submissions and `analysis/<NAME>_analysis.pdf` containing statistics about overall point distributions as well as question level statistics. 
 
+## Installation
+
+`mcqpy` requires Python, a small number of Python packages and a working LaTeX installation. 
+
+### Installing `mcqpy` in a venv.
+
+If you have a working Python installation we recommend installing `mcqpy` in a suitable virtual environment (venv) using `pip`
+
+```
+pip install git+https://github.com/au-mbg/mcqpy.git
+```
+
+### Installing Python & `mcqpy`. 
+
+If you do not have a suitable Python version, `uv` can be recommended for installing and managing Python, see [Installing uv](https://docs.astral.sh/uv/getting-started/installation/). With uv installed you can create a venv with `mcqpy` using
+```
+uv venv
+source .venv/bin/activate  # On Mac/Linux
+uv pip install git+https://github.com/au-mbg/mcqpy.git
+```
+
+### Install LaTeX 
+
+You will also need a working LaTeX installation, once `mcqpy` is installed you can check for that using 
+
+```
+mcqpy check-latex
+```
+Which will output the versions of `pdflatex` and `latexmk` if they are installed, if not you should install an OS 
+appropriate LaTeX distribution for example from one of these sources: 
+
+- **macOS**: [MacTeX](https://www.tug.org/mactex/)
+- **Windows**: [TeX Live](https://www.tug.org/texlive/) or [MiKTeX](https://miktex.org/)
+- **Linux**: TeX Live (usually available through your package manager, e.g., `sudo apt install texlive-full` on Ubuntu/Debian)
+
 
 
