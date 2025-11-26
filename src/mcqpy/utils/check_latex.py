@@ -17,7 +17,7 @@ def check_latex_command(command: str) -> LaTeXCheckResult:
         command: The command name to check (e.g., 'pdflatex', 'latexmk')
         
     Returns:
-        bool: True if command is available, False otherwise
+        LaTeXCheckResult: Result of the command check.
     """
     try:
         output = subprocess.check_output(
