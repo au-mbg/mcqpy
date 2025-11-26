@@ -1,5 +1,5 @@
 import pytest
-from mcqpy.build.manifest import ManifestItem
+from mcqpy.compile.manifest import ManifestItem
 from mcqpy.question import Question, compute_question_sha256
 
 

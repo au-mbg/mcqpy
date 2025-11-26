@@ -3,7 +3,7 @@ from importlib.resources import files
 from mcqpy.question import Question
 from dataclasses import dataclass
 import pytest
-from mcqpy.build import MultipleChoiceQuiz, FrontMatterOptions, HeaderFooterOptions
+from mcqpy.compile import MultipleChoiceQuiz, FrontMatterOptions, HeaderFooterOptions
 
 @dataclass
 class CodeSnippet:

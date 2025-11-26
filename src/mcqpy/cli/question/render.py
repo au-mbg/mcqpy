@@ -9,7 +9,7 @@ from mcqpy.cli.question.main import question_group
 def render_command(path):
     from mcqpy.question import Question
     from pylatex import Document
-    from mcqpy.build.latex_questions import build_question
+    from mcqpy.compile.latex_questions import build_question
     from pathlib import Path
     from rich.console import Console
     import subprocess

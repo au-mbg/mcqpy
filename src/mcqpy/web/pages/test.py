@@ -127,7 +127,7 @@ def render_question(question: Question, index: int = 1):
 def grade_quiz(questions: list[Question], answers: dict = None):
     from mcqpy.grade.utils import ParsedSet, ParsedQuestion
     from mcqpy.grade import MCQGrader
-    from mcqpy.build.manifest import Manifest, ManifestItem
+    from mcqpy.compile.manifest import Manifest, ManifestItem
     from mcqpy.grade.rubric import StrictRubric
 
     parsed_questions = []

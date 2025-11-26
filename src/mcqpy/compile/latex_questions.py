@@ -9,7 +9,7 @@ from pylatex import (
 )
 from pylatex.utils import NoEscape
 
-from mcqpy.build.latex_helpers import Form, code_block, multi_checkbox, radio_option
+from mcqpy.compile.latex_helpers import Form, code_block, multi_checkbox, radio_option
 from mcqpy.question import Question
 from mcqpy.utils.image import check_and_download_tmp
 

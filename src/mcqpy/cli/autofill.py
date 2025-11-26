@@ -7,7 +7,7 @@ from rich.progress import track
 
 from mcqpy.cli.config import QuizConfig
 from mcqpy.cli.main import main
-from mcqpy.build.manifest import Manifest
+from mcqpy.compile.manifest import Manifest
 from mcqpy.utils.fill_form import fill_pdf_form
 
 

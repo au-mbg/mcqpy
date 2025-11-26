@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from mcqpy.build.manifest import Manifest
+from mcqpy.compile.manifest import Manifest
 from mcqpy.grade.utils import GradedQuestion, GradedSet, ParsedSet
 from mcqpy.grade.rubric import Rubric
 from mcqpy.grade.parse_pdf import MCQPDFParser

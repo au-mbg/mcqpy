@@ -1,7 +1,7 @@
 import pytest
 from mcqpy.grade import MCQGrader
 from mcqpy.grade.utils import GradedSet
-from mcqpy.build.manifest import Manifest
+from mcqpy.compile.manifest import Manifest
 from mcqpy.grade.rubric import StrictRubric
 from mcqpy.utils.fill_form import fill_pdf_form
 

@@ -1,24 +1,18 @@
 from pathlib import Path
 
 from pylatex import (
-    Command,
     Document,
-    Foot,
-    Head,
-    PageStyle,
     LongTable,
     Section,
 )
-from pylatex.package import Package
 from pylatex.utils import NoEscape
 
 
-from mcqpy.build.latex_helpers import Form
-from mcqpy.build.latex_questions import build_question
-from mcqpy.build.manifest import Manifest, ManifestItem
+from mcqpy.compile.latex_questions import build_question
+from mcqpy.compile.manifest import Manifest
+from mcqpy.compile.preamble import add_preamble
 from mcqpy.question import Question
 
-from mcqpy.build.latex_questions import build_question
 
 
 class SolutionPDF(Document):
@@ -58,11 +52,7 @@ class SolutionPDF(Document):
 
 
     def build(self, generate_pdf: bool = False, **kwargs):        
-        self.preamble.append(Package("caption"))
-        self.preamble.append(Package("xcolor", options=["dvipsnames"]))
-        self.preamble.append(Package("minted"))
-        self.preamble.append(NoEscape(r"\usemintedstyle{vs}"))
-        self.preamble.append(NoEscape(r"\captionsetup[figure]{labelformat=empty}"))
+        add_preamble(self)
 
         self._build_solution_table()
         self._build_questions()

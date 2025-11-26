@@ -3,15 +3,15 @@ from mcqpy.cli.main import main
 from mcqpy.cli.config import QuizConfig
 from pathlib import Path
 
-from mcqpy.build import MultipleChoiceQuiz
+from mcqpy.compile import MultipleChoiceQuiz
 from mcqpy.question import QuestionBank
-from mcqpy.build.manifest import Manifest
+from mcqpy.compile.manifest import Manifest
 
 from rich.pretty import Pretty
 from rich.console import Console
 
 def build_solution(questions, manifest, output_path: Path):
-    from mcqpy.build.solution_pdf import SolutionPDF    
+    from mcqpy.compile.solution_pdf import SolutionPDF    
     solution_pdf = SolutionPDF(
         file=output_path,
         questions=questions,
