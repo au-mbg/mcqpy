@@ -9,6 +9,7 @@ from pylatex import (
     Section,
 )
 from pylatex.utils import NoEscape
+from pylatex.base_classes import Environment
 
 from mcqpy.compile import FrontMatterOptions, HeaderFooterOptions
 from mcqpy.compile.latex_helpers import Form
@@ -16,6 +17,11 @@ from mcqpy.compile.latex_questions import build_question
 from mcqpy.compile.manifest import Manifest, ManifestItem
 from mcqpy.compile.preamble import add_preamble
 from mcqpy.question import Question
+
+class SamePage(Environment):
+    """SamePage environment to keep content on the same page."""
+
+    _latex_name = "samepage"
 
 
 class MultipleChoiceQuiz(Document):
@@ -169,4 +175,5 @@ class MultipleChoiceQuiz(Document):
 
     def _build_question(self, question: Question, quiz_index: int):
         self.append(Command("pagebreak"))
+
         build_question(self, question, quiz_index)

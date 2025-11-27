@@ -28,7 +28,7 @@ def build_command(config):
 
     file_path = Path(config.output_directory) / config.file_name
 
-    questions = question_bank.get_all_questions()
+    questions = question_bank.get_all_questions()[0:100]
 
     # If the slugs contain a number sort by that number
     if all(q.slug.split("_")[-1].isdigit() for q in questions):

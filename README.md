@@ -1,6 +1,6 @@
 # mcqpy 
 
-Generate and grade multiple-choice quiz PDF documents. 
+Generate and grade interactive multiple-choice quiz PDF documents. 
 
 ## Example
 

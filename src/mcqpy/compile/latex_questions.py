@@ -39,7 +39,10 @@ def build_question(document: Document, question: Question, quiz_index: int, add_
             _build_question_explanation(document, question)
 
 def _build_question_explanation(document, question: Question):
-    with document.create(Subsection("Explanation", numbering=False)):
+
+    title = "Explanation and Correct Answer" if question.explanation else "Correct Answer"
+
+    with document.create(Subsection(title, numbering=False)):
 
         permuted_correct_answers = [
             question.permutation.index(ans_idx) for ans_idx in question.correct_answers
@@ -49,7 +52,9 @@ def _build_question_explanation(document, question: Question):
             [chr(97 + idx) for idx in permuted_correct_answers]
         )
         document.append(f"Correct answer(s): {answer_string}\n\n")
-        document.append(NoEscape(question.explanation))
+
+        if question.explanation:
+            document.append(NoEscape(question.explanation))
 
 
 def _build_question_code(document, question: Question):
