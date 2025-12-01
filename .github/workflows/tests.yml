@@ -34,6 +34,7 @@ jobs:
     - name: Run tests with pytest
       run: |
         uv run pytest
+        ls -al 
 
     - name: Upload coverage reports to Codecov with GitHub Action
       uses: codecov/codecov-action@v5
