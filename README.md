@@ -1,6 +1,15 @@
 # mcqpy 
 
 Generate and grade interactive multiple-choice quiz PDF documents. 
+Rendered documents with 
+
+- LaTeX formatting - including for math/equations.
+- Include figures from files or from links.
+- Code snippets with highlighted code. 
+- Headers and footers. 
+
+Easily grade hundreds of quizzes with grades export to `.xlsx` or `.csv` while 
+obtaining question-level statistics.
 
 ## Example
 
