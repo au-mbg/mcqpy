@@ -8,7 +8,7 @@ Rendered documents with
 - Code snippets with highlighted code. 
 - Headers and footers. 
 
-Easily grade hundreds of quizzes with grades export to `.xlsx` or `.csv` while 
+Easily grade hundreds of quizzes with grades exported to `.xlsx` or `.csv` while 
 obtaining question-level statistics.
 
 ## Example
