@@ -47,5 +47,6 @@ jobs:
       uses: codecov/codecov-action@v5
       with:
         files: ./.coverage.xml
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        use_oidc: true
+      # env:
+      #   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
