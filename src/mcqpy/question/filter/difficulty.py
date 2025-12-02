@@ -49,6 +49,7 @@ class DifficultyFilter(AttributeFilter):
                     difficulty = difficulty[len(op):].strip()
                     break
         
+        self.difficulty = difficulty
         self.operator = operator
         self.target_level = DifficultyLevel.from_string(difficulty)
         self.strict_missing = strict_missing
