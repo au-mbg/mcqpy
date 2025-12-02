@@ -3,7 +3,20 @@ from importlib.resources import files
 from mcqpy.question import Question
 from dataclasses import dataclass
 import pytest
+import shutil
 from mcqpy.compile import MultipleChoiceQuiz, FrontMatterOptions, HeaderFooterOptions
+
+def pytest_configure(config):
+    config.addinivalue_line(
+        "markers", "requires_latex: mark test as requiring LaTeX installation"
+    )
+
+def pytest_runtest_setup(item):
+    """Automatically skip tests marked with requires_latex if LaTeX is not available"""
+    if "requires_latex" in item.keywords:
+        if not shutil.which("pdflatex"):
+            pytest.skip("LaTeX (pdflatex) is not installed")
+            
 
 @dataclass
 class CodeSnippet:
@@ -151,3 +164,4 @@ def mcq(request, tmp_path_factory, question_set) -> MultipleChoiceQuiz:
 def built_mcq(mcq):
     mcq.build(generate_pdf=True)
     return mcq
+

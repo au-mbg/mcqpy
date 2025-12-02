@@ -29,14 +29,17 @@ def graded_set(request, grader, perfect_filled_pdfs) -> GradedSet:
     graded_set = grader.grade(perfect_filled_pdfs[request.param])
     return graded_set
 
+@pytest.mark.requires_latex
 def test_grader_initialization(grader):
     assert isinstance(grader, MCQGrader)
     assert isinstance(grader.manifest, Manifest)
     assert isinstance(grader.rubric, StrictRubric)
 
+@pytest.mark.requires_latex
 def test_graded_set_type(graded_set):
     assert isinstance(graded_set, GradedSet)
 
+@pytest.mark.requires_latex
 def test_graded_set_points(graded_set):
     assert graded_set.max_points > 0
     assert graded_set.points == graded_set.max_points
