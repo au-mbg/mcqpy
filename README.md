@@ -1,5 +1,7 @@
 # mcqpy 
 
+[![codecov](https://codecov.io/github/au-mbg/mcqpy/graph/badge.svg?token=JIXBIKWVOQ)](https://codecov.io/github/au-mbg/mcqpy)
+
 Generate and grade interactive multiple-choice quiz PDF documents. 
 Rendered documents with 
 
@@ -87,6 +89,7 @@ appropriate LaTeX distribution for example from one of these sources:
 - **macOS**: [MacTeX](https://www.tug.org/mactex/)
 - **Windows**: [TeX Live](https://www.tug.org/texlive/) or [MiKTeX](https://miktex.org/)
 - **Linux**: TeX Live (usually available through your package manager, e.g., `sudo apt install texlive-full` on Ubuntu/Debian)
+
 
 
 
