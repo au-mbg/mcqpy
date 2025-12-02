@@ -24,7 +24,7 @@ def filled_pdfs(built_mcq, tmp_path_factory):
     filled_files = list(tmp_path.glob(f"{built_mcq.file.stem}_autofill_*.pdf"))
     return filled_files
 
-@pytest.mark.requires_latex
+
 @pytest.fixture(params=[0, 1, 2, 3, 4], scope="module")
 def graded_set(request, grader, filled_pdfs) -> GradedSet:
     graded_set = grader.grade(filled_pdfs[request.param])
