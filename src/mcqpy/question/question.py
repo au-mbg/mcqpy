@@ -88,9 +88,6 @@ class Question(BaseModel):
     @model_validator(mode="before")
     @classmethod
     def _normalize_media_fields(cls, data: Any):
-        if not isinstance(data, dict):
-            return data
-
         # Pull raw inputs (may be absent/None/union-shaped)
         raw_img = data.get("image")
         raw_opts = data.get("image_options")
@@ -130,8 +127,6 @@ class Question(BaseModel):
         - If qid missing: compute it from slug.
         - If qid provided: verify it matches the computed one.
         """
-        if not isinstance(data, dict):
-            return data
         if "slug" not in data:
             raise ValueError("slug is required to derive qid")
 
@@ -182,7 +177,7 @@ class Question(BaseModel):
             resolved = p if p.is_absolute() else (base_dir / p).resolve()
 
             if not resolved.exists() or not resolved.is_file():
-                raise ValueError(f"Image not found: {v} (resolved to: {resolved})")
+                raise FileNotFoundError(f"Image not found: {v} (resolved to: {resolved})")
             if resolved.suffix.lower() not in ALLOWED_IMAGE_EXTS:
                 raise ValueError(
                     f"Unsupported image extension '{resolved.suffix}'. "
@@ -225,8 +220,6 @@ class Question(BaseModel):
             # Special cases based on field name
             if field_name == "slug":
                 return "my-unique-question-slug"
-            elif field_name == "qid":
-                return None  # Skip, it's auto-generated
             elif field_name == "text":
                 return "Your question text here (LaTeX supported)"
             elif field_name == "choices":
@@ -259,17 +252,6 @@ class Question(BaseModel):
             elif field_name == "explanation":
                 return "Optional explanation of the correct answer"
             
-            # Generic fallbacks
-            if field_type == "string":
-                return "example string"
-            elif field_type == "integer":
-                return field_info.get("default", 1)
-            elif field_type == "boolean":
-                return field_info.get("default", False)
-            elif field_type == "array":
-                return ["item1", "item2"]
-            elif field_type == "object":
-                return {}
             return None
         
         # Process fields in order
@@ -312,9 +294,6 @@ class Question(BaseModel):
         Ensure that if code is provided as a single string, it is converted to a list.
         Similarly for code_language.
         """
-        if not isinstance(data, dict):
-            return data
-
         # Normalize code
         raw_code = data.get("code")
         if raw_code is not None and not isinstance(raw_code, list):

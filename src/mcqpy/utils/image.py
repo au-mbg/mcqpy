@@ -22,6 +22,7 @@ def get_url_image_suffix(url: str) -> bool:
     Returns:
         str: The image suffix (e.g., '.jpg', '.png').
     """
+    url = str(url)
     if '.' in url:
         return '.' + url.split('.')[-1].split('?')[0]
     return None
@@ -52,9 +53,36 @@ def download_image(url: str, save_path: str) -> None:
     return p
 
 def convert_image(path):
-    from subprocess import check_call
-    check_call(['magick', str(path), str(path)])
-
+    """Convert image to PNG format using Pillow.
+    
+    Args:
+        path: Path to the image file to convert.
+    """
+    from PIL import Image
+    
+    path = Path(path)
+    img = Image.open(path)
+    
+    # Convert to RGB if necessary (e.g., for RGBA or other modes)
+    if img.mode in ('RGBA', 'LA', 'P'):
+        # Create white background for transparent images
+        background = Image.new('RGB', img.size, (255, 255, 255))
+        if img.mode == 'P':
+            img = img.convert('RGBA')
+        background.paste(img, mask=img.split()[-1] if img.mode in ('RGBA', 'LA') else None)
+        img = background
+    elif img.mode != 'RGB':
+        img = img.convert('RGB')
+    
+    # Save as PNG
+    png_path = path.with_suffix('.png')
+    img.save(png_path, 'PNG')
+    
+    # Remove original if different
+    if png_path != path:
+        path.unlink()
+    
+    return png_path
 
 def check_and_download_tmp(url, tmp_name):
     if check_if_url(url):
