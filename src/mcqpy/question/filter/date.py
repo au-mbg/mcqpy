@@ -35,18 +35,26 @@ class DateFilter(BaseFilter):
                            If False, include questions without created_date attribute.
         """
         # Parse operator from string if present
+        parsed_operator, parsed_date = self._parse_date_operator(date_value)
+        
+        self.operator = parsed_operator
+        self.strict_missing = strict_missing
+        self.start_date = self._parse_date_range(parsed_date)
+        self.end_date = self._parse_date_range(end_date) if end_date else None
+        self.is_range = end_date is not None
+
+
+    def _parse_date_operator(self, date_value: str) -> tuple[str, str]:
         if date_value.startswith(('<=', '>=', '<', '>')):
             for op in ['<=', '>=', '<', '>']:
                 if date_value.startswith(op):
                     operator = op
                     date_value = date_value[len(op):].strip()
                     break
-        
-        self.operator = operator
-        self.strict_missing = strict_missing
-        self.start_date = self._parse_date_range(date_value)
-        self.end_date = self._parse_date_range(end_date) if end_date else None
-        self.is_range = end_date is not None
+        else:
+            operator = '=='
+        return operator, date_value
+    
     
     def _parse_date_range(self, date_str: str) -> tuple[date, date]:
         """Parse date string to tuple of (start_date, end_date) representing the range.
