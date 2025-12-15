@@ -74,14 +74,22 @@ class QuestionFactory:
         if image:
             images = []
             if isinstance(image, int):
+                captions = {}
+                options = {}
                 for i in range(image):
                     img = self.images[(index + i) % len(self.images)]
                     images.append(str(img))
+                    captions[i] = f"This is the caption for image {index + i}."
+                    options[i] = {"width": "0.5\\textwidth"}
+
             else:
                 img = self.images[index % len(self.images)]
                 images.append(str(img))
+                options = {0: {"width": "0.5\\textwidth"}}
+                captions = {0: f"This is the caption for image {index}."}
         else: 
             images = None
+            captions = None
         
         ## Get some code snippets
         if code:
@@ -106,8 +114,11 @@ class QuestionFactory:
             correct_answers=correct_choice,
             question_type=question_type,
             image=images if image else None,
+            image_caption=captions if image else None,
+            image_options=options if image else None,
             code=snippet_code,
             code_language=snippet_language,
+            explanation="This is the explanation for the question.",
         )
 
         question = Question.model_validate(question_data, context={})

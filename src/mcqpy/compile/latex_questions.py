@@ -19,8 +19,6 @@ def build_question(document: Document, question: Question, quiz_index: int, add_
         extra_section_header = r"Select \underline{one} answer"
     elif question.question_type == "multiple":
         extra_section_header = r"Select \underline{all} correct answers"
-    else:
-        extra_section_header = ""
 
     with document.create(
         Section(
@@ -62,8 +60,6 @@ def _build_question_code(document, question: Question):
         return
 
     for index, code_snippet in enumerate(question.code):
-        if code_snippet is None:
-            continue
         language = (
             question.code_language[index]
             if index < len(question.code_language)

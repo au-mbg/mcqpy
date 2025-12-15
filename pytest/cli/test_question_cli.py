@@ -1,6 +1,7 @@
 from click.testing import CliRunner
 import pytest
 from mcqpy.cli.question import validate_command, init_command, render_command
+from subprocess import CalledProcessError
 
 @pytest.fixture
 def validate_question(written_questions):
@@ -38,3 +39,25 @@ def test_init_creates_file(initted_question) -> None:
 
 def test_render_exit_code(rendered_question) -> None:
     assert rendered_question.exit_code == 0
+
+
+def test_render_fail_load(mocker, written_questions) -> None:
+    runner = CliRunner()
+    mocker.patch("mcqpy.question.Question.load_yaml", side_effect=Exception("Load failed"))
+    path = str(written_questions[0])
+    result = runner.invoke(render_command, [path])
+    assert "Error loading question" in result.output
+
+def test_render_fail_render_latex(mocker, written_questions) -> None:
+    runner = CliRunner()
+    mocker.patch("pylatex.document.Document.generate_pdf", side_effect=CalledProcessError(1, "cmd", "Render failed"))
+    path = str(written_questions[0])
+    result = runner.invoke(render_command, [path])
+    assert "Invalid latex for question" in result.output
+
+def test_render_fail_render(mocker, written_questions) -> None:
+    runner = CliRunner()
+    mocker.patch("pylatex.document.Document.generate_pdf", side_effect=ValueError("Some other render error"))
+    path = str(written_questions[0])
+    result = runner.invoke(render_command, [path])
+    assert "Error generating question PDF" in result.output
