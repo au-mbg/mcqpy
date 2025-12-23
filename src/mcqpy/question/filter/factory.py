@@ -1,23 +1,20 @@
 from mcqpy.question.filter.base_filter import BaseFilter, CompositeFilter
 from mcqpy.question.filter.difficulty import DifficultyFilter
 from mcqpy.question.filter.tag import TagFilter
+from mcqpy.question.filter.date import DateFilter
 
 class FilterFactory:
     """Creates filters from configuration dictionaries."""
     
     FILTER_MAP = {
         'difficulty': DifficultyFilter,
-        'tags': TagFilter,
+        'tag': TagFilter,
+        'date': DateFilter,
     }
     
     @classmethod
     def from_config(cls, config: dict) -> BaseFilter:
         """Create filter from config dict.
-        
-        Example configs:
-        {'type': 'difficulty', 'value': '<hard'}
-        {'type': 'tags', 'value': ['python'], 'exclude': True}
-        {'type': 'composite', 'filters': [...]}
         """
         filter_type = config.get('type')
         
@@ -28,11 +25,9 @@ class FilterFactory:
         filter_class = cls.FILTER_MAP.get(filter_type)
         if not filter_class:
             raise ValueError(f"Unknown filter type: {filter_type}")
-        
-        value = config.get('value')
-        kwargs = {k: v for k, v in config.items() if k not in ['type', 'value']}
-        
-        return filter_class(value, **kwargs)
+            
+        kwargs = {k: v for k, v in config.items() if k not in ['type']}        
+        return filter_class(**kwargs)
     
     @classmethod
     def from_cli_args(cls, **kwargs) -> BaseFilter | None:

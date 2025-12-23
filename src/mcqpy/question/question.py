@@ -84,6 +84,9 @@ class Question(BaseModel):
         None, 
         description="Date question was created. Stored as 'dd/mm/yyyy' (input accepts 'yyyy' or 'dd/mm/yyyy')"
     )
+    comment: Optional[str] = Field(
+        None, description="Internal comment for instructors/editors"
+    )
 
     @model_validator(mode="before")
     @classmethod

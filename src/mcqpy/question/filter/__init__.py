@@ -2,3 +2,4 @@ from mcqpy.question.filter.base_filter import BaseFilter, AttributeFilter, Compo
 from mcqpy.question.filter.date import DateFilter
 from mcqpy.question.filter.difficulty import DifficultyFilter
 from mcqpy.question.filter.tag import TagFilter
+from mcqpy.question.filter.factory import FilterFactory

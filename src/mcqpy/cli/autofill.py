@@ -31,7 +31,8 @@ from mcqpy.utils.fill_form import fill_pdf_form
     help="Number of filled forms to generate",
     show_default=True,
 )
-def autofill_command(config, num_forms):
+@click.option('--correct', is_flag=True, help="Fill forms with correct answers")
+def autofill_command(config, num_forms, correct):
     # Directories & files
     config = QuizConfig.read_yaml(config)
     file_path = Path(config.output_directory) / config.file_name
@@ -50,6 +51,6 @@ def autofill_command(config, num_forms):
             contextlib.redirect_stdout(stdout_capture),
             contextlib.redirect_stderr(stderr_capture),
         ):
-            fill_pdf_form(file_path, out_path=output_dir, index=i, manifest=manifest)
+            fill_pdf_form(file_path, out_path=output_dir, index=i, manifest=manifest, correct_only=correct)
 
     click.echo(f"Generated {num_forms} filled forms based on {file_path}")

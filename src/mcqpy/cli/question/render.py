@@ -3,26 +3,10 @@ import rich_click as click
 
 from mcqpy.cli.question.main import question_group
 
-
-@question_group.command(name="render", help="Render a question as PDF. Useful to check LaTeX formatting.")
-@click.argument("path", type=click.Path(exists=True))
-def render_command(path):
-    from mcqpy.question import Question
+def _render_question(name, question, extra_path=None):
     from pylatex import Document
     from mcqpy.compile.latex_questions import build_question
-    from pathlib import Path
-    from rich.console import Console
-    import subprocess
 
-    console = Console()
-    try:
-        question = Question.load_yaml(path)
-    except Exception as e:
-        console.print(f"[bold red]Error loading question from {path}:[/bold red]")
-        console.print(e)
-        return 
-
-    name = Path(path).stem
     document = Document(
         documentclass="article",
         geometry_options={
@@ -34,9 +18,37 @@ def render_command(path):
             "bottom": "2.5cm",
         },
     )
+
+    if extra_path:
+        name = extra_path / name
+
+    build_question(document, question, quiz_index=0)
+    document.generate_pdf(f"{name}", clean_tex=True)
+
+    return name
+
+
+
+@question_group.command(name="render", help="Render a question as PDF. Useful to check LaTeX formatting.")
+@click.argument("path", type=click.Path(exists=True))
+def render_command(path):
+    from mcqpy.question import Question
+    from rich.console import Console
+    import subprocess
+    from pathlib import Path
+
+    console = Console()
     try:
-        build_question(document, question, quiz_index=0)
-        document.generate_pdf(f"{name}", clean_tex=True)
+        question = Question.load_yaml(path)
+    except Exception as e:
+        console.print(f"[bold red]Error loading question from {path}:[/bold red]")
+        console.print(e)
+        return 
+    
+    name = Path(path).stem
+
+    try:
+       _render_question(name, question)
     except subprocess.CalledProcessError as e:
         console.print(f"[bold red]Invalid latex for question {path}[/bold red]")
     except Exception as e:

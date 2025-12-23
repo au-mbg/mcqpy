@@ -24,7 +24,7 @@ class DateFilter(BaseFilter):
         '>=': lambda a, b: a >= b,
     }
     
-    def __init__(self, date_value: str, end_date: str = None, operator: str = '==', strict_missing: bool = True):
+    def __init__(self, date_value: str, end_date: str = None, strict_missing: bool = True):
         """Initialize date filter.
         
         Args:
