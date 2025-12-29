@@ -24,3 +24,4 @@ def test_build_manifest_exists(built_manifest_path) -> None:
 @pytest.mark.requires_latex
 def test_build_manifest_non_empty(built_manifest_path) -> None:
     assert built_manifest_path.stat().st_size > 0
+

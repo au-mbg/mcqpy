@@ -119,6 +119,7 @@ class QuestionFactory:
             code=snippet_code,
             code_language=snippet_language,
             explanation="This is the explanation for the question.",
+            created_date="01/01/2024",
         )
 
         question = Question.model_validate(question_data, context={})
