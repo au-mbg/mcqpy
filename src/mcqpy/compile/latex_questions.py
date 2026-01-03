@@ -104,6 +104,7 @@ def _build_question_image(document, question: Question):
                 )  # Remove newline option if present
                 if newline:
                     fig.append(NoEscape(r"\\"))
+                    fig.append(NoEscape(r"\vspace{1cm}"))
 
                 for key, value in options.items():
                     options[key] = NoEscape(value)
