@@ -556,6 +556,7 @@ dependencies = [
     { name = "pillow" },
     { name = "pydantic" },
     { name = "pylatex" },
+    { name = "pylatexenc" },
     { name = "pypdf" },
     { name = "pyyaml" },
     { name = "requests" },
@@ -585,6 +586,7 @@ requires-dist = [
     { name = "pillow", specifier = ">=11.3.0" },
     { name = "pydantic", specifier = ">=2.12.0" },
     { name = "pylatex", specifier = ">=1.4.2" },
+    { name = "pylatexenc", specifier = ">=2.10" },
     { name = "pypdf", specifier = ">=6.1.1" },
     { name = "pyyaml", specifier = ">=6.0.3" },
     { name = "requests", specifier = ">=2.28.0" },
@@ -949,6 +951,12 @@ dependencies = [
     { name = "ordered-set" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/6d/a8/10cf6b955b5fa19438790d9949867e04c785ae845e631c5ef6db444401d1/PyLaTeX-1.4.2.tar.gz", hash = "sha256:bb7b21bec57ecdba3f6f44c856ebebdf6549fd6e80661bd44fd5094236729242", size = 59710, upload-time = "2023-10-19T16:22:54.096Z" }
+
+[[package]]
+name = "pylatexenc"
+version = "2.10"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/5d/ab/34ec41718af73c00119d0351b7a2531d2ebddb51833a36448fc7b862be60/pylatexenc-2.10.tar.gz", hash = "sha256:3dd8fd84eb46dc30bee1e23eaab8d8fb5a7f507347b23e5f38ad9675c84f40d3", size = 162597, upload-time = "2021-04-06T07:56:07.854Z" }
 
 [[package]]
 name = "pyparsing"

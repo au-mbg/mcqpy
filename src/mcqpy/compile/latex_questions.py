@@ -1,4 +1,3 @@
-
 from pylatex import (
     Document,
     Enumerate,
@@ -12,6 +11,7 @@ from pylatex.utils import NoEscape
 from mcqpy.compile.latex_helpers import Form, code_block, multi_checkbox, radio_option
 from mcqpy.question import Question
 from mcqpy.utils.image import check_and_download_tmp
+from pylatexenc.latexencode import unicode_to_latex
 
 
 def build_question(document: Document, question: Question, quiz_index: int, add_solution: bool = False):
@@ -36,6 +36,9 @@ def build_question(document: Document, question: Question, quiz_index: int, add_
         if add_solution:
             _build_question_explanation(document, question)
 
+    if add_solution:
+        _build_question_watermark(document, question)
+
 def _build_question_explanation(document, question: Question):
 
     title = "Explanation and Correct Answer" if question.explanation else "Correct Answer"
@@ -54,6 +57,32 @@ def _build_question_explanation(document, question: Question):
         if question.explanation:
             document.append(NoEscape(question.explanation))
 
+def _build_question_watermark(document, question: Question):
+    """
+    Adds a 'watermark' containing metadata about the question.
+    The watermark is positioned at the bottom right and left-justified.
+    """
+    watermark_properties = {
+        r"\textbf{Question Slug}": unicode_to_latex(question.slug),
+        r"\textbf{Question ID}": question.qid,
+    }
+
+    # Build watermark content with proper line breaks
+    watermark_lines = []
+    for key, value in watermark_properties.items():
+        watermark_text = f"{key}: {value}"
+        watermark_lines.append(rf"\small {watermark_text}")
+    
+    watermark_rows = r" \\ ".join(watermark_lines)
+    
+    # Use tikz with remember picture and overlay
+    tikz_code = NoEscape(
+        r"\begin{tikzpicture}[remember picture, overlay]"
+        r"\node[anchor=south east, inner sep=10pt] at (current page.south east) {"
+        r"\colorbox{white}{\begin{tabular}[t]{l} " + watermark_rows + r" \end{tabular}}};"
+        r"\end{tikzpicture}"
+    )
+    document.append(tikz_code)
 
 def _build_question_code(document, question: Question):
     if not question.code:
@@ -68,7 +97,7 @@ def _build_question_code(document, question: Question):
         document.append(code_block(code_snippet, language))
 
 
-def _build_question_image(document, question: Question):
+def _build_question_image(document: Document, question: Question):
     if not question.image:
         return
 
@@ -118,7 +147,7 @@ def _build_question_image(document, question: Question):
                 fig.add_caption(NoEscape(f"Figure: {question.image_caption[-1]}"))
 
 
-def _build_question_form(document, question: Question, quiz_index: int, add_solution: bool = False):
+def _build_question_form(document: Document, question: Question, quiz_index: int, add_solution: bool = False):
     with document.create(Form()):
         q_slug = question.slug
         q_qid = question.qid
