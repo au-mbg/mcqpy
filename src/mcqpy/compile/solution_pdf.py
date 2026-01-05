@@ -60,6 +60,8 @@ class SolutionPDF(Document):
             default_kwargs = {"clean_tex": True}
             default_kwargs.update(kwargs)
             self.generate_pdf(self.file.with_suffix(""), **default_kwargs)
+            print(f"Generated solution file at: {self.file}")
+
 
     def _build_solution_table(self) -> None:
         with self.create(Section("Solution Key", numbering=False)):
@@ -80,7 +82,6 @@ class SolutionPDF(Document):
         self.append(NoEscape(r"\newpage"))
 
     def _build_questions(self):
-
         for index, question in enumerate(self._questions):
             build_question(self, question, index, add_solution=True)
             self.append(NoEscape(r"\newpage"))

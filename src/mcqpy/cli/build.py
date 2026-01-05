@@ -56,7 +56,8 @@ def build_command(config):
     console = Console()
     console.print("[bold green]Quiz Configuration:[/bold green]")
     console.print(Pretty(config))
-    console.print(f"[bold green]Total Questions Loaded:[/bold green] {len(questions)}")
+    console.print(f"[bold green]Total questions in bank:[/bold green] {len(question_bank)}")
+    console.print(f"[bold green]Selected questions:[/bold green] {len(questions)}")
 
     ## Paths:
     root = Path(config.root_directory)
@@ -85,5 +86,4 @@ def build_command(config):
     solution_output_path = (
         output_dir / f"{config.file_name.replace('.pdf', '')}_solution.pdf"
     )
-    print(solution_output_path)
     build_solution(questions, manifest, solution_output_path)

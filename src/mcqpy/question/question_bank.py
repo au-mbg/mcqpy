@@ -59,6 +59,9 @@ class QuestionBank:
         if qid not in self._by_qid:
             raise KeyError(f"QID {qid} not found in question bank")
         return self._by_qid[qid].question
+    
+    def __len__(self) -> int:
+        return len(self._items)
 
     def get_all_questions(self) -> list[Question]:
         return [item.question for item in self._items]
