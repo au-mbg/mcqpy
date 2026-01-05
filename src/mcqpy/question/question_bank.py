@@ -31,7 +31,6 @@ class QuestionBank:
         qids, slugs = set(), set()
         for directory in directories:
             p = Path(directory)
-            print(p)
             for file_path in p.glob(glob_pattern):
                 question = Question.load_yaml(file_path)
 

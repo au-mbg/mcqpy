@@ -22,8 +22,11 @@ class CompositeFilter(BaseFilter):
     
     def apply(self, questions: list[Question]) -> list[Question]:
         selected_questions = questions.copy()
-        for filt in self.filters:
+        print(f"Applying CompositeFilter with {len(self.filters)} filters.")
+        print(f"Initial number of questions: {len(selected_questions)}")
+        for filt in self.filters:            
             selected_questions = filt.apply(selected_questions)
+            print(f"After applying {filt.__class__.__name__}, number of questions: {len(selected_questions)}")
 
         return selected_questions
     
