@@ -21,10 +21,11 @@ class CompositeFilter(BaseFilter):
         self.filters = filters
     
     def apply(self, questions: list[Question]) -> list[Question]:
-        result = questions
-        for filter_obj in self.filters:
-            result = filter_obj.apply(result)
-        return result
+        selected_questions = questions.copy()
+        for filt in self.filters:
+            selected_questions = filt.apply(selected_questions)
+
+        return selected_questions
     
     def __and__(self, other: BaseFilter) -> 'CompositeFilter':
         return CompositeFilter(self.filters + [other])

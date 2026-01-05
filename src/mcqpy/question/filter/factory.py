@@ -2,6 +2,7 @@ from mcqpy.question.filter.base_filter import BaseFilter, CompositeFilter
 from mcqpy.question.filter.difficulty import DifficultyFilter
 from mcqpy.question.filter.tag import TagFilter
 from mcqpy.question.filter.date import DateFilter
+from mcqpy.question.filter.stratified import StratifiedFilter
 
 class FilterFactory:
     """Creates filters from configuration dictionaries."""
@@ -10,6 +11,7 @@ class FilterFactory:
         'difficulty': DifficultyFilter,
         'tag': TagFilter,
         'date': DateFilter,
+        'stratified': StratifiedFilter,
     }
     
     @classmethod
