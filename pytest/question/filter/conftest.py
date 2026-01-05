@@ -1,6 +1,6 @@
 import pytest
 from mcqpy.question import Question
-from mcqpy.question.filter import TagFilter, DifficultyFilter, DateFilter
+from mcqpy.question.filter import TagFilter, DifficultyFilter, DateFilter, StratifiedFilter
 
 tag_sets = [
     ["math", "algebra"],
@@ -42,3 +42,13 @@ def difficulty_filter(request):
 @pytest.fixture
 def date_filter():
     return DateFilter("01/01/2025")
+
+@pytest.fixture
+def stratified_filter():
+    filters = [TagFilter(tags=["math"]), TagFilter(tags=["science"])]
+    return StratifiedFilter(filters=filters, proportions=[1, 1], number_of_questions=6)
+
+@pytest.fixture
+def stratified_filter_configs():
+    configs = [{'type': 'tag', 'tags': ['math']}, {'type': 'tag', 'tags': ['science']}]
+    return StratifiedFilter(filter_configs=configs, proportions=[1, 1], number_of_questions=6)
