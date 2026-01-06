@@ -8,7 +8,7 @@ class Rubric:
         pass
 
     def score_question(self, question: GradedQuestion) -> int:
-        return NotImplementedError("Subclasses should implement this method.")
+        return NotImplementedError("Subclasses should implement this method.") # pragma: no cover
     
 
 class StrictRubric(Rubric):

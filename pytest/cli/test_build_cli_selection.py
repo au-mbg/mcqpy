@@ -40,3 +40,9 @@ def test_select_questions_date_all_match(question_bank):
     config = SelectionConfig(filters=filters)
     selected = _select_questions(question_bank, config)
     assert len(selected) == len(question_bank.get_all_questions())
+
+def test_select_questions_slug_sort(question_bank):
+    config = SelectionConfig(sort_type="slug")
+    selected = _select_questions(question_bank, config)
+    slugs = [q.slug for q in selected]
+    assert slugs == sorted(slugs)

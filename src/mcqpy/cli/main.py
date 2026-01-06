@@ -6,5 +6,5 @@ def main() -> None:
     """
     Command line interface for mcqpy.
     """
-    return None
+    return None # pragma: no cover
 

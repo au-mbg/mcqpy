@@ -33,7 +33,6 @@ def _select_questions(question_bank: QuestionBank, selection_config: SelectionCo
     questions = question_bank.get_filtered_questions(
         number_of_questions=selection_config.number_of_questions,
         shuffle=selection_config.shuffle,
-        seed=selection_config.seed,
         sorting=selection_config.sort_type,
     )
     return questions
@@ -50,7 +49,7 @@ def _select_questions(question_bank: QuestionBank, selection_config: SelectionCo
 )
 def build_command(config):
     config = QuizConfig.read_yaml(config)
-    question_bank = QuestionBank.from_directories(config.questions_paths)
+    question_bank = QuestionBank.from_directories(config.questions_paths, seed=config.selection.seed)
     questions = _select_questions(question_bank, config.selection)
 
     console = Console()
@@ -69,7 +68,7 @@ def build_command(config):
 
     for path in [root, output_dir, submission_dir]:
         if path and not path.exists():
-            path.mkdir(parents=True, exist_ok=True)
+            path.mkdir(parents=True, exist_ok=True) # pragma: no cover
 
     mcq = MultipleChoiceQuiz(
         file=file_path,

@@ -100,9 +100,6 @@ class MultipleChoiceQuiz(Document):
         self.preamble.append(header)
         self.change_document_style("header")
 
-    def _build_metadata(self):
-        pass
-
     def get_manifest_path(self) -> Path:
         return self.file.with_name(self.file.stem + "_manifest").with_suffix(".json")
 

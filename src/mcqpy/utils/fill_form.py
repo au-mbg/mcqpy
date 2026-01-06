@@ -70,16 +70,13 @@ def fill_pdf_form(quiz_path, out_path, index=0, manifest=None, correct_only=Fals
             if correct_only:
                 name_to_fill = names[correct_choice]
             else:
-                if question is not None and correct_choice is not None:
-                    correct_prob = (
-                        (1 / question.point_value) if question.point_value else 0.5
-                    )
-                    other_prob = (1 - correct_prob) / (len(question.correct_onehot) - 1)
-                    probs = [other_prob] * len(question.correct_onehot)
-                    probs[correct_choice] = correct_prob
-                    name_to_fill = np.random.choice(names, p=probs)
-                else:
-                    name_to_fill = np.random.choice(names)
+                correct_prob = (
+                    (1 / question.point_value) if question.point_value else 0.5
+                )
+                other_prob = (1 - correct_prob) / (len(question.correct_onehot) - 1)
+                probs = [other_prob] * len(question.correct_onehot)
+                probs[correct_choice] = correct_prob
+                name_to_fill = np.random.choice(names, p=probs)
 
         update_dict[name_to_fill] = "/Yes"
 

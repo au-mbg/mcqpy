@@ -1,6 +1,6 @@
 import pytest
 from mcqpy.question import Question
-from mcqpy.question.filter import TagFilter, DifficultyFilter, DateFilter, StratifiedFilter
+from mcqpy.question.filter import TagFilter, DifficultyFilter, DateFilter, StratifiedFilter, SlugFilter
 
 tag_sets = [
     ["math", "algebra"],
@@ -52,3 +52,8 @@ def stratified_filter():
 def stratified_filter_configs():
     configs = [{'type': 'tag', 'tags': ['math']}, {'type': 'tag', 'tags': ['science']}]
     return StratifiedFilter(filter_configs=configs, proportions=[1, 1], number_of_questions=6)
+
+@pytest.fixture
+def slug_filter():
+    return SlugFilter(slugs=["sample-question-1", "sample-question-3"])
+    

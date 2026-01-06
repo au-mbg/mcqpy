@@ -31,9 +31,9 @@ def _norm_images(img: Any) -> List[str]:
         return [img]
     if isinstance(img, list):
         if not all(isinstance(x, str) for x in img):
-            raise ValueError("image must be a string or a list of strings.")
+            raise TypeError("image must be a string or a list of strings.")
         return img
-    raise ValueError("image must be a string, a list of strings, or null.")
+    raise TypeError("image must be a string, a list of strings, or null.")
 
 def _norm_opts(opts: Any) -> Dict[int, ImageOptionsDict]:
     """
@@ -44,7 +44,7 @@ def _norm_opts(opts: Any) -> Dict[int, ImageOptionsDict]:
     if opts is None:
         return {}
     if not isinstance(opts, dict):
-        raise ValueError("image_options must be a dict or null.")
+        raise TypeError("image_options must be a dict or null.")
 
     keys = list(opts.keys())
     if all(isinstance(k, str) for k in keys):
@@ -57,7 +57,7 @@ def _norm_opts(opts: Any) -> Dict[int, ImageOptionsDict]:
         out: Dict[int, ImageOptionsDict] = {}
         for i, sub in opts.items():
             if not isinstance(sub, dict) or not all(isinstance(k, str) for k in sub.keys()):
-                raise ValueError("image_options indexed form must be dict[int -> dict[str -> scalar]].")
+                raise TypeError("image_options indexed form must be dict[int -> dict[str -> scalar]].")
             if not all(isinstance(v, _SCALARS) for v in sub.values()):
                 raise ValueError("image_options values must be (str|bool|int|float).")
             out[int(i)] = dict(sub)  # shallow copy
@@ -74,6 +74,6 @@ def _norm_caps(caps: Any) -> Dict[int, str]:
         return {0: caps}
     if isinstance(caps, dict):
         if not all(isinstance(k, int) and isinstance(v, str) for k, v in caps.items()):
-            raise ValueError("image_captions must be dict[int, str] or a single string.")
+            raise TypeError("image_captions must be dict[int, str] or a single string.")
         return {int(k): v for k, v in caps.items()}
-    raise ValueError("image_captions must be a string, dict[int, str], or null.")
+    raise TypeError("image_captions must be a string, dict[int, str], or null.")

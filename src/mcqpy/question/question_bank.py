@@ -21,12 +21,12 @@ class QuestionBank:
         self._filters = []
 
     @classmethod
-    def from_questions(cls, questions: list[Question]):
+    def from_questions(cls, questions: list[Question], **kwargs):
         items = [BankItem(question=q, path=None) for q in questions]
-        return cls(items=items)
+        return cls(items=items, **kwargs)
 
     @classmethod
-    def from_directories(cls, directories: list[str], glob_pattern="*.yaml"):
+    def from_directories(cls, directories: list[str], glob_pattern="*.yaml", **kwargs):
         items = []
         qids, slugs = set(), set()
         for directory in directories:
@@ -36,18 +36,14 @@ class QuestionBank:
 
                 if question.slug in slugs:
                     raise ValueError(
-                        f"Duplicate slug found: {question.slug - {file_path}}"
-                    )
-                if question.qid in qids:
-                    raise ValueError(
-                        f"Duplicate qid found: {question.qid - {file_path}}"
+                        f"Duplicate slug found: {question.slug} - {file_path}"
                     )
 
                 slugs.add(question.slug)
                 qids.add(question.qid)
                 items.append(BankItem(question, file_path))
 
-        return cls(items=items)
+        return cls(items=items, **kwargs)
 
     def get_by_slug(self, slug: str) -> Question:
         if slug not in self._by_slug:
@@ -72,7 +68,6 @@ class QuestionBank:
         self,
         number_of_questions: int | None = None,
         shuffle: bool = False,
-        seed: int | None = None,
         sorting: Literal['none', 'slug'] = "none",
     ) -> list[Question]:
         if not self._filters:
@@ -82,10 +77,7 @@ class QuestionBank:
             questions = comp_filter.apply(self.get_all_questions())
 
         if shuffle:
-            if seed is None:
-                seed = np.random.SeedSequence().entropy
-            rng = np.random.default_rng(seed)
-            questions = rng.permutation(questions).tolist()
+            questions = self._rng.permutation(questions).tolist()
 
         if number_of_questions is not None:
             questions = questions[:number_of_questions]
