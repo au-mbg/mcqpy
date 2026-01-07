@@ -84,10 +84,10 @@ def autofill_invoke(built_project, project_dir):
 # Grade fixtures
 ################################################################################
 
-@pytest.fixture(scope="session")
-def grade_invoke(autofill_invoke, project_dir):
+@pytest.fixture(scope="session", params=['csv', 'xlsx'])
+def grade_invoke(autofill_invoke, project_dir, request):
     runner = CliRunner()
     os.chdir(project_dir)
-    result = runner.invoke(grade_command, ['-a'])
+    result = runner.invoke(grade_command, ['-a', '-f', request.param])
     return result
     

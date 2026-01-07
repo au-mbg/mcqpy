@@ -32,19 +32,3 @@ class FilterFactory:
             
         kwargs = {k: v for k, v in config.items() if k not in ['type']}        
         return filter_class(**kwargs)
-    
-    @classmethod
-    def from_cli_args(cls, **kwargs) -> BaseFilter | None:
-        """Create filter from CLI arguments."""
-        filters = []
-        
-        if difficulty := kwargs.get('difficulty'):
-            filters.append(DifficultyFilter(difficulty))
-        
-        if tags := kwargs.get('tags'):
-            filters.append(TagFilter(tags, match_all=kwargs.get('match_all_tags', False)))
-        
-        if exclude_tags := kwargs.get('exclude_tags'):
-            filters.append(TagFilter(exclude_tags, exclude=True))
-        
-        return CompositeFilter(filters) if len(filters) > 1 else filters[0] if filters else None

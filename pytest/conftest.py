@@ -73,14 +73,17 @@ class QuestionFactory:
         ## Get some images
         if image:
             images = []
-            if isinstance(image, int):
-                captions = {}
+            if isinstance(image, int) and image > 1:
+                captions = {-1: f"This is the caption for the whole {index}."}
                 options = {}
                 for i in range(image):
                     img = self.images[(index + i) % len(self.images)]
                     images.append(str(img))
                     captions[i] = f"This is the caption for image {index + i}."
-                    options[i] = {"width": "0.5\\textwidth"}
+                    if i % 2 == 0:
+                        options[i] = {"width": "0.5\\textwidth", "newline": True}
+                    else:
+                        options[i] = {"width": "0.5\\textwidth"}
 
             else:
                 img = self.images[index % len(self.images)]
@@ -150,25 +153,37 @@ def question_set(question_factory):
     questions = [question_factory(image=image[i], code=code[i]) for i in range(0, 20)]
     return questions
 
-@pytest.fixture(scope="session", params=[True, False])
-def mcq(request, tmp_path_factory, question_set) -> MultipleChoiceQuiz:
-    tmp_path = tmp_path_factory.mktemp("mcq_build_test")
-    path = tmp_path / "test_quiz.pdf"
+@pytest.fixture(scope="session", params=['full', 'empty'])
+def header_options(request) -> HeaderFooterOptions:
+    case = request.param
+    if case == 'full':
+        return HeaderFooterOptions(
+            header_left="Left Header",
+            header_center="Center Header",
+            header_right="Right Header",
+            footer_left="Left Footer",
+            footer_center="Center Footer",
+            footer_right="Right Footer"
+        )
+    else:  # empty
+        return HeaderFooterOptions(header_left=None, header_center=None, header_right=None,
+                                   footer_left=None, footer_center=None, footer_right=None)
 
-    front_matter = FrontMatterOptions(
+@pytest.fixture(scope="session", params=[True, False])
+def front_matter_options(request) -> FrontMatterOptions:
+    return FrontMatterOptions(
         title="Sample Quiz",
         author="Test Author",
-        date="2024-01-01",
+        date="2024-01-01" if request.param else True,
         id_fields=request.param,
         exam_information="This is a sample exam."
-
-    )
-    header_footer = HeaderFooterOptions(
-        header_center="Sample Header",
-        footer_right="Sample Footer"
     )
 
-    mcq = MultipleChoiceQuiz(file=path, questions=question_set, front_matter=front_matter, header_footer=header_footer)
+@pytest.fixture(scope="session")
+def mcq(tmp_path_factory, question_set, header_options, front_matter_options) -> MultipleChoiceQuiz:
+    tmp_path = tmp_path_factory.mktemp("mcq_build_test")
+    path = tmp_path / "test_quiz.pdf"
+    mcq = MultipleChoiceQuiz(file=path, questions=question_set, front_matter=front_matter_options, header_footer=header_options)
 
     return mcq
 

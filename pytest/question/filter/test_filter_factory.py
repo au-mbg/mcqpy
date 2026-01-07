@@ -19,6 +19,12 @@ def test_from_config_tags_exclude(filter_factory):
     assert filter_instance.value == ['python']
     assert filter_instance.exclude is True
 
+def test_from_config_unknown_type(filter_factory):
+    config = {'type': 'unknown'}
+    with pytest.raises(ValueError) as excinfo:
+        filter_factory.from_config(config)
+    assert "Unknown filter type: unknown" in str(excinfo.value)
+
 def test_from_config_composite(filter_factory):
     config = {
         'type': 'composite',
@@ -28,20 +34,5 @@ def test_from_config_composite(filter_factory):
         ]
     }
     filter_instance = filter_factory.from_config(config)
-    assert filter_instance.__class__.__name__ == 'CompositeFilter'
-    assert len(filter_instance.filters) == 2
-
-def test_from_cli_args_single(filter_factory):
-    filter_instance = filter_factory.from_cli_args(difficulty='<=easy')
-    assert filter_instance.__class__.__name__ == 'DifficultyFilter'
-    assert filter_instance.value == 'easy'
-    assert filter_instance.operator == '<='
-
-def test_from_cli_args_multiple(filter_factory):
-    filter_instance = filter_factory.from_cli_args(
-        difficulty='>hard',
-        tags=['science'],
-        match_all_tags=True
-    )
     assert filter_instance.__class__.__name__ == 'CompositeFilter'
     assert len(filter_instance.filters) == 2

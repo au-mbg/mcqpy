@@ -66,15 +66,12 @@ class MCQPDFParser:
                 opt_start = name.find("opt")
                 if opt_start != -1:
                     opt_str = name[opt_start + 4 :].split("-")[0]  # +4 to skip 'opt='
-                    try:
-                        opt_index = int(opt_str)
-                        if field.get("/V") == "/Yes":
-                            answers.append(opt_index)
-                            onehot.append(1)
-                        else:
-                            onehot.append(0)
-                    except ValueError:
-                        continue
+                    opt_index = int(opt_str)
+                    if field.get("/V") == "/Yes":
+                        answers.append(opt_index)
+                        onehot.append(1)
+                    else:
+                        onehot.append(0)
 
             parsed.append(
                 ParsedQuestion(qid=qid, slug=slug, answers=answers, onehot=onehot)
