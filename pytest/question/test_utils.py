@@ -1,5 +1,5 @@
 import pytest
-from mcqpy.question.utils import _norm_caps, _norm_images, _norm_opts
+from mcqpy.question.utils import _norm_caps, _norm_images, _norm_opts, relativize_paths
 
 
 def test_norm_images_list_error():
@@ -43,3 +43,18 @@ def test_norm_caps_mixed_keys_error():
 def test_norm_caps_type_error():
     with pytest.raises(TypeError):
         _norm_caps(['not', 'a', 'dict'])
+
+def test_relativize_paths():
+    base_path = '/home/user/project'
+    paths = [
+        '/home/user/project/images/img1.png',
+        '/home/user/project/docs/doc1.pdf',
+        '/home/user/other/file.txt'
+    ]
+    expected = [
+        'images/img1.png',
+        'docs/doc1.pdf',
+        '../other/file.txt'
+    ]
+    result = relativize_paths(base_path, paths)
+    assert result == expected

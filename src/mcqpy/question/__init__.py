@@ -6,6 +6,7 @@ from .utils import (
     Image,
     ImageOptions,
     ImageCaptions,
+    relativize_paths
 )
 from .question import Question
 from .question_bank import QuestionBank

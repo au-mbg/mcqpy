@@ -77,3 +77,19 @@ def _norm_caps(caps: Any) -> Dict[int, str]:
             raise TypeError("image_captions must be dict[int, str] or a single string.")
         return {int(k): v for k, v in caps.items()}
     raise TypeError("image_captions must be a string, dict[int, str], or null.")
+
+def relativize_paths(base_path, paths: List[str]) -> List[str]:
+    """Convert absolute paths to relative paths based on base_path."""
+    from pathlib import Path
+
+    base = Path(base_path).resolve()
+    rel_paths = []
+    for p in paths:
+        p_path = Path(p).resolve()
+        try:
+            rel_p = p_path.relative_to(base, walk_up=True)
+            rel_paths.append(str(rel_p))
+        except ValueError:
+            # p is not reative to base; keep as is
+            rel_paths.append(str(p_path))
+    return rel_paths

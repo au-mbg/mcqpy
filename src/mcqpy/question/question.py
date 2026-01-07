@@ -1,6 +1,6 @@
 from pathlib import Path
 from typing import Any, List, Optional, Literal
-from pydantic import BaseModel, Field, ConfigDict, field_validator, model_validator
+from pydantic import BaseModel, Field, ConfigDict, field_validator, model_validator, model_serializer
 import uuid
 from datetime import date as dt_date
 
@@ -11,6 +11,7 @@ from mcqpy.question import (
     _norm_images,
     _norm_opts,
     _norm_caps,
+    relativize_paths
 )
 
 # Commit one namespace UUID for your course/repo (don’t change later)
@@ -87,6 +88,8 @@ class Question(BaseModel):
     comment: Optional[str] = Field(
         None, description="Internal comment for instructors/editors"
     )
+    path: Optional[str | Path] = Field(
+        None, description="Internal: file path from which this question was loaded", exclude=True)
 
     @model_validator(mode="before")
     @classmethod
@@ -189,6 +192,18 @@ class Question(BaseModel):
             full_paths.append(str(resolved))
 
         return full_paths
+    
+    @model_serializer(mode="wrap")
+    def serialize_model(self, serializer, info):
+        """Custom serializer to convert absolute image paths to relative paths."""
+        data = serializer(self)
+        
+        # Only convert paths if we have a base path (i.e., loaded from YAML)
+        if self.path and self.image:
+            base_dir = Path(self.path).resolve().parent
+            data["image"] = relativize_paths(base_dir, self.image)
+        
+        return data
 
     @classmethod
     def load_yaml(cls, filepath: str) -> "Question":
@@ -197,13 +212,32 @@ class Question(BaseModel):
 
         with open(filepath, "r", encoding="utf-8") as f:
             data = yaml.safe_load(f)
+
+        data['path'] = Path(filepath)  # Store the source file path
+
         return cls.model_validate(data, context={"base_dir": Path(filepath).parent})
 
-    def as_yaml(self) -> str:
+    def as_yaml(self, path=None) -> str:
         """Serialize the Question to a YAML string."""
         import yaml
+        data = self.model_dump()
+        if path is not None:
+            # Convert absolute image paths to relative paths based on provided path
+            if self.image:
+                base_dir = Path(path).resolve().parent
+                print(base_dir)
+                rel_images = relativize_paths(base_dir, self.image)
+                data = self.model_dump()
+                print(rel_images)
+                data["image"] = rel_images
 
-        return yaml.safe_dump(self.model_dump(), sort_keys=False)
+        return yaml.safe_dump(data, sort_keys=False)
+    
+    def save(self, path: str):
+        """Save the Question to a YAML file."""
+        yaml_str = self.as_yaml(path=path)
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(yaml_str)
 
     @classmethod
     def get_yaml_template(cls) -> str:

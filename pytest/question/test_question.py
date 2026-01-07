@@ -63,3 +63,12 @@ def test_yaml_roundtrip(basic_question, tmp_path):
     assert new_question.correct_answers == basic_question.correct_answers
     assert new_question.question_type == basic_question.question_type
 
+def test_question_save(basic_question, tmp_path):
+    yaml_file = tmp_path / "question.yaml"
+    basic_question.save(yaml_file)
+    assert yaml_file.exists()
+
+    with open(yaml_file, "r") as f:
+        content = f.read()
+    assert "sample-question" in content
+    assert "What is the capital of France?" in content
