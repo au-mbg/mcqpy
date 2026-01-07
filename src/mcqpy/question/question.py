@@ -225,10 +225,8 @@ class Question(BaseModel):
             # Convert absolute image paths to relative paths based on provided path
             if self.image:
                 base_dir = Path(path).resolve().parent
-                print(base_dir)
                 rel_images = relativize_paths(base_dir, self.image)
                 data = self.model_dump()
-                print(rel_images)
                 data["image"] = rel_images
 
         return yaml.safe_dump(data, sort_keys=False)
