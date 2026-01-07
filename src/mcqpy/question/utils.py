@@ -86,10 +86,6 @@ def relativize_paths(base_path, paths: List[str]) -> List[str]:
     rel_paths = []
     for p in paths:
         p_path = Path(p).resolve()
-        try:
-            rel_p = p_path.relative_to(base, walk_up=True)
-            rel_paths.append(str(rel_p))
-        except ValueError:
-            # p is not reative to base; keep as is
-            rel_paths.append(str(p_path))
+        rel_p = p_path.relative_to(base, walk_up=True)
+        rel_paths.append(str(rel_p))
     return rel_paths
