@@ -10,6 +10,14 @@ def validate_question(written_questions):
     return result
 
 @pytest.fixture
+def invalidate_question(tmp_path):
+    invalid_question_path = tmp_path / "invalid_question.yaml"
+    invalid_question_path.write_text("invalid: yaml: content")
+    runner = CliRunner()
+    result = runner.invoke(validate_command, [str(invalid_question_path)])
+    return result
+
+@pytest.fixture
 def rendered_question(written_questions):
     runner = CliRunner()
     path = str(written_questions[0])
@@ -29,6 +37,12 @@ def test_questions_written(written_questions) -> None:
 
 def test_validate_exit_code(validate_question) -> None:
     assert validate_question.exit_code == 0
+
+def test_invalidate_exit_code(invalidate_question) -> None:
+    assert invalidate_question.exit_code == 0
+
+def test_invalidate_output(invalidate_question) -> None:
+    assert "Error loading question" in invalidate_question.output
 
 def test_init_exit_code(initted_question) -> None:
     assert initted_question[0].exit_code == 0

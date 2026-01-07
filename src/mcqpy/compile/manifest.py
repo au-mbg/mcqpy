@@ -80,4 +80,5 @@ class Manifest(BaseModel):
         for item in self.items:
             if item.qid == qid:
                 return item
-        return None
+        else:
+            raise ValueError(f"Item with qid {qid} not found in manifest")

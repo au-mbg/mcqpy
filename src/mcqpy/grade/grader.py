@@ -27,9 +27,6 @@ class MCQGrader:
 
         for parsed_question in parsed_set.questions:
             manifest_item = self.manifest.get_item_by_qid(parsed_question.qid)
-            if manifest_item is None:
-                print(f"Warning: No manifest item found for qid {parsed_question.qid}")
-                continue
 
             # Grade the question
             graded_question = GradedQuestion(

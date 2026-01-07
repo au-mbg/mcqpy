@@ -3,7 +3,7 @@ import rich_click as click
 
 from mcqpy.cli.question.main import question_group
 
-def _render_question(name, question, extra_path=None):
+def _render_question(name, question):
     from pylatex import Document
     from mcqpy.compile.latex_questions import build_question
 
@@ -18,9 +18,6 @@ def _render_question(name, question, extra_path=None):
             "bottom": "2.5cm",
         },
     )
-
-    if extra_path:
-        name = extra_path / name
 
     build_question(document, question, quiz_index=0)
     document.generate_pdf(f"{name}", clean_tex=True)

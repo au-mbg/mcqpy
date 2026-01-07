@@ -7,7 +7,7 @@ class BaseFilter(ABC):
     
     @abstractmethod
     def apply(self, questions: list[Question]) -> list[Question]:
-        raise NotImplementedError("Subclasses must implement this method.")
+        raise NotImplementedError("Subclasses must implement this method.") # pragma: no cover
     
     def __and__(self, other: 'BaseFilter') -> 'CompositeFilter':
         """Allow chaining filters with & operator."""

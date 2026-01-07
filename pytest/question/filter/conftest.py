@@ -1,6 +1,7 @@
 import pytest
 from mcqpy.question import Question
 from mcqpy.question.filter import TagFilter, DifficultyFilter, DateFilter, StratifiedFilter, SlugFilter
+from copy import deepcopy
 
 tag_sets = [
     ["math", "algebra"],
@@ -11,6 +12,7 @@ tag_sets = [
 
 @pytest.fixture
 def question_set_with_meta(question_set):
+    question_set = deepcopy(question_set)
     for index, question in enumerate(question_set):
         tags = tag_sets[index % len(tag_sets)]
         difficulty = "easy" if index % 3 == 0 else "hard"

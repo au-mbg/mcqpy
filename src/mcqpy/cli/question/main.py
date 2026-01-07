@@ -6,4 +6,4 @@ def question_group() -> None:
     """
     Commands related to question management.
     """
-    return None
+    return None # pragma: no cover

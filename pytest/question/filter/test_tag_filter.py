@@ -14,3 +14,7 @@ def test_tag_match_all_filter(tag_match_all_filter, question_set_with_meta):
     else:
         assert all(all(tag in q.tags for tag in ['math', 'algebra']) for q in filtered_questions)
 
+def test_tag_filter_no_tags(tag_filter):
+    tag_filter._tag_predicate([], ['math'])
+
+

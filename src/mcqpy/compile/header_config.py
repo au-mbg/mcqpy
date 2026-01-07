@@ -11,8 +11,3 @@ class HeaderFooterOptions(BaseModel):
     footer_left: Optional[str] = Field(default=None, description="Left footer content")
     footer_center: Optional[str] = Field(default=None, description="Center footer content")
     footer_right: Optional[str] = Field(default=None, description="Right footer content")
-
-# Generate YAML schema
-def generate_yaml_schema():
-    json_schema = HeaderFooterOptions.model_json_schema()
-    return yaml.dump(json_schema, default_flow_style=False, sort_keys=False)

@@ -58,10 +58,7 @@ class DifficultyFilter(AttributeFilter):
     def _difficulty_predicate(self, question_difficulty, _):
         if not question_difficulty:
             return not self.strict_missing
+        q_level = DifficultyLevel.from_string(question_difficulty)
+        comparison_func = self.OPERATORS[self.operator]
         
-        try:
-            q_level = DifficultyLevel.from_string(question_difficulty)
-            comparison_func = self.OPERATORS[self.operator]
-            return comparison_func(q_level.value, self.target_level.value)
-        except (KeyError, ValueError):
-            return False
+        return comparison_func(q_level.value, self.target_level.value)

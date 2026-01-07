@@ -28,4 +28,5 @@ def test_manifest_get_item(loaded_manifest):
     assert item.qid == qid
 
 def test_manifest_get_item_not_found(loaded_manifest):
-    assert loaded_manifest.get_item_by_qid("non_existent_qid") is None
+    with pytest.raises(ValueError, match="Item with qid non_existent_qid not found in manifest"):
+        loaded_manifest.get_item_by_qid("non_existent_qid")
