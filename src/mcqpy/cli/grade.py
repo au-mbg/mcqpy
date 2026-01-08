@@ -46,6 +46,7 @@ def grade_command(config, verbose: bool, file_format: str, analysis: bool):
         analysis_directory.mkdir(exist_ok=True)
 
         question_bank = QuestionBank.from_directories(config.questions_paths)
+        print(f"Question bank loaded for analysis - {len(question_bank)}")
 
         quiz_analysis = QuizAnalysis(graded_sets, question_bank=question_bank, output_dir=analysis_directory)
         quiz_analysis.build()

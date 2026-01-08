@@ -33,6 +33,7 @@ from mcqpy.utils.fill_form import fill_pdf_form
 )
 @click.option('--correct', is_flag=True, help="Fill forms with correct answers")
 def autofill_command(config, num_forms, correct):
+    print(correct)
     # Directories & files
     config = QuizConfig.read_yaml(config)
     file_path = Path(config.output_directory) / config.file_name

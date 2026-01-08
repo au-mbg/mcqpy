@@ -71,7 +71,7 @@ def fill_pdf_form(quiz_path, out_path, index=0, manifest=None, correct_only=Fals
                 name_to_fill = names[correct_choice]
             else:
                 correct_prob = (
-                    (1 / question.point_value) if question.point_value else 0.5
+                    (1 / question.point_value) if question.point_value > 1 else 0.5
                 )
                 other_prob = (1 - correct_prob) / (len(question.correct_onehot) - 1)
                 probs = [other_prob] * len(question.correct_onehot)
