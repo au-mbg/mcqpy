@@ -1,6 +1,6 @@
 [project]
 name = "mcqpy"
-version = "0.2.0"
+version = "0.2.1"
 description = "Multiple choice quiz generation and grading"
 readme = "README.md"
 authors = [
