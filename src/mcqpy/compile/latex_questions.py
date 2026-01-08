@@ -119,7 +119,7 @@ def _build_question_image(document: Document, question: Question):
             document.append(NoEscape(r"\centering"))
             for index, image in enumerate(question.image):
                 options = (
-                    question.image_options.get(index, {})
+                    question.image_options.get(index, {}).copy()
                     if question.image_options
                     else {}
                 )
@@ -131,9 +131,6 @@ def _build_question_image(document: Document, question: Question):
                 newline = options.pop(
                     "newline", None
                 )  # Remove newline option if present
-                if newline:
-                    fig.append(NoEscape(r"\par"))
-                    fig.append(NoEscape(r"\vspace{1cm}"))
 
                 for key, value in options.items():
                     options[key] = NoEscape(value)
@@ -142,6 +139,10 @@ def _build_question_image(document: Document, question: Question):
                     subfig.add_image(str(image), **options)
                     if question.image_caption and index in question.image_caption:
                         subfig.add_caption(NoEscape(f"{question.image_caption[index]}"))
+
+                if newline:
+                    fig.append(NoEscape(r"\par"))
+                    fig.append(NoEscape(r"\vspace{1cm}"))
 
             if question.image_caption and -1 in question.image_caption:
                 fig.add_caption(NoEscape(f"Figure: {question.image_caption[-1]}"))

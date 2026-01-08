@@ -9,6 +9,7 @@ def add_preamble(document):
     document.preamble.append(Package("minted"))
     document.preamble.append(Package("textpos"))
     document.preamble.append(Package("tikz"))
+    document.preamble.append(Package("amsmath"))
 
 
     document.preamble.append(NoEscape(r"\usemintedstyle{vs}"))
