@@ -1,7 +1,7 @@
 [project]
 name = "mcqpy"
 version = "0.1.0"
-description = "Add your description here"
+description = "Multiple choice quiz generation and grading"
 readme = "README.md"
 authors = [
     { name = "Mads-Peter", email = "machri@phys.au.dk" }
