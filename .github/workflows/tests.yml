@@ -51,7 +51,7 @@ jobs:
       # env:
       #   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-  pages:
+  pages-build:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     needs: test
@@ -69,4 +69,22 @@ jobs:
           uv sync --all-extras --dev
       - name: Build & deploy documentation
         run: |
-          uv run mkdocs gh-deploy --force -f docs/mkdocs.yml
+          uv run mkdocs build -f docs/mkdocs.yml -d ./build/html
+
+      - name: Uplaod to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./docs/build/html
+  
+  pages-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: pages-build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      
