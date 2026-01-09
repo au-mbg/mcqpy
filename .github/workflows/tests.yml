@@ -68,10 +68,10 @@ jobs:
           uv sync --all-extras --dev
       - name: Build documentation
         run: |
-          uv run mkdocs build -f docs/mkdocs.yml -d ./docs/build/html
+          uv run mkdocs build -f docs/mkdocs.yml -d ./build/html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/build/html
+          publish_dir: ./build/html
