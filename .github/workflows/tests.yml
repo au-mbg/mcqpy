@@ -73,4 +73,4 @@ jobs:
           uv sync --all-extras --dev
       - name: Build & deploy documentation
         run: |
-          uv run mkdocs gh-deploy --force
+          uv run mkdocs gh-deploy --force -f docs/mkdocs.yml
