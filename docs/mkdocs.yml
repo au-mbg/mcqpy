@@ -1,0 +1,71 @@
+site_name: MCQpy
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - API Reference: autoapi/
+
+markdown_extensions:
+  - pymdownx.snippets:
+      check_paths: true
+      dedent_subsections: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - footnotes
+  - attr_list
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search
+  - mkdocs-pdf
+  - mkdocs-autoapi:
+      autoapi_dir: ../src/mcqpy
+      autoapi_add_nav_entry: False
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: ["../src"]
+          options:
+            docstring_options:
+              ignore_init_summary: false
+            docstring_style: numpy
+            docstring_section_style: list
+            filters: ["!^_"]
+            heading_level: 1
+            inherited_members: true
+            merge_init_into_class: true
+            parameter_headings: true
+            separate_signature: true
+            show_root_heading: true
+            show_root_full_path: true
+            show_signature_annotations: true
+            show_source: false
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            signature_crossrefs: true
+            summary: true
+
+
+theme:
+  language: en
+  name: material
+  palette:
+    scheme: slate
+    primary: deep purple
+  features:
+    - navigation.footer
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.expand
+    - navigation.sections
+    - content.code.annotate
+    - content.code.copy
+    - content.tooltips
+    - toc.follow
