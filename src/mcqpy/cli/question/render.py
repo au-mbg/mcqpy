@@ -6,6 +6,7 @@ from mcqpy.cli.question.main import question_group
 def _render_question(name, question):
     from pylatex import Document
     from mcqpy.compile.latex_questions import build_question
+    from mcqpy.compile.preamble import add_preamble
 
     document = Document(
         documentclass="article",
@@ -19,6 +20,7 @@ def _render_question(name, question):
         },
     )
 
+    add_preamble(document)
     build_question(document, question, quiz_index=0)
     document.generate_pdf(f"{name}", clean_tex=True)
 
