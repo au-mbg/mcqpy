@@ -68,7 +68,7 @@ jobs:
           uv sync --all-extras --dev
       - name: Build documentation
         run: |
-          mkdocs build -f docs/mkdocs.yml -d ./docs/build/html
+          uv run mkdocs build -f docs/mkdocs.yml -d ./docs/build/html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
