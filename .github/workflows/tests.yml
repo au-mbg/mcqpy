@@ -53,9 +53,14 @@ jobs:
 
   pages:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     needs: test
     steps:
       - uses: actions/checkout@v4
+      - name: Configure Git Credentials
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
       - name: Install uv
         uses: astral-sh/setup-uv@v4
         with:
@@ -66,12 +71,6 @@ jobs:
       - name: Install dependencies
         run: |
           uv sync --all-extras --dev
-      - name: Build documentation
+      - name: Build & deploy documentation
         run: |
-          uv run mkdocs build -f docs/mkdocs.yml -d ./build/html
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/html
+          uv run mkdocs gh-deploy --force
