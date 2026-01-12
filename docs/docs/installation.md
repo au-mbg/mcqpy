@@ -5,7 +5,7 @@
 - Python >= 3.13
 - LaTeX (pdflatex and latexmk)
 
-The Python package that `mcqpy` uses will be installed alongside `mcqpy` when installed with e.g. `pip` or `uv`.
+The Python packages that `mcqpy` uses will be installed alongside `mcqpy` when installed with e.g. `pip` or `uv`.
 
 ## Installing LaTeX 
 

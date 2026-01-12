@@ -1,3 +1,7 @@
+"""
+CLI Build Command
+"""
+
 import rich_click as click
 import numpy as np
 from mcqpy.cli.main import main
@@ -15,6 +19,7 @@ from rich.console import Console
 
 def build_solution(questions, manifest, output_path: Path):
     from mcqpy.compile.solution_pdf import SolutionPDF
+
     solution_pdf = SolutionPDF(file=output_path, questions=questions, manifest=manifest)
     solution_pdf.build(generate_pdf=True)
 
@@ -38,7 +43,13 @@ def _select_questions(question_bank: QuestionBank, selection_config: SelectionCo
     return questions
 
 
-@main.command(name="build", help="Build the quiz PDF from question files")
+@main.command(
+    name="build",
+    help="""Build the quiz PDF from question files based on the provided configuration.
+    This command reads the quiz configuration, selects questions from the question bank,
+    and generates the quiz PDF along with a solution PDF.
+""",
+)
 @click.option(
     "-c",
     "--config",
@@ -48,14 +59,28 @@ def _select_questions(question_bank: QuestionBank, selection_config: SelectionCo
     show_default=True,
 )
 def build_command(config):
+    """ 
+    Build the quiz PDF from question files based on the provided configuration.
+    This command reads the quiz configuration, selects questions from the question bank,
+    and generates the quiz PDF along with a solution PDF.
+
+    ```
+    mcqpy build --config config.yaml
+    ```
+    """
+
     config = QuizConfig.read_yaml(config)
-    question_bank = QuestionBank.from_directories(config.questions_paths, seed=config.selection.seed)
+    question_bank = QuestionBank.from_directories(
+        config.questions_paths, seed=config.selection.seed
+    )
     questions = _select_questions(question_bank, config.selection)
 
     console = Console()
     console.print("[bold green]Quiz Configuration:[/bold green]")
     console.print(Pretty(config))
-    console.print(f"[bold green]Total questions in bank:[/bold green] {len(question_bank)}")
+    console.print(
+        f"[bold green]Total questions in bank:[/bold green] {len(question_bank)}"
+    )
     console.print(f"[bold green]Selected questions:[/bold green] {len(questions)}")
 
     ## Paths:
@@ -68,7 +93,7 @@ def build_command(config):
 
     for path in [root, output_dir, submission_dir]:
         if path and not path.exists():
-            path.mkdir(parents=True, exist_ok=True) # pragma: no cover
+            path.mkdir(parents=True, exist_ok=True)  # pragma: no cover
 
     mcq = MultipleChoiceQuiz(
         file=file_path,

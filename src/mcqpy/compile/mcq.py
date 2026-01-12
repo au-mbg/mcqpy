@@ -1,3 +1,7 @@
+"""
+Multiple Choice Quiz Document Class
+"""
+
 from pathlib import Path
 
 from pylatex import (
@@ -25,6 +29,7 @@ class SamePage(Environment):
 
 
 class MultipleChoiceQuiz(Document):
+    """A LaTeX document class for generating multiple choice quizzes."""
     def __init__(
         self,
         file: Path | str | None = None,
@@ -32,6 +37,22 @@ class MultipleChoiceQuiz(Document):
         front_matter: FrontMatterOptions | None = None,
         header_footer: HeaderFooterOptions | None = None,
     ):
+        
+        """
+        Initialize a MultipleChoiceQuiz document.
+
+        Parameters
+        ----------
+        file: 
+            The output PDF file path. If None, defaults to 'default_quiz.pdf'.
+        questions:
+            A list of Question objects to include in the quiz. If None, defaults to an empty list.
+        front_matter:
+            An instance of FrontMatterOptions to customize the front matter of the quiz. If None, defaults to a new FrontMatterOptions instance.
+        header_footer:
+            An instance of HeaderFooterOptions to customize the header and footer of the quiz. If None, defaults to a new HeaderFooterOptions instance.
+        """
+
         super().__init__(
             documentclass="article",
             geometry_options={

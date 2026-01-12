@@ -1,7 +1,21 @@
+"""
+CLI command to check LaTeX installation and configuration.
+"""
+
 from mcqpy.cli import main
 
 @main.command('check-latex', help="Check LaTeX installation and configuration.")
 def check_latex_command():
+    """
+    Check if LaTeX is installed and properly configured. 
+    Provides the CLI command:
+    ```
+    mcqpy check-latex
+    ```
+    This command verifies the presence of LaTeX tools such as `pdflatex` and `latexmk`,
+    and attempts to compile a simple LaTeX document to ensure everything is functioning correctly.
+    """
+
     from mcqpy.utils.check_latex import check_latex_installation
     from rich.console import Console
     

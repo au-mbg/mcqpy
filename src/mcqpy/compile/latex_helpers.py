@@ -1,3 +1,7 @@
+"""
+LaTeX helpers for MCQPy.
+"""
+
 from pylatex.base_classes import Environment
 from pylatex.package import Package
 from pylatex.utils import NoEscape
@@ -14,6 +18,7 @@ class Form(Environment):
 
 
 def radio_option(quiz_index: int, q_slug: str, q_qid: str, i: int, checked=False) -> NoEscape:
+    """Create a radio button option for a multiple-choice question."""
     return multi_checkbox(
         quiz_index=quiz_index,
         q_slug=q_slug,
@@ -24,6 +29,7 @@ def radio_option(quiz_index: int, q_slug: str, q_qid: str, i: int, checked=False
 
 
 def multi_checkbox(quiz_index: int, q_slug: str, q_qid: str, i: int, checked=False) -> NoEscape:
+    """Create a checkbox option for a multiple-choice question."""
     command = NoEscape(
         r"\raisebox{0pt}[0pt][0pt]{\CheckBox"
         + f"[name=Q{quiz_index}-opt={i}-slug={q_slug}-qid={q_qid},"
@@ -38,6 +44,7 @@ def multi_checkbox(quiz_index: int, q_slug: str, q_qid: str, i: int, checked=Fal
     return command
 
 def code_block(code: str, language: str = "python") -> NoEscape:
+    """Create a LaTeX code block using the minted package."""
     latex_block = rf"""\begin{{minted}}
     [
     frame=lines,

@@ -1,3 +1,7 @@
+"""
+LaTeX question builder for MCQPy.
+"""
+
 from pylatex import (
     Document,
     Enumerate,
@@ -15,6 +19,20 @@ from pylatexenc.latexencode import unicode_to_latex
 
 
 def build_question(document: Document, question: Question, quiz_index: int, add_solution: bool = False):
+    """
+    Build a LaTeX representation of a question and add it to the document.
+
+    Parameters
+    ----------
+    document:
+        The LaTeX Document to which the question will be added.
+    question:
+        The Question object containing question data.
+    quiz_index:
+        The index of the question in the quiz (0-based).
+    add_solution:
+        Whether to include the solution and explanation in the output.
+    """
     if question.question_type == "single":
         extra_section_header = r"Select \underline{one} answer"
     elif question.question_type == "multiple":

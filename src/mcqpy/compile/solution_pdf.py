@@ -1,3 +1,7 @@
+"""
+Multiple Choice Quiz Solution PDF Document Class
+"""
+
 from pathlib import Path
 
 from pylatex import (
@@ -23,6 +27,19 @@ class SolutionPDF(Document):
         questions: list[Question],
         file: Path | str | None = None,
     ):
+        """
+        Initialize a SolutionPDF document.
+
+        Parameters
+        ----------
+        manifest:
+            An instance of Manifest containing the order of questions.
+        questions:
+            A list of Question objects to include in the solutions.
+        file:
+            The output PDF file path. If None, defaults to 'default_solutions.pdf'.
+        """        
+
         super().__init__(
             documentclass="article",
             geometry_options={

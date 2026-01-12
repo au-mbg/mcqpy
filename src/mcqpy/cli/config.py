@@ -1,3 +1,7 @@
+"""
+Quiz configuration management using Pydantic and YAML.
+"""
+
 from pydantic import BaseModel, Field, ConfigDict
 import yaml
 from mcqpy.compile import HeaderFooterOptions, FrontMatterOptions

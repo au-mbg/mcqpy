@@ -1,9 +1,15 @@
-from pydantic import BaseModel, ConfigDict, Field
+"""
+Manifest classes for compiled questions.
+"""
 
+from pydantic import BaseModel, ConfigDict, Field
 from mcqpy.question import Question, compute_question_sha256
 
 
 class ManifestItem(BaseModel):
+    """
+    Represents a single item in the manifest, corresponding to a question.
+    """
     model_config = ConfigDict(
         frozen=True
     )  # make instances immutable (optional but helpful)
@@ -65,6 +71,10 @@ class ManifestItem(BaseModel):
 
 
 class Manifest(BaseModel):
+    """
+    Represents the manifest of compiled questions.
+    """    
+
     items: list[ManifestItem]
 
     def save_to_file(self, path):

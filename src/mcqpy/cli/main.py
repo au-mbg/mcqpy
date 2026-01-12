@@ -1,3 +1,4 @@
+"""Main module for mcqpy CLI."""
 import rich_click as click
 
 @click.group(name="mcqpy")

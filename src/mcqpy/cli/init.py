@@ -1,3 +1,4 @@
+"""Initialize a new quiz project command."""
 import rich_click as click
 from mcqpy.cli.main import main
 from mcqpy.cli.config import QuizConfig

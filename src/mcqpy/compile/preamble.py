@@ -1,9 +1,14 @@
+"""
+Preamble additions for LaTeX documents
+"""
 
 from pylatex.package import Package
 from pylatex.utils import NoEscape
 
 
 def add_preamble(document):
+    """Add necessary packages and settings to the LaTeX document preamble."""
+
     document.preamble.append(Package("caption"))
     document.preamble.append(Package("xcolor", options=["dvipsnames"]))
     document.preamble.append(Package("minted"))
