@@ -88,7 +88,7 @@ def build_command(config):
     output_dir = root / config.output_directory
     file_path = output_dir / config.file_name
     submission_dir = (
-        root / config.submission_directory if config.submission_directory else None
+        root / config.grading.submission_directory if config.grading.submission_directory else None
     )
 
     for path in [root, output_dir, submission_dir]:

@@ -7,22 +7,27 @@ from mcqpy.grade.parse_pdf import MCQPDFParser
 
 
 class MCQGrader:
-    def __init__(self, manifest: Manifest, rubric: Rubric):
+    def __init__(
+        self, manifest: Manifest, rubric: Rubric, regex_pattern: str | None = None
+    ):
         self.manifest = manifest
         self.rubric = rubric
         self.parser = MCQPDFParser()
+        self.regex_pattern = regex_pattern
 
     ############################################################################
     # Grade the parsed student answers
     ############################################################################
 
-    def grade(self, student_answer: str | Path = None, parsed_set: ParsedSet = None) -> GradedSet:
+    def grade(
+        self, student_answer: str | Path = None, parsed_set: ParsedSet = None
+    ) -> GradedSet:
         if parsed_set is None:
-            parsed_set = self.parser.parse_pdf(student_answer)
+            parsed_set = self.parser.parse_pdf(
+                student_answer, regex_pattern=self.regex_pattern
+            )
         graded_set = GradedSet(
-            student_id=parsed_set.student_id,
-            student_name=parsed_set.student_name,
-            graded_questions=[]
+            student_info=parsed_set.student_info, graded_questions=[]
         )
 
         for parsed_question in parsed_set.questions:
@@ -38,13 +43,12 @@ class MCQGrader:
             )
 
             # Apply rubric to determine point value earned
-            graded_question.point_value = self.rubric.score_question(graded_question)            
+            graded_question.point_value = self.rubric.score_question(graded_question)
             graded_set.graded_questions.append(graded_question)
-
 
         # Return the graded set
         graded_set.points = sum(q.point_value for q in graded_set.graded_questions)
-        graded_set.max_points = sum(q.max_point_value for q in graded_set.graded_questions)
+        graded_set.max_points = sum(
+            q.max_point_value for q in graded_set.graded_questions
+        )
         return graded_set
-
-

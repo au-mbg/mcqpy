@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -31,12 +32,13 @@ from mcqpy.question import Question, QuestionBank
 def get_grade_dataframe(graded_sets: list[GradedSet]) -> pd.DataFrame:
     records = []
     for graded_set in graded_sets:
-        record = {
-            "student_id": graded_set.student_id,
-            "student_name": graded_set.student_name,
+
+        record = {}
+        record.update(graded_set.student_info)
+        record.update({
             "total_points": graded_set.points,
             "max_points": graded_set.max_points,
-        }
+        })
 
         for index, graded_question in enumerate(graded_set.graded_questions):
             record[f"Q{index + 1}_points"] = graded_question.point_value
@@ -44,7 +46,7 @@ def get_grade_dataframe(graded_sets: list[GradedSet]) -> pd.DataFrame:
         records.append(record)
 
     df = pd.DataFrame.from_records(records)
-    df.sort_values(by="student_name", inplace=True)
+    # df.sort_values(by="student_name", inplace=True)
     return df
 
 
@@ -218,26 +220,35 @@ class QuizAnalysis(Document):
     def build_grade_table(self):
         df = get_grade_dataframe(self.graded_sets)
 
+        keys = []
+
+        for key in df.keys().tolist():
+            if re.match(r"Q\d+_points", key):
+                continue
+            keys.append(key)
+        
+
         with self.create(Section("Grade Summary Table")):
-            with self.create(LongTable("l l l")) as data_table:
+            with self.create(LongTable("l" * len(keys))) as data_table:
                 data_table.add_hline()
-                data_table.add_row(["ID", "Name", "Points"])
+                data_table.add_row(keys)
                 data_table.add_hline()
                 data_table.end_table_header()
                 data_table.add_hline()
                 data_table.add_row(
-                    (MultiColumn(3, align="r", data="Continued on Next Page"),)
+                    (MultiColumn(len(keys), align="r", data="Continued on Next Page"),)
                 )
                 data_table.add_hline()
                 data_table.end_table_footer()
                 data_table.add_hline()
                 data_table.add_row(
-                    (MultiColumn(3, align="r", data="Not Continued on Next Page"),)
+                    (MultiColumn(len(keys), align="r", data="Not Continued on Next Page"),)
                 )
                 data_table.add_hline()
                 data_table.end_table_last_footer()
 
                 for row in df.itertuples(index=False):
-                    data_table.add_row(
-                        [row.student_id, row.student_name, f"{row.total_points}"]
-                    )
+                    row_data = []
+                    for key in keys:
+                        row_data.append(getattr(row, key))
+                    data_table.add_row(row_data)

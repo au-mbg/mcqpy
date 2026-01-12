@@ -63,20 +63,20 @@ def grade_command(config, verbose: bool, file_format: str, analysis: bool):
 
     # Read & Grade submissions
     graded_sets = []
-    submissions = list(Path(config.submission_directory).glob("*.pdf"))
+    grader = MCQGrader(manifest, StrictRubric(), regex_pattern=config.grading.anonymous_pattern)
+    submissions = list(Path(config.grading.submission_directory).glob("*.pdf"))
     for submission in track(
         submissions,
         description=f"Grading submissions ({len(submissions)})",
         total=len(submissions),
     ):
-        grader = MCQGrader(manifest, StrictRubric())
         graded_set = grader.grade(submission)
         graded_sets.append(graded_set)
 
     # Export grades to dataframe
     df = get_grade_dataframe(graded_sets)
     output_path = (
-        Path(config.submission_directory).parent / f"{file_name}_grades.{file_format}"
+        Path(config.grading.submission_directory).parent / f"{file_name}_grades.{file_format}"
     )
     if file_format == "xlsx":
         df.to_excel(output_path, index=False)

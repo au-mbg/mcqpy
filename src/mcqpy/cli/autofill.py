@@ -39,7 +39,7 @@ def autofill_command(config, num_forms, correct):
     # Directories & files
     config = QuizConfig.read_yaml(config)
     file_path = Path(config.output_directory) / config.file_name
-    output_dir = Path(config.submission_directory)
+    output_dir = Path(config.grading.submission_directory)
     output_dir.mkdir(parents=True, exist_ok=True)
     file_name = Path(config.file_name).stem
     manifest_path = Path(config.output_directory) / f"{file_name}_manifest.json"

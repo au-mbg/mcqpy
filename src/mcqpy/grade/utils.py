@@ -10,8 +10,7 @@ class ParsedQuestion:
 
 @dataclass
 class ParsedSet:
-    student_id: str
-    student_name: str
+    student_info: dict[str, str]
     questions: list[ParsedQuestion]
     file: str | None = None
 
@@ -27,8 +26,7 @@ class GradedQuestion:
 
 @dataclass
 class GradedSet:
-    student_id: str
-    student_name: str
+    student_info: dict[str, str]
     graded_questions: list[GradedQuestion]
     points: int = 0
     max_points: int = 0

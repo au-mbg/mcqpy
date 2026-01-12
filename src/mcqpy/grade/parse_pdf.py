@@ -1,22 +1,25 @@
+import re
 from pathlib import Path
-
 from pypdf import PdfReader
 
 from mcqpy.grade.utils import ParsedQuestion, ParsedSet
 
 
 class MCQPDFParser:
-    def parse_pdf(self, student_answer: str | Path) -> str:
+    def parse_pdf(
+        self, student_answer: str | Path, regex_pattern: str | None = None
+    ) -> str:
         reader = PdfReader(student_answer)
 
         split_by_id = self._split_by_id(reader.get_fields())
-        student_name, student_id = self._find_student_info(reader.get_fields())
+        student_info = self._find_student_info(
+            reader.get_fields(), regex_pattern=regex_pattern, filename=student_answer
+        )
         parsed_questions = self._parse_questions(split_by_id)
 
         # Make ParsedQuestion objects
         parsed_set = ParsedSet(
-            student_id=student_id,
-            student_name=student_name,
+            student_info=student_info,
             questions=parsed_questions,
             file=str(student_answer),
         )
@@ -39,16 +42,22 @@ class MCQPDFParser:
                 split_by_id[qid].append((name, field))
         return split_by_id
 
-    def _find_student_info(self, fields):
-        student_name = None
-        student_id = None
-        for name, field in fields.items():
-            if name == "studentname":
-                student_name = field.get("/V")
-            elif name == "studentid":
-                student_id = field.get("/V")
+    def _find_student_info(self, fields, regex_pattern=None, filename=None):
+        student_info = {}
 
-        return student_name, student_id
+        if not regex_pattern:
+            for name, field in fields.items():
+                if name == "studentname":
+                    student_info["student_name"] = field.get("/V")
+                elif name == "studentid":
+                    student_info["student_id"] = field.get("/V")
+        else:
+            pattern = re.compile(regex_pattern)
+            match = pattern.match(Path(filename).name)
+            if match:
+                student_info.update(match.groupdict())
+
+        return student_info
 
     def _parse_questions(self, split_by_id):
         parsed = []
