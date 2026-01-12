@@ -68,10 +68,12 @@ jobs:
         run: |
           uv sync --all-extras --dev
       - name: Build & deploy documentation
+        env: 
+          TERM: dumb
         run: |
           uv run mkdocs build -f docs/mkdocs.yml -d ./build/html
 
-      - name: Uplaod to GitHub Pages
+      - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./docs/build/html
