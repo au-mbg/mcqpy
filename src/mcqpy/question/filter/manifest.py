@@ -1,9 +1,14 @@
+"""Module for manifest-based question filtering."""
+
 from mcqpy.question import Question
 from mcqpy.question.filter import BaseFilter
 from mcqpy.compile.manifest import Manifest
 
 
 class ManifestFilter(BaseFilter):
+    """
+    Manifest file based filter for questions.
+    """
     def __init__(
         self,
         manifest: Manifest | None = None,
@@ -13,10 +18,17 @@ class ManifestFilter(BaseFilter):
         """
         Filter questions based on a manifest file.
 
-        Args:
-            manifest (Manifest | None): An instance of Manifest. If provided, it will be used directly.
-            manifest_path (str | None): Path to the manifest file. Used if `manifest` is None.
-            exclude (bool): If True, questions in the manifest are excluded.
+        The primary use case is to exclude questions that are listed in a manifest,
+        such as questions used in a previous exam/quiz.
+
+        Parameters
+        ------------
+        manifest: 
+            An instance of Manifest. If provided, it will be used directly.
+        manifest_path: 
+            Path to the manifest file. Used if `manifest` is None.
+        exclude: 
+            If True, questions in the manifest are excluded.
         """
 
         if manifest is not None:

@@ -1,5 +1,8 @@
+"""Module for filtering questions by difficulty level."""
+
 from mcqpy.question.filter.base_filter import AttributeFilter
 from enum import Enum
+from typing import Literal
 
 class DifficultyLevel(Enum):
     """Difficulty levels with ordering."""
@@ -15,23 +18,10 @@ class DifficultyLevel(Enum):
         return cls[value.upper().replace(" ", "_")]
 
 
-class DifficultyFilter(AttributeFilter):
-    """Filter questions by difficulty level with comparison operators.
-    
-    Supports:
-    - Exact match: DifficultyFilter('hard')
-    - Less than: DifficultyFilter('<hard') or DifficultyFilter('hard', operator='<')
-    - Less than or equal: DifficultyFilter('<=hard')
-    - Greater than: DifficultyFilter('>easy')
-    - Greater than or equal: DifficultyFilter('>=easy')
-    
-    Args:
-        difficulty: Difficulty level to filter by
-        operator: Comparison operator (==, <, <=, >, >=)
-        strict_missing: If True (default), exclude questions without difficulty attribute.
-                        If False, include questions without difficulty attribute.
+class DifficultyFilter(AttributeFilter):    
     """
-    
+    DifficultyFilter for filtering questions by difficulty level.
+    """
     OPERATORS = {
         '==': lambda a, b: a == b,
         '<': lambda a, b: a < b,
@@ -40,7 +30,27 @@ class DifficultyFilter(AttributeFilter):
         '>=': lambda a, b: a >= b,
     }
     
-    def __init__(self, difficulty: str, operator: str = '==', strict_missing: bool = True):
+    def __init__(self, difficulty: str, operator: Literal['==', '<', '<=', '>', '>='] = '==', strict_missing: bool = True):
+        """Filter questions by difficulty level with comparison operators.
+    
+        Supports:
+
+        - Exact match: `DifficultyFilter('hard')`
+        - Less than: `DifficultyFilter('<hard')` or `DifficultyFilter('hard', operator='<')`
+        - Less than or equal: `DifficultyFilter('<=hard')`
+        - Greater than: `DifficultyFilter('>easy')`
+        - Greater than or equal: `DifficultyFilter('>=easy')`
+        
+        Parameters
+        ------------
+        difficulty: 
+            Difficulty level to filter by
+        operator: 
+            Comparison operator.
+        strict_missing: 
+            If True (default), exclude questions without difficulty attribute.
+            If False, include questions without difficulty attribute.
+        """
         # Parse operator from string if present
         if difficulty.startswith(('<=', '>=', '<', '>')):
             for op in ['<=', '>=', '<', '>']:

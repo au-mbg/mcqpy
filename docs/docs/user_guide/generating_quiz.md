@@ -44,11 +44,11 @@ header: # Header fields
   footer_center: null
   footer_right: null
 selection: # Question selection/filtering fields
-  number_of_questions: 20
-  filters: null
-  seed: null
-  shuffle: false
-  sort_type: none
+  number_of_questions: 20 # int or null for all questions.
+  filters: null # Explained later
+  seed: null # int: Random seed 
+  shuffle: false # bool: Whether to shuffle questions.
+  sort_type: none # none or slug: If slug sorts according to slug 
 ```
 
 ## Building a quiz 
@@ -74,4 +74,4 @@ These are
 2. A quiz manifest that is required when grading
 3. A solution document where each question has the correct answer(s) marked and if included in the question `.yaml`-file an explanation. 
 
-
+This is all that is required to build a simple quiz with minimal configuration. 

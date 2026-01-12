@@ -1,3 +1,6 @@
+"""
+Definition of the QuestionBank class for managing multiple-choice questions.
+"""
 import numpy as np
 from mcqpy.question import Question
 from mcqpy.question.filter import BaseFilter, CompositeFilter
@@ -13,6 +16,9 @@ class BankItem:
 
 
 class QuestionBank:
+    """
+    A collection of multiple-choice questions with filtering and retrieval capabilities.
+    """
     def __init__(self, items: list[BankItem], seed: int | None = None):
         self._items = items
         self._by_slug = {it.question.slug: it for it in items}
@@ -22,11 +28,30 @@ class QuestionBank:
 
     @classmethod
     def from_questions(cls, questions: list[Question], **kwargs):
+        """
+        Create a QuestionBank from a list of Question objects.
+
+        Parameters
+        ------------
+        questions: 
+            List of Question instances to include in the bank
+        """
         items = [BankItem(question=q, path=None) for q in questions]
         return cls(items=items, **kwargs)
 
     @classmethod
     def from_directories(cls, directories: list[str], glob_pattern="*.yaml", **kwargs):
+        """
+        Create a QuestionBank by loading questions from specified directories.
+        Ensures no duplicate slugs are present.
+
+        Parameters
+        ------------
+        directories: 
+            List of directory paths to load questions from
+        glob_pattern: 
+            Glob pattern to match question files (default: '*.yaml')
+        """
         items = []
         qids, slugs = set(), set()
         for directory in directories:
@@ -46,11 +71,27 @@ class QuestionBank:
         return cls(items=items, **kwargs)
 
     def get_by_slug(self, slug: str) -> Question:
+        """
+        Retrieve a question by its slug.
+
+        Parameters
+        ------------
+        slug: 
+            The slug identifier of the question
+        """
         if slug not in self._by_slug:
             raise KeyError(f"Slug {slug} not found in question bank")
         return self._by_slug[slug].question
 
     def get_by_qid(self, qid: str) -> Question:
+        """
+        Retrieve a question by its QID.
+
+        Parameters
+        ------------
+        qid: 
+            The QID identifier of the question
+        """
         if qid not in self._by_qid:
             raise KeyError(f"QID {qid} not found in question bank")
         return self._by_qid[qid].question
@@ -59,9 +100,20 @@ class QuestionBank:
         return len(self._items)
 
     def get_all_questions(self) -> list[Question]:
+        """
+        Retrieve all questions in the bank.
+        """
         return [item.question for item in self._items]
 
     def add_filter(self, filter: BaseFilter):
+        """
+        Add a filter to the question bank.
+
+        Parameters
+        ------------
+        filter: 
+            An instance of BaseFilter to apply when retrieving questions
+        """
         self._filters.append(filter)
 
     def get_filtered_questions(
@@ -70,6 +122,18 @@ class QuestionBank:
         shuffle: bool = False,
         sorting: Literal['none', 'slug'] = "none",
     ) -> list[Question]:
+        """
+        Retrieve questions after applying all added filters.
+
+        Parameters
+        ------------
+        number_of_questions: 
+            Maximum number of questions to return (None for all)
+        shuffle: 
+            If True, shuffle the questions before returning
+        sorting: 
+            Sorting method: 'none' for no sorting, 'slug' to sort by slug
+        """
         if not self._filters:
             questions = self.get_all_questions()
         else:
@@ -88,3 +152,5 @@ class QuestionBank:
             pass  # No sorting
 
         return questions
+
+__all__ = ["QuestionBank", "BankItem"]

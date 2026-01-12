@@ -1,21 +1,11 @@
+"""
+Date filter for questions.
+"""
 from mcqpy.question.filter.base_filter import BaseFilter
 from mcqpy.question import Question
 from datetime import date
 
-class DateFilter(BaseFilter):
-    """Filter questions by creation date.
-    
-    Supports:
-    - Exact year: DateFilter('2024') - matches all dates in that year
-    - Exact date: DateFilter('15/03/2024')
-    - Before date: DateFilter('<2024') or DateFilter('<15/03/2024')
-    - After date: DateFilter('>2023') or DateFilter('>01/01/2023')
-    - Date range: DateFilter('2023', '2024')
-    
-    Note: All dates are stored internally as 'dd/mm/yyyy' format.
-    Year-only inputs are treated as the full year range (Jan 1 - Dec 31).
-    """
-    
+class DateFilter(BaseFilter):    
     OPERATORS = {
         '==': lambda a, b: a == b,
         '<': lambda a, b: a < b,
@@ -25,14 +15,29 @@ class DateFilter(BaseFilter):
     }
     
     def __init__(self, date_value: str, end_date: str = None, strict_missing: bool = True):
-        """Initialize date filter.
+        """
+        Filter questions by creation date.
+    
+        Supports:
+
+        - Exact year: `DateFilter('2024')` - matches all dates in that year
+        - Exact date: `DateFilter('15/03/2024')`
+        - Before date: `DateFilter('<2024')` or `DateFilter('<15/03/2024')`
+        - After date: `DateFilter('>2023')` or `DateFilter('>01/01/2023')`
+        - Date range: `DateFilter('2023', '2024')`
         
-        Args:
-            date_value: Date string ('yyyy' or 'dd/mm/yyyy'), may include operator prefix
-            end_date: Optional end date for range queries
-            operator: Comparison operator (if not in date_value)
-            strict_missing: If True (default), exclude questions without created_date attribute.
-                           If False, include questions without created_date attribute.
+        Note: All dates are stored internally as `dd/mm/yyyy` format.
+        Year-only inputs are treated as the full year range (Jan 1 - Dec 31).
+
+        Parameters
+        ------------
+        date_value: 
+            Date string ('yyyy' or 'dd/mm/yyyy'), may include operator prefix
+        end_date: 
+            Optional end date for range queries
+        strict_missing: 
+            If True (default), exclude questions without created_date attribute.
+            If False, include questions without created_date attribute.
         """
         # Parse operator from string if present
         parsed_operator, parsed_date = self._parse_date_operator(date_value)

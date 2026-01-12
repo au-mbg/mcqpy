@@ -1,3 +1,7 @@
+"""
+Definition of the Question pydantic model for MCQPy.
+"""
+
 from pathlib import Path
 from typing import Any, List, Optional, Literal
 from pydantic import BaseModel, Field, ConfigDict, field_validator, model_validator, model_serializer
@@ -25,6 +29,10 @@ def qid_from_slug(slug: str) -> str:
 
 
 class Question(BaseModel):
+    """
+    Pydantic model representing a multiple-choice question.
+    """
+
     model_config = ConfigDict(
         frozen=True, extra="forbid"
     )  # make instances immutable (optional but helpful)

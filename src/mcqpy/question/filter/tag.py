@@ -1,3 +1,4 @@
+"""Module for question tag filter."""
 from mcqpy.question.filter.base_filter import AttributeFilter
 
 
@@ -5,16 +6,22 @@ class TagFilter(AttributeFilter):
     """Filter questions by tag(s).
 
     Supports:
-    - Include any: TagFilter(['python', 'loops'])
-    - Include all: TagFilter(['python', 'loops'], match_all=True)
-    - Exclude any: TagFilter(['deprecated'], exclude=True)
 
-    Args:
-        tags: Tag(s) to filter by
-        match_all: If True, question must have all specified tags
-        exclude: If True, exclude questions with any of the specified tags
-        strict_missing: If True (default), exclude questions without tags attribute (unless exclude=True).
-                        If False, include questions without tags attribute (unless exclude=True).
+    - Include any: `TagFilter(['python', 'loops'])`
+    - Include all: `TagFilter(['python', 'loops'], match_all=True)`
+    - Exclude any: `TagFilter(['deprecated'], exclude=True)`
+
+    Parameters
+    -----------
+    tags: 
+        Tag(s) to filter by.
+    match_all: 
+        If  `True`, question must have all specified tags.
+    exclude: 
+        If `True`, exclude questions with any of the specified tags.
+    strict_missing: 
+        If `True` (default), exclude questions without tags attribute (unless exclude=`True`).
+        If `False`, include questions without tags attribute (unless exclude=`True`).
     """
 
     def __init__(

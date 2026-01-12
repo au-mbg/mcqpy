@@ -1,3 +1,7 @@
+"""
+Utility functions for question processing.
+"""
+
 import hashlib
 import json
 from typing import Any, Dict, TypeAlias, List

@@ -1,9 +1,15 @@
+"""
+Module for stratified question filtering.
+"""
 import numpy as np
 from mcqpy.question import Question
 from mcqpy.question.filter import BaseFilter
 
 
 class StratifiedFilter(BaseFilter):
+    """
+    Stratified selection filter
+    """
     def __init__(
         self,
         number_of_questions: int,
@@ -11,6 +17,23 @@ class StratifiedFilter(BaseFilter):
         proportions: list[float] | None = None,
         filter_configs: list[dict] | None = None,
     ):
+
+        """
+        Stratified filter to select questions based on multiple filters and specified proportions.
+
+        Parameters
+        ------------
+        number_of_questions: 
+            Total number of questions to select.
+        filters: 
+            List of BaseFilter instances to apply.
+        proportions: 
+            List of proportions corresponding to each filter.
+        filter_configs: 
+            List of filter configuration dictionaries to create filters if `filters` is None.
+        """        
+
+
         if filters is None:
             if filter_configs is None:
                 raise ValueError("Either filters or filter_configs must be provided.")

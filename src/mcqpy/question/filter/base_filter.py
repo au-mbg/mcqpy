@@ -1,3 +1,4 @@
+"""Module for base-class for question filters."""
 from abc import ABC, abstractmethod
 from mcqpy.question import Question
 from typing import Any, Callable

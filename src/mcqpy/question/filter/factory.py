@@ -1,3 +1,5 @@
+"""Module for filter factory."""
+
 from mcqpy.question.filter.base_filter import BaseFilter, CompositeFilter
 from mcqpy.question.filter.difficulty import DifficultyFilter
 from mcqpy.question.filter.tag import TagFilter

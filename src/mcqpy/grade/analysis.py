@@ -24,6 +24,7 @@ from rich.console import Console
 from rich.progress import track
 
 from mcqpy.grade.utils import GradedQuestion, GradedSet
+from mcqpy.compile.preamble import add_preamble
 from mcqpy.question import Question, QuestionBank
 
 
@@ -152,6 +153,7 @@ class QuizAnalysis(Document):
 
     def build(self):
         # Added TOC
+        add_preamble(self)
         self.preamble.append(Package("xcolor", options=["dvipsnames"]))
         self.preamble.append(Command("title", "Quiz Analysis Report"))
         self.preamble.append(Command("author", "MCQPy"))
