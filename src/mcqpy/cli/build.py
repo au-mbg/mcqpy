@@ -84,19 +84,12 @@ def build_command(config):
     console.print(f"[bold green]Selected questions:[/bold green] {len(questions)}")
 
     ## Paths:
-    root = Path(config.root_directory)
-    output_dir = root / config.output_directory
-    file_path = output_dir / config.file_name
-    submission_dir = (
-        root / config.grading.submission_directory if config.grading.submission_directory else None
-    )
-
-    for path in [root, output_dir, submission_dir]:
+    for path in [config.root_directory, config.output_directory, config.submission_directory]:
         if path and not path.exists():
             path.mkdir(parents=True, exist_ok=True)  # pragma: no cover
 
     mcq = MultipleChoiceQuiz(
-        file=file_path,
+        file=config.file_path,
         questions=questions,
         front_matter=config.front_matter,
         header_footer=config.header,
@@ -108,6 +101,6 @@ def build_command(config):
     manifest_path = mcq.get_manifest_path()
     manifest = Manifest.load_from_file(manifest_path)
     solution_output_path = (
-        output_dir / f"{config.file_name.replace('.pdf', '')}_solution.pdf"
+        config.output_directory / f"{config.file_name.replace('.pdf', '')}_solution.pdf"
     )
     build_solution(questions, manifest, solution_output_path)

@@ -57,8 +57,7 @@ def grade_command(config, verbose: bool, file_format: str, analysis: bool):
     """
     # Load config
     config = QuizConfig.read_yaml(config)
-    file_name = Path(config.file_name).stem
-    manifest_path = Path(config.output_directory) / f"{file_name}_manifest.json"
+    manifest_path = config.output_directory / f"{config.file_path.stem}_manifest.json"
     manifest = Manifest.load_from_file(manifest_path)
 
     # Read & Grade submissions
@@ -66,7 +65,7 @@ def grade_command(config, verbose: bool, file_format: str, analysis: bool):
     grader = MCQGrader(
         manifest, StrictRubric(), regex_pattern=config.grading.anonymous_pattern
     )
-    submissions = list(Path(config.grading.submission_directory).glob("*.pdf"))
+    submissions = list(config.submission_directory.glob("*.pdf"))
     for submission in track(
         submissions,
         description=f"Grading submissions ({len(submissions)})",
@@ -77,10 +76,7 @@ def grade_command(config, verbose: bool, file_format: str, analysis: bool):
 
     # Export grades to dataframe
     df = get_grade_dataframe(graded_sets, sort_key=config.grading.output_sort_key)
-    output_path = (
-        Path(config.grading.submission_directory).parent
-        / f"{file_name}_grades.{file_format}"
-    )
+    output_path = (config.root_directory / f"{config.file_path.stem}_grades.{file_format}")
     if file_format == "xlsx":
         df.to_excel(output_path, index=False)
     elif file_format == "csv":
@@ -89,7 +85,7 @@ def grade_command(config, verbose: bool, file_format: str, analysis: bool):
     if analysis:
         from mcqpy.grade.analysis import QuizAnalysis
 
-        analysis_directory = Path("analysis/")
+        analysis_directory = config.root_directory / "analysis/"
         analysis_directory.mkdir(exist_ok=True)
 
         question_bank = QuestionBank.from_directories(config.questions_paths)

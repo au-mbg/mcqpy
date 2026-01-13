@@ -38,11 +38,13 @@ from mcqpy.utils.fill_form import fill_pdf_form
 def autofill_command(config, num_forms, correct):
     # Directories & files
     config = QuizConfig.read_yaml(config)
-    file_path = Path(config.output_directory) / config.file_name
-    output_dir = Path(config.grading.submission_directory)
+
+    # Output directory for filled forms
+    output_dir = config.submission_directory
     output_dir.mkdir(parents=True, exist_ok=True)
-    file_name = Path(config.file_name).stem
-    manifest_path = Path(config.output_directory) / f"{file_name}_manifest.json"
+
+    # Manifest file
+    manifest_path = config.output_directory / f"{config.file_path.stem}_manifest.json"
     manifest = Manifest.load_from_file(manifest_path)
 
     # In the autofill_command function
@@ -54,6 +56,6 @@ def autofill_command(config, num_forms, correct):
             contextlib.redirect_stdout(stdout_capture),
             contextlib.redirect_stderr(stderr_capture),
         ):
-            fill_pdf_form(file_path, out_path=output_dir, index=i, manifest=manifest, correct_only=correct)
+            fill_pdf_form(config.file_path, out_path=output_dir, index=i, manifest=manifest, correct_only=correct)
 
-    click.echo(f"Generated {num_forms} filled forms based on {file_path}")
+    click.echo(f"Generated {num_forms} filled forms based on {config.file_path}.")

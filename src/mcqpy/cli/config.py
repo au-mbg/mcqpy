@@ -6,12 +6,13 @@ from pydantic import BaseModel, Field, ConfigDict, field_validator, model_valida
 import yaml
 from mcqpy.compile import HeaderFooterOptions, FrontMatterOptions
 from typing import Any, Literal
+from pathlib import Path
 
 
 class GradingConfig(BaseModel):
     model_config = ConfigDict(extra="forbid", validate_assignment=True)
     submission_directory: str = Field(
-        default="submissions", description="Directory for student submissions"
+        default="submissions", description="Directory for student submissions relative to quiz root directory"
     )
     anonymous_pattern: str | None = Field(
         default=None,
@@ -56,23 +57,52 @@ class SelectionConfig(BaseModel):
 
 
 class QuizConfig(BaseModel):
-    model_config = ConfigDict(extra="forbid", validate_assignment=True)
-    questions_paths: list[str] | str = Field(
-        default=["questions"], description="Paths to question files or directories"
+    model_config = ConfigDict(extra="forbid", validate_assignment=True, populate_by_name=True)
+    questions_paths_: list[str] | str = Field(
+        default=["questions"], description="Paths to question files or directories, relative to the config file's directory", alias="questions_paths"
     )
     file_name: str = Field(
         default="quiz.pdf", description="Name of the output PDF file"
     )
-    root_directory: str = Field(
-        default=".", description="Root directory for the quiz project"
+    
+    root_directory_: str = Field(
+        default=".", description="Root directory for the quiz project, relative to the location of the config file", 
+        alias="root_directory"
     )
-    output_directory: str = Field(
-        default="output", description="Directory for output files"
+    output_directory_: str = Field(
+        default="output", description="Directory for output files, relative to the root directory", alias="output_directory"
     )
     grading: GradingConfig = Field(default_factory=GradingConfig)
     front_matter: FrontMatterOptions = Field(default_factory=FrontMatterOptions)
     header: HeaderFooterOptions = Field(default_factory=HeaderFooterOptions)
     selection: SelectionConfig = Field(default_factory=SelectionConfig)
+    path: Path | None = Field(None, description="Internal: file path from which the config was loaded", exclude=True)
+
+    @property
+    def root_directory(self) -> Path:
+        """Get root directory as a Path object"""
+        return (Path(self.path).parent / self.root_directory_).resolve()
+    
+    @property
+    def output_directory(self) -> Path:
+        """Get output directory as a Path object"""
+        return self.root_directory / self.output_directory_
+
+    @property
+    def questions_paths(self) -> list[Path]:
+        """Get questions paths as Path objects"""
+        return [self.root_directory / p for p in self.questions_paths_]
+    
+    @property
+    def file_path(self) -> Path:
+        """Get full file path for the output PDF"""
+        return self.output_directory / self.file_name
+    
+    @property
+    def submission_directory(self) -> Path:
+        """Get submission directory as a Path object"""
+        return self.root_directory / self.grading.submission_directory
+    
 
     @model_validator(mode="before")
     @classmethod
@@ -83,10 +113,28 @@ class QuizConfig(BaseModel):
                 data["grading"] = {}
             data["grading"]["submission_directory"] = data.pop("submission_directory")
         return data
+    
+    @model_validator(mode="before")
+    def check_paths_exist(cls, data):
+        """Resolve questions_paths relative to the config file's directory"""
+        path = data.get("path")
+        if not path:
+            return data
+        
+        config_dir = path.parent
+        
+        # Questions:
+        paths_to_check = data.get("questions_paths", []) + data.get("questions_paths_", [])
+        for path in paths_to_check:
+            resolved_path = (config_dir / path).resolve()
+            if not resolved_path.exists():
+                raise FileNotFoundError(f"Questions path does not exist: {resolved_path}")
+
+        return data
 
     def yaml_dump(self) -> str:
         """Dump the current configuration to a YAML string"""
-        config_dict = self.model_dump()
+        config_dict = self.model_dump(by_alias=True)
         yaml_content = yaml.dump(config_dict, default_flow_style=False, sort_keys=False)
         return yaml_content
 
@@ -102,4 +150,5 @@ class QuizConfig(BaseModel):
         with open(file_path, "r") as file:
             yaml_string = file.read()
         data = yaml.safe_load(yaml_string)
+        data['path'] = Path(file_path).resolve()
         return cls(**data)
