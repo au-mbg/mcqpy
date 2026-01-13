@@ -98,6 +98,17 @@ class QuestionBank:
     
     def __len__(self) -> int:
         return len(self._items)
+    
+    def get_all_tags(self) -> dict[str, int]:
+        """
+        Retrieve all tags in the question bank along with their counts.
+        """
+        tags_count = {}
+        for question in self.get_all_questions():
+            if question.tags:
+                for tag in question.tags:
+                    tags_count[tag] = tags_count.get(tag, 0) + 1
+        return tags_count
 
     def get_all_questions(self) -> list[Question]:
         """

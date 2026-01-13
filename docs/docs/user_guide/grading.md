@@ -27,7 +27,7 @@ the grades of the students.
 submissions. 
 
 ```
-mcqpy test-autofill -n 100
+mcqpy utils autofill -n 100
 ```
 
 Will produce 100 randomly filled quizzes that can then be graded as above: 

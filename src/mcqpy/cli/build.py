@@ -23,16 +23,24 @@ def build_solution(questions, manifest, output_path: Path):
     solution_pdf = SolutionPDF(file=output_path, questions=questions, manifest=manifest)
     solution_pdf.build(generate_pdf=True)
 
+def _build_filter(filter_name: str, filter_params: dict):
+    filter_config = {"type": filter_name, **filter_params}
+    filter_obj = FilterFactory.from_config(filter_config)
+    return filter_obj
+
+def _build_filters(selection_config: SelectionConfig):
+    filter_objs = []
+    if selection_config.filters:
+        for filter_name, filter_params in selection_config.filters.items():
+            filter_obj = _build_filter(filter_name, filter_params)
+            filter_objs.append(filter_obj)
+    return filter_objs
 
 def _select_questions(question_bank: QuestionBank, selection_config: SelectionConfig):
     ## Setup filters:
-    if selection_config.filters:
-        filter_objs = []
-        for filter_name, filter_params in selection_config.filters.items():
-            filter_config = {"type": filter_name, **filter_params}
-            filter_obj = FilterFactory.from_config(filter_config)
-            filter_objs.append(filter_obj)
-            question_bank.add_filter(filter_obj)
+    filter_objs = _build_filters(selection_config)
+    for filter_obj in filter_objs:
+        question_bank.add_filter(filter_obj)
 
     ## Apply filters and select questions
     questions = question_bank.get_filtered_questions(

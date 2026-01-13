@@ -2,7 +2,8 @@ from click.testing import CliRunner
 import os
 import pytest
 
-from mcqpy.cli import init_command, build_command, autofill_command, grade_command
+from mcqpy.cli import init_command, build_command, grade_command
+from mcqpy.cli.utils import autofill_command
 from mcqpy.cli.config import QuizConfig
 
 ################################################################################
