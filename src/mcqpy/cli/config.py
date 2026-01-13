@@ -91,7 +91,7 @@ class QuizConfig(BaseModel):
     @property
     def questions_paths(self) -> list[Path]:
         """Get questions paths as Path objects"""
-        return [self.root_directory / p for p in self.questions_paths_]
+        return [(self.path.parent / p).resolve() for p in self.questions_paths_]
     
     @property
     def file_path(self) -> Path:
