@@ -53,7 +53,7 @@ def grade_command(config, verbose: bool, file_format: str, analysis: bool):
     Provides the CLI command:
     ```
     mcqpy grade --config config.yaml --file-format xlsx --analysis
-    ```    
+    ```
     """
     # Load config
     config = QuizConfig.read_yaml(config)
@@ -63,7 +63,9 @@ def grade_command(config, verbose: bool, file_format: str, analysis: bool):
 
     # Read & Grade submissions
     graded_sets = []
-    grader = MCQGrader(manifest, StrictRubric(), regex_pattern=config.grading.anonymous_pattern)
+    grader = MCQGrader(
+        manifest, StrictRubric(), regex_pattern=config.grading.anonymous_pattern
+    )
     submissions = list(Path(config.grading.submission_directory).glob("*.pdf"))
     for submission in track(
         submissions,
@@ -74,9 +76,10 @@ def grade_command(config, verbose: bool, file_format: str, analysis: bool):
         graded_sets.append(graded_set)
 
     # Export grades to dataframe
-    df = get_grade_dataframe(graded_sets)
+    df = get_grade_dataframe(graded_sets, sort_key=config.grading.output_sort_key)
     output_path = (
-        Path(config.grading.submission_directory).parent / f"{file_name}_grades.{file_format}"
+        Path(config.grading.submission_directory).parent
+        / f"{file_name}_grades.{file_format}"
     )
     if file_format == "xlsx":
         df.to_excel(output_path, index=False)
@@ -93,6 +96,9 @@ def grade_command(config, verbose: bool, file_format: str, analysis: bool):
         print(f"Question bank loaded for analysis - {len(question_bank)}")
 
         quiz_analysis = QuizAnalysis(
-            graded_sets, question_bank=question_bank, output_dir=analysis_directory
+            graded_sets,
+            question_bank=question_bank,
+            output_dir=analysis_directory,
+            grading_config=config.grading,
         )
         quiz_analysis.build()

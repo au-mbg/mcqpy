@@ -57,6 +57,11 @@ class MCQPDFParser:
             if match:
                 student_info.update(match.groupdict())
 
+        # Try some type conversions: Prefer int over str
+        for key, value in student_info.items():
+            if isinstance(value, str) and value.isdigit():
+                student_info[key] = int(value)
+
         return student_info
 
     def _parse_questions(self, split_by_id):

@@ -42,6 +42,14 @@ class MCQGrader:
                 max_point_value=manifest_item.point_value,
             )
 
+            # Check if any answers were provided
+            if sum(graded_question.student_answers) == 0:
+                raise Warning(
+                    f"No answers provided for question {graded_question.qid} ({graded_question.slug})"
+                )
+
+
+
             # Apply rubric to determine point value earned
             graded_question.point_value = self.rubric.score_question(graded_question)
             graded_set.graded_questions.append(graded_question)

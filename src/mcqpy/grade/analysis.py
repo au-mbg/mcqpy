@@ -1,53 +1,27 @@
-from pathlib import Path
 import re
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-from annotated_types import doc
 from pylatex import (
     Command,
     Document,
     Enumerate,
     Figure,
-    Foot,
-    Head,
     LongTable,
     MultiColumn,
     NewPage,
     NoEscape,
     Package,
-    PageStyle,
     Section,
-    SubFigure,
 )
 from rich.console import Console
 from rich.progress import track
 
-from mcqpy.grade.utils import GradedQuestion, GradedSet
+from mcqpy.cli.config import GradingConfig
 from mcqpy.compile.preamble import add_preamble
-from mcqpy.question import Question, QuestionBank
-
-
-def get_grade_dataframe(graded_sets: list[GradedSet]) -> pd.DataFrame:
-    records = []
-    for graded_set in graded_sets:
-
-        record = {}
-        record.update(graded_set.student_info)
-        record.update({
-            "total_points": graded_set.points,
-            "max_points": graded_set.max_points,
-        })
-
-        for index, graded_question in enumerate(graded_set.graded_questions):
-            record[f"Q{index + 1}_points"] = graded_question.point_value
-
-        records.append(record)
-
-    df = pd.DataFrame.from_records(records)
-    # df.sort_values(by="student_name", inplace=True)
-    return df
+from mcqpy.grade.utils import GradedQuestion, GradedSet, get_grade_dataframe
+from mcqpy.question import QuestionBank
 
 
 def question_analysis(
@@ -132,8 +106,9 @@ class QuizAnalysis(Document):
         self,
         graded_sets: list[GradedSet],
         question_bank: QuestionBank,
-        output_dir: str | Path = None,
+        output_dir: str | Path = None,        
         console: Console = None,
+        grading_config: GradingConfig | None = None,
     ):
         super().__init__(
             documentclass="article",
@@ -152,6 +127,7 @@ class QuizAnalysis(Document):
         self.figure_directory.mkdir(parents=True, exist_ok=True)
         self.console = console or Console()
         self.question_bank = question_bank
+        self.grading_config = grading_config or GradingConfig()
 
     def build(self):
         # Added TOC
@@ -218,12 +194,12 @@ class QuizAnalysis(Document):
                 self.append(NewPage())
 
     def build_grade_table(self):
-        df = get_grade_dataframe(self.graded_sets)
+        df = get_grade_dataframe(self.graded_sets, sort_key=self.grading_config.output_sort_key)
 
         keys = []
 
         for key in df.keys().tolist():
-            if re.match(r"Q\d+_points", key):
+            if re.match(r"Q\d+_points", key) or key in ["max_points"]:
                 continue
             keys.append(key)
         
