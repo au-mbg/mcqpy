@@ -3,7 +3,16 @@ site_name: MCQpy
 nav:
   - Home: index.md
   - Installation: installation.md
-  - User Guide: user_guide/
+  - User Guide:
+      - user_guide/index.md        
+      - Basic Usage:
+          - user_guide/basic_usage/index.md
+          - user_guide/basic_usage/authoring_questions.md
+          - user_guide/basic_usage/generating_quiz.md
+          - user_guide/basic_usage/grading.md
+      - Advanced Usage:
+          - user_guide/advanced_usage/index.md
+          - user_guide/advanced_usage/multi_quiz_project.md
   - CLI Reference: cli.md
   - API Reference: autoapi/
 
