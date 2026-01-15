@@ -11,9 +11,7 @@ from pathlib import Path
     "-c",
     "--config",
     type=click.Path(exists=True, path_type=Path),
-    default=None,
     help="Path to the config file",
-    show_default=True,
     required=False,
 )
 @click.option('-fn', '--filter-name', type=str, help="Name of the filter to check", required=False)
@@ -30,10 +28,10 @@ def check_filter_command(config, filter_name, filter_params, yaml_input):
 
     # Load config
     if config is not None:
-        config = QuizConfig.read_yaml(config)
+        config = QuizConfig.read_yaml(config).selection
     elif filter_name is not None and filter_params is not None:
         config = SelectionConfig(filters={filter_name: yaml.safe_load(filter_params)})
-    elif yaml is not None:
+    elif yaml_input is not None:
         yaml_data = yaml.safe_load(yaml_input)
         config = SelectionConfig(filters=yaml_data)
     else:

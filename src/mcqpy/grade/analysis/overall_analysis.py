@@ -1,4 +1,5 @@
 from pathlib import Path
+import warnings
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -34,7 +35,9 @@ def correlation_analysis(graded_sets: list[GradedSet], output_dir: str | Path):
 
     for qidx in range(n_questions):
         q_points = point_array[:, qidx]
-        correlation, p_value = pearsonr(q_points, (total_points_array - q_points))
+        with warnings.catch_warnings():
+            warnings.filterwarnings('ignore')
+            correlation, p_value = pearsonr(q_points, (total_points_array - q_points))
 
         correlations[qidx] = correlation
         p_values[qidx] = p_value

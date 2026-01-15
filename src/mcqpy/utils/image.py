@@ -14,7 +14,7 @@ def check_if_url(url: str | Path) -> bool:
     return url.startswith('http://') or url.startswith('https://')
 
 
-def get_url_image_suffix(url: str) -> bool:
+def get_url_image_suffix(url: str) -> str | None:
     """Get the image suffix from a URL.
 
     Args:

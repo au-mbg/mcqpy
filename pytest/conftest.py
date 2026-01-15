@@ -6,17 +6,19 @@ import pytest
 import shutil
 from mcqpy.compile import MultipleChoiceQuiz, FrontMatterOptions, HeaderFooterOptions
 
+
 def pytest_configure(config):
     config.addinivalue_line(
         "markers", "requires_latex: mark test as requiring LaTeX installation"
     )
+
 
 def pytest_runtest_setup(item):
     """Automatically skip tests marked with requires_latex if LaTeX is not available"""
     if "requires_latex" in item.keywords:
         if not shutil.which("pdflatex"):
             pytest.skip("LaTeX (pdflatex) is not installed")
-            
+
 
 @dataclass
 class CodeSnippet:
@@ -60,7 +62,10 @@ class QuestionFactory:
         return self.index
 
     def generate_question(
-        self, image: bool | int = False, code: bool | int = False
+        self,
+        image: bool | int = False,
+        code: bool | int = False,
+        tags: list[str] = None,
     ) -> Question:
         index = self.get_index()
         slug = f"sample-question-{index}"
@@ -68,7 +73,6 @@ class QuestionFactory:
         choices = [f"Choice {i}" for i in range(1, 5)]
         question_type = "single" if index % 2 == 0 else "multiple"
         correct_choice = [index % len(choices)]
-
 
         ## Get some images
         if image:
@@ -90,10 +94,10 @@ class QuestionFactory:
                 images.append(str(img))
                 options = {0: {"width": "0.5\\textwidth"}}
                 captions = {0: f"This is the caption for image {index}."}
-        else: 
+        else:
             images = None
             captions = None
-        
+
         ## Get some code snippets
         if code:
             snippets = []
@@ -103,7 +107,7 @@ class QuestionFactory:
                     snippets.append(snip)
             else:
                 snippets = [self.code_snippets[index % len(self.code_snippets)]]
-            
+
             snippet_code = [s.content for s in snippets]
             snippet_language = [s.language for s in snippets]
         else:
@@ -123,19 +127,21 @@ class QuestionFactory:
             code_language=snippet_language,
             explanation="This is the explanation for the question.",
             created_date="01/01/2024",
+            tags=tags,
         )
 
         question = Question.model_validate(question_data, context={})
 
         return question
-    
-    def __call__(self, image: bool | int = False, code: bool | int = False) -> Question:
-        return self.generate_question(image=image, code=code)
-    
+
+    def __call__(self, *args, **kwargs) -> Question:
+        return self.generate_question(*args, **kwargs)
+
 
 @pytest.fixture(scope="session")
 def question_factory():
     return QuestionFactory()
+
 
 @pytest.fixture(scope="session")
 def question_set(question_factory):
@@ -150,24 +156,32 @@ def question_set(question_factory):
     code[4] = True
     image[5] = 2
     code[5] = 2
-    questions = [question_factory(image=image[i], code=code[i]) for i in range(0, 20)]
+    questions = [question_factory(image=image[i], code=code[i], tags=['sample_question']) for i in range(0, 20)]
     return questions
 
-@pytest.fixture(scope="session", params=['full', 'empty'])
+
+@pytest.fixture(scope="session", params=["full", "empty"])
 def header_options(request) -> HeaderFooterOptions:
     case = request.param
-    if case == 'full':
+    if case == "full":
         return HeaderFooterOptions(
             header_left="Left Header",
             header_center="Center Header",
             header_right="Right Header",
             footer_left="Left Footer",
             footer_center="Center Footer",
-            footer_right="Right Footer"
+            footer_right="Right Footer",
         )
     else:  # empty
-        return HeaderFooterOptions(header_left=None, header_center=None, header_right=None,
-                                   footer_left=None, footer_center=None, footer_right=None)
+        return HeaderFooterOptions(
+            header_left=None,
+            header_center=None,
+            header_right=None,
+            footer_left=None,
+            footer_center=None,
+            footer_right=None,
+        )
+
 
 @pytest.fixture(scope="session", params=[True, False])
 def front_matter_options(request) -> FrontMatterOptions:
@@ -176,19 +190,27 @@ def front_matter_options(request) -> FrontMatterOptions:
         author="Test Author",
         date="2024-01-01" if request.param else True,
         id_fields=request.param,
-        exam_information="This is a sample exam."
+        exam_information="This is a sample exam.",
     )
 
+
 @pytest.fixture(scope="session")
-def mcq(tmp_path_factory, question_set, header_options, front_matter_options) -> MultipleChoiceQuiz:
+def mcq(
+    tmp_path_factory, question_set, header_options, front_matter_options
+) -> MultipleChoiceQuiz:
     tmp_path = tmp_path_factory.mktemp("mcq_build_test")
     path = tmp_path / "test_quiz.pdf"
-    mcq = MultipleChoiceQuiz(file=path, questions=question_set, front_matter=front_matter_options, header_footer=header_options)
+    mcq = MultipleChoiceQuiz(
+        file=path,
+        questions=question_set,
+        front_matter=front_matter_options,
+        header_footer=header_options,
+    )
 
     return mcq
+
 
 @pytest.fixture(scope="session")
 def built_mcq(mcq):
     mcq.build(generate_pdf=True)
     return mcq
-

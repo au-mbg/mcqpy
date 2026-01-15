@@ -3,11 +3,13 @@ from mcqpy.question import Question, QuestionBank
 
 @pytest.fixture
 def question_set(question_factory) -> list[Question]:
+    tags = ["math", "algebra"]
+
     questions = []
     for i in range(10):
         image = i % 3  # 0, 1, or 2 images
         code = (i + 1) % 3  # 0, 1, or 2 code snippets
-        question = question_factory(image=image, code=code)
+        question = question_factory(image=image, code=code, tags=tags)
         questions.append(question)
     return questions
 
@@ -51,6 +53,21 @@ def test_get_by_qid_not_found(question_bank):
     with pytest.raises(KeyError, match="QID non_existent_qid not found"):
         question_bank.get_by_qid("non_existent_qid")
 
+def test_question_bank_get_all_tags(question_bank):
+    tags = question_bank.get_all_tags()
+    assert isinstance(tags, dict)
+    assert all(isinstance(k, str) for k in tags.keys())
+    assert all(isinstance(v, int) for v in tags.values())
+
+def test_question_bank_get_all_tags_match(question_bank, question_set):
+    expected_tags = {}
+    for question in question_set:
+        if question.tags:
+            for tag in question.tags:
+                expected_tags[tag] = expected_tags.get(tag, 0) + 1
+
+    bank_tags = question_bank.get_all_tags()
+    assert bank_tags == expected_tags
 
 
 

@@ -1,6 +1,6 @@
 from click.testing import CliRunner
 import pytest
-from mcqpy.cli.question import validate_command, init_command, render_command
+from mcqpy.cli.question import validate_command, init_command, render_command, check_tag_command
 from subprocess import CalledProcessError
 
 @pytest.fixture
@@ -75,3 +75,9 @@ def test_render_fail_render(mocker, written_questions) -> None:
     path = str(written_questions[0])
     result = runner.invoke(render_command, [path])
     assert "Error generating question PDF" in result.output
+
+def test_check_tag_command(written_questions) -> None:
+    runner = CliRunner()
+    result = runner.invoke(check_tag_command, written_questions[0].parent.as_posix())
+    assert result.exit_code == 0
+
