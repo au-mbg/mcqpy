@@ -3,17 +3,27 @@ from pathlib import Path
 from pypdf import PdfReader
 
 from mcqpy.grade.utils import ParsedQuestion, ParsedSet
+import contextlib
+from io import StringIO
 
 
 class MCQPDFParser:
     def parse_pdf(
         self, student_answer: str | Path, regex_pattern: str | None = None
     ) -> str:
-        reader = PdfReader(student_answer)
+        stdout_capture = StringIO()
+        stderr_capture = StringIO()
 
-        split_by_id = self._split_by_id(reader.get_fields())
+        with (
+            contextlib.redirect_stdout(stdout_capture),
+            contextlib.redirect_stderr(stderr_capture),
+        ):
+            reader = PdfReader(student_answer)
+            fields = reader.get_fields()
+
+        split_by_id = self._split_by_id(fields)
         student_info = self._find_student_info(
-            reader.get_fields(), regex_pattern=regex_pattern, filename=student_answer
+            fields, regex_pattern=regex_pattern, filename=student_answer
         )
         parsed_questions = self._parse_questions(split_by_id)
 

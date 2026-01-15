@@ -6,15 +6,7 @@ import numpy as np
 
 from mcqpy.grade.utils import GradedSet
 from scipy.stats import pearsonr
-
-from dataclasses import dataclass
-
-
-@dataclass
-class AnalysisFigure:
-    name: str
-    caption: str
-
+from mcqpy.grade.analysis.utils import AnalysisFigure
 
 def get_points_array(graded_sets: list[GradedSet]):
     point_arrays = np.zeros((len(graded_sets), 20))

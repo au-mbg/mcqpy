@@ -23,12 +23,13 @@ from mcqpy.question import QuestionBank
 from mcqpy.grade.analysis.question_analysis import question_analysis
 from mcqpy.grade.analysis.overall_analysis import make_quiz_analysis
 
+
 class QuizAnalysis(Document):
     def __init__(
         self,
         graded_sets: list[GradedSet],
         question_bank: QuestionBank,
-        output_dir: str | Path = None,        
+        output_dir: str | Path = None,
         console: Console = None,
         grading_config: GradingConfig | None = None,
     ):
@@ -76,14 +77,16 @@ class QuizAnalysis(Document):
     def build_quiz_analysis(self):
         figures = make_quiz_analysis(self.graded_sets, self.figure_directory)
         with self.create(Section("Overall Quiz Analysis", numbering="0")):
-            for figure in figures:            
+            for figure in figures:
                 with self.create(Figure(position="h!")) as fig:
-                    fig.add_image((Path("figures") / figure.name).as_posix(), width=NoEscape(r"0.8\textwidth"))
+                    fig.add_image(
+                        (Path("figures") / figure.name).as_posix(),
+                        width=NoEscape(r"0.8\textwidth"),
+                    )
                     fig.add_caption(NoEscape(figure.caption))
 
         self.append(NoEscape(r"\clearpage"))
         self.append(NewPage())
-        
 
     def build_question_analyses(self):
         num_questions = len(self.graded_sets[0].graded_questions)
@@ -94,8 +97,11 @@ class QuizAnalysis(Document):
                 graded_questions = [
                     gs.graded_questions[q_index] for gs in self.graded_sets
                 ]
-                fig_name = question_analysis(
-                    graded_questions, out_directory=self.figure_directory
+
+                figures = question_analysis(
+                    graded_questions=graded_questions,
+                    graded_sets=self.graded_sets,
+                    out_directory=self.figure_directory,
                 )
 
                 question = self.question_bank.get_by_qid(graded_questions[0].qid)
@@ -108,18 +114,22 @@ class QuizAnalysis(Document):
                     for choice in question.choices:
                         enum.add_item(NoEscape(choice))
 
-                with self.create(Figure(position="h!")) as fig:
-                    fig.add_image(
-                        (Path("figures") / fig_name).as_posix(), width="400px"
-                    )
-                    fig.add_caption(
-                        f"Analysis for Question {q_index + 1}: {graded_questions[0].slug}"
-                    )
+                for figure in figures:
+                    with self.create(Figure(position="h!")) as fig:
+                        self.append(NoEscape(r"\centering"))
+                        fig.add_image(
+                            (Path("figures") / figure.name).as_posix(), width=NoEscape(r"0.8\textwidth")
+                        )
+                        fig.add_caption(
+                            f"Analysis for Question {q_index + 1}: {figure.caption}"
+                        )
 
                 self.append(NewPage())
 
     def build_grade_table(self):
-        df = get_grade_dataframe(self.graded_sets, sort_key=self.grading_config.output_sort_key)
+        df = get_grade_dataframe(
+            self.graded_sets, sort_key=self.grading_config.output_sort_key
+        )
 
         keys = []
 
@@ -127,7 +137,6 @@ class QuizAnalysis(Document):
             if re.match(r"Q\d+_points", key) or key in ["max_points"]:
                 continue
             keys.append(key)
-        
 
         with self.create(Section("Grade Summary Table")):
             with self.create(LongTable("l" * len(keys))) as data_table:
@@ -143,7 +152,11 @@ class QuizAnalysis(Document):
                 data_table.end_table_footer()
                 data_table.add_hline()
                 data_table.add_row(
-                    (MultiColumn(len(keys), align="r", data="Not Continued on Next Page"),)
+                    (
+                        MultiColumn(
+                            len(keys), align="r", data="Not Continued on Next Page"
+                        ),
+                    )
                 )
                 data_table.add_hline()
                 data_table.end_table_last_footer()
