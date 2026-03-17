@@ -18,8 +18,8 @@ solution PDF.
 
 === "Quiz PDF"
 
-    ![Example quiz](quiz.pdf){ type=application/pdf style="min-height:50vh;width:100%"}
+    <embed src="quiz.pdf" type="application/pdf" style="min-height:50vh;width:100%" />
 
 === "Quiz solution PDF"
 
-    ![Example quiz](quiz_solution.pdf){ type=application/pdf style="min-height:50vh;width:100%"}
+    <embed src="quiz_solution.pdf" type="application/pdf" style="min-height:50vh;width:100%" />

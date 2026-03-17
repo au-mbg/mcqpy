@@ -1,0 +1,80 @@
+[project]
+site_name = "MCQpy"
+nav = [
+  {"Home" = "index.md"},
+  {"Installation" = "installation.md"},
+  {"User Guide" = [
+    "user_guide/index.md",
+    {"Basic Usage" = [
+      "user_guide/basic_usage/index.md",
+      "user_guide/basic_usage/authoring_questions.md",
+      "user_guide/basic_usage/generating_quiz.md",
+      "user_guide/basic_usage/grading.md",
+    ]},
+    {"Advanced Usage" = [
+      "user_guide/advanced_usage/index.md",
+      "user_guide/advanced_usage/multi_quiz_project.md",
+    ]},
+  ]},
+  {"CLI Reference" = "cli.md"},
+]
+
+[project.markdown_extensions]
+admonition = {}
+footnotes = {}
+attr_list = {}
+"mkdocs-click" = {}
+
+[project.markdown_extensions.pymdownx]
+snippets = {check_paths = true, dedent_subsections = true}
+highlight = {anchor_linenums = true, line_spans = "__span", pygments_lang_class = true}
+inlinehilite = {}
+superfences = {}
+details = {}
+tabbed = {alternate_style = true}
+
+[project.plugins]
+search = {}
+
+[project.plugins."mkdocs-autoapi"]
+autoapi_dir = "../src/mcqpy"
+autoapi_add_nav_entry = false
+
+[project.plugins.mkdocstrings.handlers.python]
+paths = ["../src"]
+
+[project.plugins.mkdocstrings.handlers.python.options]
+docstring_style = "numpy"
+docstring_section_style = "list"
+filters = ["!^_"]
+heading_level = 1
+inherited_members = true
+merge_init_into_class = true
+parameter_headings = true
+separate_signature = true
+show_root_heading = true
+show_root_full_path = true
+show_signature_annotations = true
+show_source = false
+show_symbol_type_heading = true
+show_symbol_type_toc = true
+signature_crossrefs = true
+summary = true
+
+[project.plugins.mkdocstrings.handlers.python.options.docstring_options]
+ignore_init_summary = false
+
+[project.theme]
+name = "material"
+language = "en"
+features = [
+  "navigation.footer",
+  "navigation.tabs",
+  "navigation.tabs.sticky",
+  "navigation.expand",
+  "navigation.sections",
+  "content.code.annotate",
+  "content.code.copy",
+  "content.tooltips",
+  "toc.follow",
+]

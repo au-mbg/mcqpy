@@ -67,16 +67,16 @@ jobs:
       - name: Install dependencies
         run: |
           uv sync --all-extras --dev
-      - name: Build & deploy documentation
+      - name: Build documentation
         env: 
           TERM: dumb
         run: |
-          uv run mkdocs build -f docs/mkdocs.yml -d ./build/html
+          uv run zensical build --config-file docs/zensical.toml
 
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./docs/build/html
+          path: ./docs/site
   
   pages-deploy:
     permissions:
