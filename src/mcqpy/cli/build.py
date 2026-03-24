@@ -8,7 +8,7 @@ import rich_click as click
 from rich.pretty import Pretty
 from rich.console import Console
 
-from mcqpy.cli._selection import select_questions
+from mcqpy.cli._selection import select_questions, _build_filter, build_filters
 from mcqpy.cli.config import QuizConfig
 from mcqpy.cli.main import main
 from mcqpy.compile import MultipleChoiceQuiz
