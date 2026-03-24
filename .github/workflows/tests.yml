@@ -72,6 +72,10 @@ jobs:
           TERM: dumb
         run: |
           uv run zensical build --config-file docs/zensical.toml
+      - name: Build wheel for docs site
+        run: |
+          uv build --wheel
+          uv run python scripts/build_docs_wheels.py
 
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3

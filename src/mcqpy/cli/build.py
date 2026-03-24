@@ -3,11 +3,10 @@ CLI Build Command
 """
 
 import rich_click as click
-import numpy as np
 from mcqpy.cli.main import main
-from mcqpy.cli.config import QuizConfig, SelectionConfig
+from mcqpy.cli.config import QuizConfig
+from mcqpy.cli._selection import select_questions
 from pathlib import Path
-from mcqpy.question.filter import FilterFactory
 
 from mcqpy.compile import MultipleChoiceQuiz
 from mcqpy.question import QuestionBank
@@ -22,34 +21,6 @@ def build_solution(questions, manifest, output_path: Path):
 
     solution_pdf = SolutionPDF(file=output_path, questions=questions, manifest=manifest)
     solution_pdf.build(generate_pdf=True)
-
-def _build_filter(filter_name: str, filter_params: dict):
-    filter_config = {"type": filter_name, **filter_params}
-    filter_obj = FilterFactory.from_config(filter_config)
-    return filter_obj
-
-def _build_filters(selection_config: SelectionConfig):
-    filter_objs = []
-    if selection_config.filters:
-        for filter_name, filter_params in selection_config.filters.items():
-            filter_obj = _build_filter(filter_name, filter_params)
-            filter_objs.append(filter_obj)
-    return filter_objs
-
-def _select_questions(question_bank: QuestionBank, selection_config: SelectionConfig):
-    ## Setup filters:
-    filter_objs = _build_filters(selection_config)
-    for filter_obj in filter_objs:
-        question_bank.add_filter(filter_obj)
-
-    ## Apply filters and select questions
-    questions = question_bank.get_filtered_questions(
-        number_of_questions=selection_config.number_of_questions,
-        shuffle=selection_config.shuffle,
-        sorting=selection_config.sort_type,
-    )
-    return questions
-
 
 @main.command(
     name="build",
@@ -81,7 +52,7 @@ def build_command(config):
     question_bank = QuestionBank.from_directories(
         config.questions_paths, seed=config.selection.seed
     )
-    questions = _select_questions(question_bank, config.selection)
+    questions = select_questions(question_bank, config.selection)
 
     console = Console()
     console.print("[bold green]Quiz Configuration:[/bold green]")
