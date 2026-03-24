@@ -2,18 +2,22 @@
 CLI Build Command
 """
 
-import rich_click as click
-from mcqpy.cli.main import main
-from mcqpy.cli.config import QuizConfig
-from mcqpy.cli._selection import select_questions
 from pathlib import Path
 
-from mcqpy.compile import MultipleChoiceQuiz
-from mcqpy.question import QuestionBank
-from mcqpy.compile.manifest import Manifest
-
+import rich_click as click
 from rich.pretty import Pretty
 from rich.console import Console
+
+from mcqpy.cli._selection import select_questions
+from mcqpy.cli.config import QuizConfig
+from mcqpy.cli.main import main
+from mcqpy.compile import MultipleChoiceQuiz
+from mcqpy.compile.manifest import Manifest
+from mcqpy.question import QuestionBank
+
+
+# Backward-compatible private alias kept for older tests/importers.
+_select_questions = select_questions
 
 
 def build_solution(questions, manifest, output_path: Path):
