@@ -11,14 +11,15 @@ except ImportError:  # pragma: no cover - direct `shiny run path/to/app.py`
     from loader import load_bundle
     from shared_core import create_quiz_app
 
-from mcqpy_core.web import decode_quiz_token, grade_web_quiz
+from mcqpy_core.web import WebQuizBundle, decode_quiz_token, grade_web_quiz
 
 async def _load_bundle(source: str) -> dict:
     return await load_bundle(source)
 
 
 def _grade_bundle(bundle: dict, answers: dict) -> dict:
-    return grade_web_quiz(bundle, answers)
+    validated_bundle = WebQuizBundle.model_validate(bundle)
+    return grade_web_quiz(validated_bundle, answers).model_dump()
 
 
 def create_app(

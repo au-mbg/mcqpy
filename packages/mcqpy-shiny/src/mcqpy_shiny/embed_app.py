@@ -53,6 +53,11 @@ async def load_bundle(source: str) -> dict:
     return _resolve_question_images(bundle, source)
 
 
+def _grade_bundle(bundle: dict, answers: dict) -> dict:
+    validated_bundle = WebQuizBundle.model_validate(bundle)
+    return grade_web_quiz(validated_bundle, answers).model_dump()
+
+
 def create_app(
     *,
     fixed_url: str | None = None,
@@ -64,7 +69,7 @@ def create_app(
     return create_quiz_app(
         load_bundle=load_bundle,
         decode_token=decode_quiz_token,
-        grade_bundle=grade_web_quiz,
+        grade_bundle=_grade_bundle,
         missing_bundle_message="Load a quiz bundle to begin.",
         fixed_url=fixed_url,
         fixed_token=fixed_token,
