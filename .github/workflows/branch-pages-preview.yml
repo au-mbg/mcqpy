@@ -47,14 +47,14 @@ jobs:
       - name: Copy wheels into docs site
         run: uv run python docs/scripts/build_docs_wheels.py
 
-      - name: Render Quarto Shiny site
-        run: quarto render docs/shiny-pages
+      # - name: Render Quarto Shiny site
+      #   run: quarto render docs/shiny-pages
 
-      - name: Assemble Pages artifact
-        run: |
-          mkdir -p docs/site/shiny
-          rm -rf docs/site/shiny/*
-          cp -R docs/shiny-pages/_site/. docs/site/shiny/
+      # - name: Assemble Pages artifact
+      #   run: |
+      #     mkdir -p docs/site/shiny
+      #     rm -rf docs/site/shiny/*
+      #     cp -R docs/shiny-pages/_site/. docs/site/shiny/
 
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3
