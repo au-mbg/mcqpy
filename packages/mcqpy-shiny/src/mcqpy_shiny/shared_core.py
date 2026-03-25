@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Awaitable, Callable
 from html import escape
+import traceback
 
 from shiny import App, reactive, render, ui
 
@@ -332,6 +333,7 @@ def create_quiz_app(
         current_index = reactive.value(0)
         load_error = reactive.value(None)
         result = reactive.value(None)
+        result_error = reactive.value(None)
         auto_loaded = reactive.value(False)
 
         def _bundle() -> dict | None:
@@ -368,12 +370,14 @@ def create_quiz_app(
                 load_error.set(str(exc))
                 bundle.set(None)
                 result.set(None)
+                result_error.set(None)
                 return
 
             load_error.set(None)
             bundle.set(loaded)
             answers.set({})
             result.set(None)
+            result_error.set(None)
             current_index.set(0)
 
         @reactive.effect
@@ -466,13 +470,22 @@ def create_quiz_app(
             if loaded is None:
                 return
             _store_current_answer()
-            result.set(grade_bundle(loaded, answers.get()))
+            try:
+                graded = grade_bundle(loaded, answers.get())
+            except Exception:
+                result.set(None)
+                result_error.set(traceback.format_exc())
+                return
+
+            result_error.set(None)
+            result.set(graded)
 
         @reactive.effect
         @reactive.event(input.restart_quiz)
         def _restart_quiz():
             answers.set({})
             result.set(None)
+            result_error.set(None)
             current_index.set(0)
 
         @output
@@ -511,36 +524,53 @@ def create_quiz_app(
             if load_error.get():
                 return ui.p(load_error.get(), class_="text-danger")
 
+            if result_error.get():
+                return ui.card(
+                    ui.h2("Grading Error"),
+                    ui.tags.pre(result_error.get()),
+                    ui.input_action_button("restart_quiz", "Restart quiz"),
+                    class_="mcqpy-card",
+                )
+
             loaded = _bundle()
             if loaded is None:
                 return ui.markdown(missing_bundle_message)
 
             if result.get() is not None:
                 graded = result.get()
-                summary = [
-                    ui.h2("Results"),
-                    ui.p(f"Score: {graded['points']} / {graded['max_points']}"),
-                    ui.div(
-                        ui.h3("Points by question"),
-                        _result_chart_svg(loaded["questions"], graded),
-                        ui.p(
-                            "Bars show earned points for each question number; hover labels reflect the full slug.",
-                            class_="text-muted",
+                try:
+                    summary = [
+                        ui.h2("Results"),
+                        ui.p(f"Score: {graded['points']} / {graded['max_points']}"),
+                        ui.div(
+                            ui.h3("Points by question"),
+                            _result_chart_svg(loaded["questions"], graded),
+                            ui.p(
+                                "Bars show earned points for each question number; hover labels reflect the full slug.",
+                                class_="text-muted",
+                            ),
+                            class_="mcqpy-results-chart",
                         ),
-                        class_="mcqpy-results-chart",
-                    ),
-                    ui.tags.ul(
-                        *[
-                            ui.tags.li(
-                                f"{question['slug']}: {item['points']}/{item['max_points']}"
-                            )
-                            for question, item in zip(
-                                loaded["questions"], graded["question_results"], strict=False
-                            )
-                        ]
-                    ),
-                    ui.input_action_button("restart_quiz", "Restart quiz"),
-                ]
+                        ui.tags.ul(
+                            *[
+                                ui.tags.li(
+                                    f"{question['slug']}: {item['points']}/{item['max_points']}"
+                                )
+                                for question, item in zip(
+                                    loaded["questions"], graded["question_results"], strict=False
+                                )
+                            ]
+                        ),
+                        ui.input_action_button("restart_quiz", "Restart quiz"),
+                    ]
+                except Exception:
+                    result_error.set(traceback.format_exc())
+                    return ui.card(
+                        ui.h2("Grading Error"),
+                        ui.tags.pre(result_error.get()),
+                        ui.input_action_button("restart_quiz", "Restart quiz"),
+                        class_="mcqpy-card",
+                    )
                 return ui.card(*summary, class_="mcqpy-card")
 
             questions = loaded["questions"]
