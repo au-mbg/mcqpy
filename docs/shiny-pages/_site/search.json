@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "custom-package-test.html",
+    "href": "custom-package-test.html",
+    "title": "Custom Package Test",
+    "section": "",
+    "text": "This page tests whether a project-owned wheel can be installed in a Quarto Shinylive app via requirements.txt.\n#| '!! shinylive warning !!': |\n#|   shinylive does not work in self-contained HTML documents.\n#|   Please set `embed-resources: false` in your metadata.\n#| standalone: true\n## file: app.py\nfrom shiny import App, ui\nfrom embed_demo_pkg import get_message\n\napp = App(\n    ui.page_fluid(\n        ui.h2(\"custom wheel install test\"),\n        ui.p(get_message()),\n    ),\n    None,\n)\n\n## file: requirements.txt\n./wheels/embed_demo_pkg-0.1.0-py3-none-any.whl"
+  },
+  {
+    "objectID": "micropip-test.html",
+    "href": "micropip-test.html",
+    "title": "Micropip Test",
+    "section": "",
+    "text": "This page tests whether a Shinylive app embedded in Quarto can install a Python package using a bundled requirements.txt file.\n#| '!! shinylive warning !!': |\n#|   shinylive does not work in self-contained HTML documents.\n#|   Please set `embed-resources: false` in your metadata.\n#| standalone: true\n## file: app.py\nfrom pyfiglet import figlet_format\nfrom shiny import App, ui\n\napp = App(\n    ui.page_fluid(\n        ui.h2(\"requirements.txt install test\"),\n        ui.p(\"If this page works, the package was installed inside the Shinylive runtime.\"),\n        ui.tags.pre(figlet_format(\"MCQPy\")),\n    ),\n    None,\n)\n\n## file: requirements.txt\npyfiglet"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "MCQPy Web",
+    "section": "",
+    "text": "This page embeds the MCQPy Shinylive quiz app using a generated wheel-based include.\nThe include is produced with mcqpy_shiny.embed_cli, which emits a small Shinylive app wrapper plus a requirements.txt that installs mcqpy-shiny from a published wheel.\n#| '!! shinylive warning !!': |\n#|   shinylive does not work in self-contained HTML documents.\n#|   Please set `embed-resources: false` in your metadata.\n#| standalone: true\n## file: app.py\nfrom mcqpy_shiny.embed_app import create_app\n\napp = create_app(\n    fixed_url=None,\n    fixed_token=None,\n    allow_manual_load=True,\n    title='MCQPy Quiz',\n    card_width='900px',\n)\n## file: requirements.txt\nshiny&gt;=1.2.1\nhttps://au-mbg.github.io/mcqpy-shiny/wheels/mcqpy_shiny-0.1.0-py3-none-any.whl"
+  }
+]

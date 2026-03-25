@@ -1,0 +1,12 @@
+---
+title: "MCQPy Web"
+filters:
+  - shinylive
+---
+
+This page embeds the MCQPy Shinylive quiz app using a generated wheel-based include.
+
+The include is produced with `mcqpy_shiny.embed_cli`, which emits a small Shinylive app
+wrapper plus a `requirements.txt` that installs `mcqpy-shiny` from a published wheel.
+
+{{< include _includes/hosted_wheel_quiz.qmd >}}

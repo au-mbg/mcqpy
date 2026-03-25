@@ -1,0 +1,26 @@
+---
+title: "Custom Package Test"
+filters:
+  - shinylive
+---
+
+This page tests whether a project-owned wheel can be installed in a Quarto
+Shinylive app via `requirements.txt`.
+
+```{shinylive-python}
+#| standalone: true
+## file: app.py
+from shiny import App, ui
+from embed_demo_pkg import get_message
+
+app = App(
+    ui.page_fluid(
+        ui.h2("custom wheel install test"),
+        ui.p(get_message()),
+    ),
+    None,
+)
+
+## file: requirements.txt
+./wheels/embed_demo_pkg-0.1.0-py3-none-any.whl
+```

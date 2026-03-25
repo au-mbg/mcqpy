@@ -1,0 +1,16 @@
+```{shinylive-python}
+#| standalone: true
+## file: app.py
+from mcqpy_shiny.embed_app import create_app
+
+app = create_app(
+    fixed_url=None,
+    fixed_token=None,
+    allow_manual_load=True,
+    title='MCQPy Quiz',
+    card_width='900px',
+)
+## file: requirements.txt
+shiny>=1.2.1
+https://au-mbg.github.io/mcqpy-shiny/wheels/mcqpy_shiny-0.1.0-py3-none-any.whl
+```
