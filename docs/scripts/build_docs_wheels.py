@@ -13,6 +13,9 @@ def main() -> None:
     wheels_dir = docs_site_dir / "wheels"
     wheels_dir.mkdir(parents=True, exist_ok=True)
 
+    for existing in wheels_dir.glob("*.whl"):
+        existing.unlink()
+
     wheels = sorted(dist_dir.glob("*.whl"))
     if not wheels:
         raise SystemExit("No wheels found in dist/. Build the package first.")
@@ -31,11 +34,11 @@ def main() -> None:
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>mcqpy wheels</title>
+    <title>mcqpy wheel index</title>
   </head>
   <body>
-    <h1>mcqpy wheels</h1>
-    <p>Temporary wheel index for browser-based Shinylive testing.</p>
+    <h1>mcqpy wheel index</h1>
+    <p>Temporary wheel index for browser-based Shinylive testing and branch preview deployments.</p>
     <ul>
 {links}
     </ul>

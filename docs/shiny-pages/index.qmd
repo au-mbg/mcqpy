@@ -9,6 +9,9 @@ This page embeds the MCQPy Shinylive quiz app using a generated wheel-based incl
 The include is produced with `mcqpy_shiny.embed_cli`, which emits a small Shinylive app
 wrapper plus a `requirements.txt` that installs `mcqpy-shiny` from a published wheel.
 
+The preview site is published under `/shiny/`, while the wheel artifacts are published under
+`/wheels/` on the same Pages deployment.
+
 ```{shinylive-python}
 #| standalone: true
 ## file: app.py
@@ -23,5 +26,5 @@ app = create_app(
 )
 ## file: requirements.txt
 shiny>=1.2.1
-https://github.com/au-mbg/mcqpy/blob/3709c44f2fee006129dbea2bc144f53dd1eeb698/temp_wheels/mcqpy_shiny-0.1.0-py3-none-any.whl
+https://au-mbg.github.io/mcqpy/wheels/mcqpy_shiny-0.1.0-py3-none-any.whl
 ```
