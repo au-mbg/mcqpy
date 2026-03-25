@@ -25,6 +25,7 @@ dependencies = [
 [tool.uv.sources]
 mcqpy-core = { workspace = true }
 mcqpy-pdf = { workspace = true }
+mcqpy-shiny = { workspace = true }
 
 [project.scripts]
 mcqpy = "mcqpy.cli.main:main"
@@ -45,9 +46,9 @@ addopts = [
   "--cov-report", "xml:.coverage.xml",
   "--junitxml", ".report.xml",
   "--cov", "src/mcqpy",
-  "--cov", "src/mcqpy_core",
-  "--cov", "src/mcqpy_pdf",
-  "--cov", "src/mcqpy_shiny",
+  "--cov", "packages/mcqpy-core/src/mcqpy_core",
+  "--cov", "packages/mcqpy-pdf/src/mcqpy_pdf",
+  "--cov", "packages/mcqpy-shiny/src/mcqpy_shiny",
 ]
 
 [tool.coverage.run]
@@ -55,6 +56,7 @@ omit = []
 
 [dependency-groups]
 dev = [
+    "mcqpy-shiny>=0.1.0",
     "ruff>=0.14.10",
     "pytest>=9.0.1",
     "pytest-cov>=7.0.0",
