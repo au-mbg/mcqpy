@@ -1,5 +1,5 @@
 import pytest
-from mcqpy.compile.manifest import Manifest
+from mcqpy_core.manifest import Manifest
 
 
 @pytest.fixture(scope="module")

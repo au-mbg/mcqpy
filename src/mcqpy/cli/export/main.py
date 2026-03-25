@@ -1,11 +1,5 @@
-"""CLI group for web export utilities."""
+"""Compatibility shim for the export command group now owned by mcqpy-core."""
 
-import rich_click as click
+from mcqpy_core.cli.export.main import export_group
 
-from mcqpy.cli.main import main
-
-
-@main.group(name="export")
-def export_group() -> None:
-    """Commands for exporting browser-ready quiz artifacts."""
-    return None  # pragma: no cover
+__all__ = ["export_group"]

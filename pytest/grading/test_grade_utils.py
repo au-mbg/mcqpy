@@ -1,7 +1,7 @@
 import pytest
 import pandas as pd
 
-from mcqpy.grade.utils import get_grade_dataframe
+from mcqpy_core.grading import get_grade_dataframe
 
 @pytest.fixture
 def grade_df(graded_sets) -> pd.DataFrame:

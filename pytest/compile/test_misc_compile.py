@@ -1,1 +1,1 @@
-from mcqpy.compile.latex_questions import _build_question_code
+from mcqpy_pdf.compile.latex_questions import _build_question_code

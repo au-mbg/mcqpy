@@ -57,7 +57,7 @@ def test_render_exit_code(rendered_question) -> None:
 
 def test_render_fail_load(mocker, written_questions) -> None:
     runner = CliRunner()
-    mocker.patch("mcqpy.question.Question.load_yaml", side_effect=Exception("Load failed"))
+    mocker.patch("mcqpy_core.question.Question.load_yaml", side_effect=Exception("Load failed"))
     path = str(written_questions[0])
     result = runner.invoke(render_command, [path])
     assert "Error loading question" in result.output
@@ -80,4 +80,3 @@ def test_check_tag_command(written_questions) -> None:
     runner = CliRunner()
     result = runner.invoke(check_tag_command, written_questions[0].parent.as_posix())
     assert result.exit_code == 0
-

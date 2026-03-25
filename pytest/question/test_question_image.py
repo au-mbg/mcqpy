@@ -1,5 +1,5 @@
 import pytest
-from mcqpy.question import Question
+from mcqpy_core.question import Question
 from pathlib import Path
 
 from importlib.resources import files
@@ -46,4 +46,3 @@ def test_question_image_load(question_with_image_on_disk):
     assert len(loaded_question.image) == 1
     assert Path(loaded_question.image[0]).exists()
     loaded_question.save(question_with_image_on_disk.parent / 're_saved_question.yaml')
-

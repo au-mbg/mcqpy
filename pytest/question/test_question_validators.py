@@ -1,4 +1,4 @@
-from mcqpy.question.question import Question, qid_from_slug
+from mcqpy_core.question.question import Question, qid_from_slug
 import pytest
 
 ### Test cases for Question._derive_qid

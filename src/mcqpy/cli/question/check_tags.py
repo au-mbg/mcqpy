@@ -7,7 +7,7 @@ from mcqpy.cli.question.main import question_group
 @question_group.command(name="check-tags", help="Check tags in questions")
 @click.argument("path", type=click.Path(exists=True))
 def check_tag_command(path):
-    from mcqpy.question import QuestionBank
+    from mcqpy_core.question import QuestionBank
     question_bank = QuestionBank.from_directories([path])
 
     tags_count = question_bank.get_all_tags()

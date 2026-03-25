@@ -1,5 +1,5 @@
 import pytest
-from mcqpy.question import Question
+from mcqpy_core.question import Question
 
 @pytest.fixture()
 def basic_question():

@@ -1,5 +1,5 @@
 import pytest
-from mcqpy.question.utils import _norm_caps, _norm_images, _norm_opts, relativize_paths
+from mcqpy_core.question.utils import _norm_caps, _norm_images, _norm_opts, relativize_paths
 
 
 def test_norm_images_list_error():

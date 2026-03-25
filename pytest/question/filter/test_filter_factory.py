@@ -1,4 +1,4 @@
-from mcqpy.question.filter.factory import FilterFactory
+from mcqpy_core.question.filter.factory import FilterFactory
 import pytest
 
 @pytest.fixture

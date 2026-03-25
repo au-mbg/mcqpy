@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from mcqpy.web import (
+from mcqpy_core.web import (
     WebQuizBundle,
     build_web_quiz_bundle,
     decode_quiz_token,

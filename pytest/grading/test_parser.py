@@ -1,5 +1,5 @@
 import pytest
-from mcqpy.grade.parse_pdf import MCQPDFParser
+from mcqpy_pdf.parse_pdf import MCQPDFParser
 
 @pytest.fixture(scope="module")
 def parser():
@@ -14,7 +14,6 @@ def test_find_student_info_regex(parser, filename, expected):
     regex_pattern = "mcq_(?P<id1>\w+)_(?P<id2>\w+).pdf"
     result = parser._find_student_info(fields={}, filename=filename, regex_pattern=regex_pattern)
     assert result == expected
-
 
 
 

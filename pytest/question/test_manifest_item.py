@@ -1,6 +1,7 @@
 import pytest
-from mcqpy.compile.manifest import ManifestItem
-from mcqpy.question import Question, compute_question_sha256
+from mcqpy_core.manifest import ManifestItem
+from mcqpy_core.question import Question
+from mcqpy_core.question.utils import compute_question_sha256
 
 
 @pytest.fixture(params=[0, 1, 2, 3, 4, 5])

@@ -1,5 +1,5 @@
 from unittest.mock import patch
-from mcqpy.utils.check_latex import (
+from mcqpy_pdf.utils.check_latex import (
     check_latex_command,
     check_latex_installation,
     check_latex_compilation,
@@ -18,7 +18,7 @@ def test_check_latex_command_not_found():
 def test_check_latex_installation_missing_pdflatex():
     """Test when pdflatex is not installed."""
     with patch(
-        "mcqpy.utils.check_latex.check_latex_command",
+        "mcqpy_pdf.utils.check_latex.check_latex_command",
         return_value=LaTeXCheckResult(
             command="pdflatex", is_available=False, version="N/A"
         ),
@@ -30,13 +30,13 @@ def test_check_latex_installation_missing_pdflatex():
 def test_check_latex_compilation_failure():
     """Test when LaTeX compilation fails."""
     with patch(
-        "mcqpy.utils.check_latex.check_latex_command",
+        "mcqpy_pdf.utils.check_latex.check_latex_command",
         side_effect=[
             LaTeXCheckResult(command="pdflatex", is_available=True, version="pdflatex 3.14159265"),
             LaTeXCheckResult(command="latexmk", is_available=True, version="latexmk 4.65"),
         ],
     ), patch(
-        "mcqpy.utils.check_latex.check_latex_compilation",
+        "mcqpy_pdf.utils.check_latex.check_latex_compilation",
         return_value=(False, "Compilation error"),
     ):
         success, details = check_latex_installation()
