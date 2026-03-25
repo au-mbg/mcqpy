@@ -1,6 +1,5 @@
 from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
-import yaml
 
 class HeaderFooterOptions(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)

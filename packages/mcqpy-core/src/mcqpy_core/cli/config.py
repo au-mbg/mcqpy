@@ -1,13 +1,23 @@
-"""
-Quiz configuration management using Pydantic and YAML.
-"""
+"""Quiz configuration management using Pydantic and YAML."""
+
+from pathlib import Path
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field, ConfigDict, field_validator, model_validator
-import yaml
-from mcqpy_core.header_config import HeaderFooterOptions
+
 from mcqpy_core.front_config import FrontMatterOptions
-from typing import Any, Literal
-from pathlib import Path
+from mcqpy_core.header_config import HeaderFooterOptions
+
+
+def _import_yaml():
+    try:
+        import yaml
+    except ModuleNotFoundError as exc:  # pragma: no cover - environment dependent
+        raise ModuleNotFoundError(
+            "PyYAML is required for quiz config YAML operations. "
+            "Install mcqpy-core with the 'yaml' extra."
+        ) from exc
+    return yaml
 
 
 class GradingConfig(BaseModel):
@@ -135,6 +145,7 @@ class QuizConfig(BaseModel):
 
     def yaml_dump(self) -> str:
         """Dump the current configuration to a YAML string"""
+        yaml = _import_yaml()
         config_dict = self.model_dump(by_alias=True)
         yaml_content = yaml.dump(config_dict, default_flow_style=False, sort_keys=False)
         return yaml_content
@@ -148,6 +159,7 @@ class QuizConfig(BaseModel):
     @classmethod
     def read_yaml(cls, file_path: str) -> "QuizConfig":
         """Read YAML file and return a QuizConfig instance"""
+        yaml = _import_yaml()
         with open(file_path, "r") as file:
             yaml_string = file.read()
         data = yaml.safe_load(yaml_string)

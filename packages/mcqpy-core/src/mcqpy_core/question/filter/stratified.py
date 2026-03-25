@@ -1,9 +1,8 @@
 """
 Module for stratified question filtering.
 """
+import random
 from typing import TYPE_CHECKING
-
-import numpy as np
 from mcqpy_core.question.filter.base_filter import BaseFilter
 
 if TYPE_CHECKING:
@@ -62,8 +61,8 @@ class StratifiedFilter(BaseFilter):
         
         for filt, prop in zip(self.filters, self.proportions):
             num_to_select = int(total_questions * prop)
-            filtered = filt.apply(questions)
-            np.random.shuffle(filtered)
+            filtered = list(filt.apply(questions))
+            random.shuffle(filtered)
             selected_questions.extend(filtered[:num_to_select])
         
         return selected_questions

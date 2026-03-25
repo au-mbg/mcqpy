@@ -1,4 +1,3 @@
-import numpy as np
 from mcqpy_core.grading.types import GradedQuestion
 
 

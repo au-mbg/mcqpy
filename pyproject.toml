@@ -16,7 +16,7 @@ authors = [
 requires-python = ">=3.13"
 dependencies = [
     "click>=8.3.0",
-    "mcqpy-core>=0.1.0",
+    "mcqpy-core[cli,yaml]>=0.1.0",
     "mcqpy-pdf>=0.1.0",
     "rich>=14.2.0",
     "rich-click>=1.9.3",

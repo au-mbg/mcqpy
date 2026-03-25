@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 
-import pandas as pd
-
 
 @dataclass
 class ParsedQuestion:
@@ -38,7 +36,15 @@ class GradedSet:
 
 def get_grade_dataframe(
     graded_sets: list[GradedSet], sort_key: str | None = None
-) -> pd.DataFrame:
+):
+    try:
+        import pandas as pd
+    except ModuleNotFoundError as exc:  # pragma: no cover - environment dependent
+        raise ModuleNotFoundError(
+            "pandas is required for grade dataframe export. "
+            "Install mcqpy-core with the 'grading' extra."
+        ) from exc
+
     records = []
     for graded_set in graded_sets:
         record = {}

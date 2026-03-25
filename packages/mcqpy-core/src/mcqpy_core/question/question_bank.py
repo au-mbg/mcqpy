@@ -1,11 +1,10 @@
 """
 Definition of the QuestionBank class for managing multiple-choice questions.
 """
+import random
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
-
-import numpy as np
 
 from mcqpy_core.question.filter.base_filter import BaseFilter, CompositeFilter
 from mcqpy_core.question.question import Question
@@ -25,7 +24,7 @@ class QuestionBank:
         self._items = items
         self._by_slug = {it.question.slug: it for it in items}
         self._by_qid = {it.question.qid: it for it in items}
-        self._rng = np.random.default_rng(seed=seed)
+        self._rng = random.Random(seed)
         self._filters = []
 
     @classmethod
@@ -154,7 +153,8 @@ class QuestionBank:
             questions = comp_filter.apply(self.get_all_questions())
 
         if shuffle:
-            questions = self._rng.permutation(questions).tolist()
+            questions = list(questions)
+            self._rng.shuffle(questions)
 
         if number_of_questions is not None:
             questions = questions[:number_of_questions]

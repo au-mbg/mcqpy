@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Micropip Test – MCQPy Web</title>
+<title>Micropip Dependency Check – MCQPy Web</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -128,7 +128,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Micropip Test</h1>
+<h1 class="title">Micropip Dependency Check</h1>
 </div>
 
 
@@ -145,26 +145,52 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This page tests whether a Shinylive app embedded in Quarto can install a Python package using a bundled <code>requirements.txt</code> file.</p>
+<p>This page tries to install the hosted <code>mcqpy_core</code> and <code>mcqpy_shiny</code> wheels with <code>micropip.install(..., keep_going=True)</code> so the browser shows the full missing-wheel set instead of stopping at the first dependency failure.</p>
 <pre class="shinylive-python" data-engine="python"><code>#| '!! shinylive warning !!': |
 #|   shinylive does not work in self-contained HTML documents.
 #|   Please set `embed-resources: false` in your metadata.
 #| standalone: true
 ## file: app.py
-from pyfiglet import figlet_format
-from shiny import App, ui
+from shiny import App, reactive, render, ui
 
-app = App(
-    ui.page_fluid(
-        ui.h2("requirements.txt install test"),
-        ui.p("If this page works, the package was installed inside the Shinylive runtime."),
-        ui.tags.pre(figlet_format("MCQPy")),
-    ),
-    None,
+WHEEL_URLS = [
+    "https://au-mbg.github.io/mcqpy/wheels/mcqpy_core-0.1.0-py3-none-any.whl",
+    "https://au-mbg.github.io/mcqpy/wheels/mcqpy_shiny-0.1.0-py3-none-any.whl",
+]
+
+app_ui = ui.page_fluid(
+    ui.h2("Micropip dependency check"),
+    ui.p("Installing these wheel URLs with keep_going=True:"),
+    ui.tags.ul(*[ui.tags.li(url) for url in WHEEL_URLS]),
+    ui.output_text_verbatim("status"),
 )
 
-## file: requirements.txt
-pyfiglet</code></pre>
+
+def server(input, output, session):
+    status = reactive.value("Starting dependency check...")
+    started = reactive.value(False)
+
+    @reactive.effect
+    async def _install():
+        if started.get():
+            return
+        started.set(True)
+
+        import traceback
+        import micropip
+
+        try:
+            await micropip.install(WHEEL_URLS, keep_going=True)
+            status.set("Installation completed without errors.")
+        except Exception:
+            status.set(traceback.format_exc())
+
+    @render.text
+    def status():
+        return status.get()
+
+
+app = App(app_ui, server)</code></pre>
 
 
 

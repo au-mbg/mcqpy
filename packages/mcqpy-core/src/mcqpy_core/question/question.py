@@ -24,6 +24,17 @@ COURSE_NAMESPACE = uuid.UUID("9f1e0d8c-7f3a-4c02-be3b-3f8f5a2a8f2e")
 ALLOWED_IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".gif", ".pdf", ".tif", ".tiff"}
 
 
+def _import_yaml():
+    try:
+        import yaml
+    except ModuleNotFoundError as exc:  # pragma: no cover - environment dependent
+        raise ModuleNotFoundError(
+            "PyYAML is required for Question YAML operations. "
+            "Install mcqpy-core with the 'yaml' extra."
+        ) from exc
+    return yaml
+
+
 def qid_from_slug(slug: str) -> str:
     return str(uuid.uuid5(COURSE_NAMESPACE, slug))
 
@@ -216,7 +227,7 @@ class Question(BaseModel):
     @classmethod
     def load_yaml(cls, filepath: str) -> "Question":
         """Load a Question from a YAML file."""
-        import yaml
+        yaml = _import_yaml()
 
         with open(filepath, "r", encoding="utf-8") as f:
             data = yaml.safe_load(f)
@@ -227,7 +238,7 @@ class Question(BaseModel):
 
     def as_yaml(self, path=None) -> str:
         """Serialize the Question to a YAML string."""
-        import yaml
+        yaml = _import_yaml()
         data = self.model_dump()
         if path is not None:
             # Convert absolute image paths to relative paths based on provided path
@@ -248,7 +259,7 @@ class Question(BaseModel):
     @classmethod
     def get_yaml_template(cls) -> str:
         """Get the YAML schema for the Question model, generated from the model's schema."""
-        import yaml
+        yaml = _import_yaml()
         
         lines = ["# Question Template (auto-generated from model schema)", ""]
         

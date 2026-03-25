@@ -147,6 +147,7 @@ ul.task-list li input[type="checkbox"] {
 
 <p>This page embeds the MCQPy Shinylive quiz app using a generated wheel-based include.</p>
 <p>The include is produced with <code>mcqpy_shiny.embed_cli</code>, which emits a small Shinylive app wrapper plus a <code>requirements.txt</code> that installs <code>mcqpy-shiny</code> from a published wheel.</p>
+<p>The preview site is published under <code>/shiny/</code>, while the wheel artifacts are published under <code>/wheels/</code> on the same Pages deployment.</p>
 <pre class="shinylive-python" data-engine="python"><code>#| '!! shinylive warning !!': |
 #|   shinylive does not work in self-contained HTML documents.
 #|   Please set `embed-resources: false` in your metadata.
@@ -163,7 +164,8 @@ app = create_app(
 )
 ## file: requirements.txt
 shiny&gt;=1.2.1
-https://github.com/au-mbg/mcqpy/blob/3709c44f2fee006129dbea2bc144f53dd1eeb698/temp_wheels/mcqpy_shiny-0.1.0-py3-none-any.whl</code></pre>
+https://au-mbg.github.io/mcqpy/wheels/mcqpy_core-0.1.0-py3-none-any.whl
+https://au-mbg.github.io/mcqpy/wheels/mcqpy_shiny-0.1.0-py3-none-any.whl</code></pre>
 
 
 
