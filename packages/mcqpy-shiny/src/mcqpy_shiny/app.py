@@ -4,14 +4,9 @@ from __future__ import annotations
 
 from shiny import App
 
-try:
-    from .loader import load_bundle
-    from .shared_core import create_quiz_app
-except ImportError:  # pragma: no cover - direct `shiny run path/to/app.py`
-    from loader import load_bundle
-    from shared_core import create_quiz_app
-
 from mcqpy_core.web import WebQuizBundle, decode_quiz_token, grade_web_quiz
+from .loader import load_bundle
+from .quiz_app import create_quiz_app
 
 async def _load_bundle(source: str) -> dict:
     return await load_bundle(source)

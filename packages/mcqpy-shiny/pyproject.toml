@@ -17,7 +17,6 @@ mcqpy-core = { workspace = true }
 
 [project.scripts]
 mcqpy-shiny = "mcqpy_shiny.app:run_app"
-mcqpy-shiny-embed = "mcqpy_shiny.embed_cli:main"
 
 [dependency-groups]
 dev = [

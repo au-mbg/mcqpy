@@ -7,10 +7,7 @@ from urllib.parse import urljoin
 from shiny import App
 from mcqpy_core.web import WebQuizBundle, decode_quiz_token, grade_web_quiz
 
-try:
-    from .shared_core import create_quiz_app
-except ImportError:  # pragma: no cover - generated Shinylive snippet imports top-level files
-    from shared_core import create_quiz_app
+from .quiz_app import create_quiz_app
 
 
 def load_bundle_json(raw: str) -> dict:

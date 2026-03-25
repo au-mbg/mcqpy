@@ -4,10 +4,11 @@ filters:
   - shinylive
 ---
 
-This page embeds the MCQPy Shinylive quiz app using a generated wheel-based include.
+This page embeds the MCQPy Shinylive quiz app directly with a small Quarto
+`shinylive-python` block.
 
-The include is produced with `mcqpy_shiny.embed_cli`, which emits a small Shinylive app
-wrapper plus a `requirements.txt` that installs `mcqpy-shiny` from a published wheel.
+The app code is now simple enough that no embed generator is needed. The block just
+imports `mcqpy_shiny.embed_app.create_app` and installs the published wheels it needs.
 
 The preview site is published under `/shiny/`, while the wheel artifacts are published under
 `/wheels/` on the same Pages deployment.
