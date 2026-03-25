@@ -1,14 +1,14 @@
 [project]
 name = "mcqpy-pdf"
-version = "0.1.0"
+version = "0.1.1"
 description = "PDF compilation, parsing, and report rendering for MCQPy"
 readme = "README.md"
 authors = [
     { name = "Mads-Peter", email = "machri@phys.au.dk" }
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
-    "mcqpy-core[analysis,grading,yaml]>=0.1.0",
+    "mcqpy-core[analysis,grading,yaml]>=0.1.1",
     "click>=8.3.0",
     "openpyxl>=3.1.5",
     "pylatex>=1.4.2",

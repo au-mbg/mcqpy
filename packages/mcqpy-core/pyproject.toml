@@ -1,14 +1,14 @@
 [project]
 name = "mcqpy-core"
-version = "0.1.0"
+version = "0.1.1"
 description = "Core question, manifest, grading, analysis, and browser-safe runtime logic for MCQPy"
 readme = "README.md"
 authors = [
     { name = "Mads-Peter", email = "machri@phys.au.dk" }
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
-    "pydantic>=2.12.0",
+    "pydantic>=2.6,<2.12",
 ]
 
 [project.optional-dependencies]

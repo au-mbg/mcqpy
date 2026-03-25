@@ -1,14 +1,14 @@
 [project]
 name = "mcqpy-shiny"
-version = "0.1.0"
+version = "0.1.1"
 description = "Static-friendly Shiny quiz app for mcqpy bundles"
 readme = "README.md"
 authors = [
     { name = "Mads-Peter", email = "machri@phys.au.dk" }
 ]
-requires-python = ">=3.13,<3.14"
+requires-python = ">=3.12,<3.14"
 dependencies = [
-    "mcqpy-core>=0.1.0",
+    "mcqpy-core>=0.1.1",
     "shiny>=1.2.1",
 ]
 
