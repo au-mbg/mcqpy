@@ -1,0 +1,36 @@
+---
+title: "MCQPy Web"
+filters:
+  - shinylive
+---
+
+This page embeds the MCQPy Shinylive quiz app directly with a small Quarto
+`shinylive-python` block.
+
+The app code is now simple enough that no embed generator is needed. The block just
+imports `mcqpy_shiny.embed_app.create_app` and installs the published wheels it needs.
+
+The preview site is published under `/shiny/`, while the wheel artifacts are published under
+`/wheels/` on the same Pages deployment.
+
+:::{.column-screen-inset}
+```{shinylive-python}
+#| standalone: true
+#| viewerHeight: 800
+## file: app.py
+from mcqpy_shiny.embed_app import create_app
+
+app = create_app(
+    fixed_url=None,
+    fixed_token=None,
+    allow_manual_load=True,
+    title='MCQPy Quiz',
+    card_width='900px',
+)
+## file: requirements.txt
+shiny>=1.2.1
+pydantic
+https://au-mbg.github.io/mcqpy/wheels/mcqpy_core-0.1.1-py3-none-any.whl
+https://au-mbg.github.io/mcqpy/wheels/mcqpy_shiny-0.1.1-py3-none-any.whl
+```
+:::

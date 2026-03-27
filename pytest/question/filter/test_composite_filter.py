@@ -1,4 +1,4 @@
-from mcqpy.question.filter import CompositeFilter
+from mcqpy_core.question.filter import CompositeFilter
 
 def test_base_and_operator(tag_filter, difficulty_filter):
     composite_filter = tag_filter & difficulty_filter

@@ -1,5 +1,5 @@
 import pytest
-from mcqpy.question.filter import DifficultyFilter
+from mcqpy_core.question.filter import DifficultyFilter
 
 def test_difficulty_filter(difficulty_filter, question_set_with_meta):
     filtered_questions = difficulty_filter.apply(question_set_with_meta)
@@ -24,4 +24,3 @@ def test_composite_tag_difficulty_filter(tag_filter, difficulty_filter, question
         else:
             assert 'math' in q.tags
         assert q.difficulty == difficulty_filter.difficulty
-

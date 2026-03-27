@@ -3,7 +3,7 @@ from mcqpy.cli.check_latex import check_latex_command
 import pytest
 from unittest.mock import patch, MagicMock
 
-from mcqpy.utils.check_latex import LaTeXCheckResult
+from mcqpy_pdf.utils.check_latex import LaTeXCheckResult
 
 @pytest.fixture
 def successful_invocation():
@@ -14,7 +14,7 @@ def successful_invocation():
 @pytest.fixture
 def unsuccessful_invocation():
     with patch(
-        "mcqpy.utils.check_latex.check_latex_command",
+        "mcqpy_pdf.utils.check_latex.check_latex_command",
         return_value=LaTeXCheckResult(
             command="pdflatex", is_available=False, version="N/A"
         ),
@@ -33,6 +33,5 @@ def test_check_latex_output(successful_invocation):
 
 def test_check_latex_failure_output(unsuccessful_invocation):
     assert "LaTeX installation issue" in unsuccessful_invocation.output
-
 
 

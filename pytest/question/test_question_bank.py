@@ -1,5 +1,5 @@
 import pytest
-from mcqpy.question import Question, QuestionBank
+from mcqpy_core.question import Question, QuestionBank
 
 @pytest.fixture
 def question_set(question_factory) -> list[Question]:
@@ -68,7 +68,6 @@ def test_question_bank_get_all_tags_match(question_bank, question_set):
 
     bank_tags = question_bank.get_all_tags()
     assert bank_tags == expected_tags
-
 
 
 

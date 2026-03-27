@@ -1,6 +1,12 @@
 import pytest
-from mcqpy.question import Question
-from mcqpy.question.filter import TagFilter, DifficultyFilter, DateFilter, StratifiedFilter, SlugFilter
+from mcqpy_core.question import Question
+from mcqpy_core.question.filter import (
+    DateFilter,
+    DifficultyFilter,
+    SlugFilter,
+    StratifiedFilter,
+    TagFilter,
+)
 from copy import deepcopy
 
 tag_sets = [

@@ -1,5 +1,7 @@
 import pytest
-from mcqpy.question import Question
+from mcqpy_core.question import Question
+import builtins
+import pytest
 
 @pytest.fixture()
 def basic_question():
@@ -62,6 +64,23 @@ def test_yaml_roundtrip(basic_question, tmp_path):
     assert new_question.choices == basic_question.choices
     assert new_question.correct_answers == basic_question.correct_answers
     assert new_question.question_type == basic_question.question_type
+
+
+def test_yaml_methods_raise_clear_error_without_pyyaml(monkeypatch, basic_question):
+    real_import = builtins.__import__
+
+    def guarded_import(name, globals=None, locals=None, fromlist=(), level=0):
+        if name == "yaml":
+            raise ModuleNotFoundError(name)
+        return real_import(name, globals, locals, fromlist, level)
+
+    monkeypatch.setattr(builtins, "__import__", guarded_import)
+
+    with pytest.raises(ModuleNotFoundError, match="mcqpy-core with the 'yaml' extra"):
+        basic_question.as_yaml()
+
+    with pytest.raises(ModuleNotFoundError, match="mcqpy-core with the 'yaml' extra"):
+        Question.get_yaml_template()
 
 def test_question_save(basic_question, tmp_path):
     yaml_file = tmp_path / "question.yaml"

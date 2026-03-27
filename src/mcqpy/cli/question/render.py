@@ -5,8 +5,8 @@ from mcqpy.cli.question.main import question_group
 
 def _render_question(name, question):
     from pylatex import Document
-    from mcqpy.compile.latex_questions import build_question
-    from mcqpy.compile.preamble import add_preamble
+    from mcqpy_pdf.compile.latex_questions import build_question
+    from mcqpy_pdf.compile.preamble import add_preamble
 
     document = Document(
         documentclass="article",
@@ -31,7 +31,7 @@ def _render_question(name, question):
 @question_group.command(name="render", help="Render a question as PDF. Useful to check LaTeX formatting.")
 @click.argument("path", type=click.Path(exists=True))
 def render_command(path):
-    from mcqpy.question import Question
+    from mcqpy_core.question import Question
     from rich.console import Console
     import subprocess
     from pathlib import Path
@@ -55,6 +55,4 @@ def render_command(path):
         console.print(e)
     else:
         console.print(f"[bold green]Generated question PDF at: {name}.pdf[/bold green]")
-
-
 

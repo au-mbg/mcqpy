@@ -1,10 +1,12 @@
 from pathlib import Path
 from importlib.resources import files
-from mcqpy.question import Question
+from mcqpy_core.front_config import FrontMatterOptions
+from mcqpy_core.header_config import HeaderFooterOptions
+from mcqpy_core.question import Question
 from dataclasses import dataclass
 import pytest
 import shutil
-from mcqpy.compile import MultipleChoiceQuiz, FrontMatterOptions, HeaderFooterOptions
+from mcqpy_pdf.compile import MultipleChoiceQuiz
 
 
 def pytest_configure(config):

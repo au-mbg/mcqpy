@@ -1,15 +1,12 @@
 import pytest
-from mcqpy.grade import MCQGrader
-from mcqpy.grade.utils import GradedSet, ParsedQuestion, ParsedSet
-from mcqpy.compile.manifest import Manifest
-from mcqpy.grade.rubric import StrictRubric
-from mcqpy.grade.utils import get_grade_dataframe
+from mcqpy_core.grading import GradedSet, ParsedQuestion, ParsedSet, StrictRubric, get_grade_dataframe
+from mcqpy_core.manifest import Manifest
 
 @pytest.mark.requires_latex
 def test_grader_initialization(grader):
-    assert isinstance(grader, MCQGrader)
     assert isinstance(grader.manifest, Manifest)
     assert isinstance(grader.rubric, StrictRubric)
+    assert grader.parser is not None
 
 @pytest.mark.requires_latex
 def test_filled_pdfs_exist(filled_pdfs):

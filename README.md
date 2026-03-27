@@ -13,6 +13,12 @@ Rendered documents with
 Easily grade hundreds of quizzes with grades exported to `.xlsx` or `.csv` while 
 obtaining question-level statistics.
 
+`mcqpy` is now the umbrella CLI package. Python runtime APIs live in:
+
+- `mcqpy_core`: question models, manifest, grading, and web bundle/token utilities
+- `mcqpy_pdf`: PDF build/parse/reporting utilities
+- `mcqpy_shiny`: Shiny app and embed tooling
+
 ## Example
 
 The simplest way to use `mcqpy` is through the command line interface (CLI). A project 
@@ -90,6 +96,17 @@ appropriate LaTeX distribution for example from one of these sources:
 - **Windows**: [TeX Live](https://www.tug.org/texlive/) or [MiKTeX](https://miktex.org/)
 - **Linux**: TeX Live (usually available through your package manager, e.g., `sudo apt install texlive-full` on Ubuntu/Debian)
 
+## Python imports
+
+Use the owner packages directly in Python code:
+
+```python
+from mcqpy_core.question import Question
+from mcqpy_core.web import build_web_quiz_bundle
+from mcqpy_pdf.grader import grade_pdf
+```
+
+Do not import runtime APIs from `mcqpy`; that package is reserved for the CLI surface.
 
 
 

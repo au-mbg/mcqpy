@@ -1,0 +1,19 @@
+project:
+  type: website
+  resources:
+    - wheels/*.whl
+
+website:
+  title: "MCQPy Web"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true

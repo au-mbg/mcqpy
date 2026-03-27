@@ -1,4 +1,4 @@
-from mcqpy.question.filter.date import DateFilter
+from mcqpy_core.question.filter.date import DateFilter
 from datetime import date
 from dataclasses import dataclass
 
@@ -68,7 +68,6 @@ def test_date_filter_apply(date_filter):
 
     date_filter.strict_missing = False
     date_filter.apply(questions)
-
 
 
 

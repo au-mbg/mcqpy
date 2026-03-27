@@ -1,6 +1,6 @@
 import pytest
-from mcqpy.question.filter import ManifestFilter
-from mcqpy.compile.manifest import Manifest, ManifestItem
+from mcqpy_core.manifest import Manifest, ManifestItem
+from mcqpy_core.question.filter import ManifestFilter
 
 @pytest.fixture
 def manifest(question_set_with_meta):
@@ -33,7 +33,6 @@ def test_manifest_filter_path(manifest_path, question_set_with_meta):
     manifest_filter = ManifestFilter(manifest_path=manifest_path)
     filtered_questions = manifest_filter.apply(question_set_with_meta)
     assert len(filtered_questions) == 5
-
 
 
 

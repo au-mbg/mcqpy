@@ -7,7 +7,7 @@ from mcqpy.cli.question.main import question_group
 @question_group.command(name="validate", help="Validate question files")
 @click.argument("paths", type=click.Path(exists=True), nargs=-1)
 def validate_command(paths):
-    from mcqpy.question import Question
+    from mcqpy_core.question import Question
     from rich.console import Console
     from rich.pretty import Pretty
 

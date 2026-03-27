@@ -4,7 +4,8 @@ Quiz configuration management using Pydantic and YAML.
 
 from pydantic import BaseModel, Field, ConfigDict, field_validator, model_validator
 import yaml
-from mcqpy.compile import HeaderFooterOptions, FrontMatterOptions
+from mcqpy_core.front_config import FrontMatterOptions
+from mcqpy_core.header_config import HeaderFooterOptions
 from typing import Any, Literal
 from pathlib import Path
 

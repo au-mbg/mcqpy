@@ -1,29 +1,31 @@
+[tool.uv.workspace]
+members = [
+    "packages/mcqpy-core",
+    "packages/mcqpy-pdf",
+    "packages/mcqpy-shiny",
+]
+
 [project]
 name = "mcqpy"
-version = "0.2.4"
-description = "Multiple choice quiz generation and grading"
+version = "0.3.1"
+description = "Umbrella CLI package for MCQPy"
 readme = "README.md"
 authors = [
     { name = "Mads-Peter", email = "machri@phys.au.dk" }
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "click>=8.3.0",
-    "matplotlib>=3.10.7",
-    "numpy>=2.3.3",
-    "openpyxl>=3.1.5",
-    "pandas>=2.3.3",
-    "pillow>=11.3.0",
-    "pydantic>=2.12.0",
-    "pylatex>=1.4.2",
-    "pylatexenc>=2.10",
-    "pypdf>=6.1.1",
-    "pyyaml>=6.0.3",
-    "requests>=2.28.0",
+    "mcqpy-core[cli,yaml]>=0.1.1",
+    "mcqpy-pdf>=0.1.1",
     "rich>=14.2.0",
     "rich-click>=1.9.3",
-    "scipy>=1.17.0",
 ]
+
+[tool.uv.sources]
+mcqpy-core = { workspace = true }
+mcqpy-pdf = { workspace = true }
+mcqpy-shiny = { workspace = true }
 
 [project.scripts]
 mcqpy = "mcqpy.cli.main:main"
@@ -43,7 +45,10 @@ addopts = [
   "--cov-report", "html:.coverage-html",
   "--cov-report", "xml:.coverage.xml",
   "--junitxml", ".report.xml",
-  "--cov", "src/mcqpy"
+  "--cov", "src/mcqpy",
+  "--cov", "packages/mcqpy-core/src/mcqpy_core",
+  "--cov", "packages/mcqpy-pdf/src/mcqpy_pdf",
+  "--cov", "packages/mcqpy-shiny/src/mcqpy_shiny",
 ]
 
 [tool.coverage.run]
@@ -51,10 +56,13 @@ omit = []
 
 [dependency-groups]
 dev = [
+    "mcqpy-shiny>=0.1.1",
     "ruff>=0.14.10",
     "pytest>=9.0.1",
     "pytest-cov>=7.0.0",
     "pytest-mock>=3.15.1",
+    "shiny>=1.2.1",
+    "shinylive>=0.8.5",
     "zensical>=0.0.27",
     "mkdocstrings-python>=1.15.0",
     "mkdocs-gen-files>=0.5.0",

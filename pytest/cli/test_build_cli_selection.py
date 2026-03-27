@@ -4,7 +4,7 @@ from mcqpy.cli.config import SelectionConfig
 
 @pytest.fixture
 def question_bank(question_set):
-    from mcqpy.question.question_bank import QuestionBank
+    from mcqpy_core.question import QuestionBank
     return QuestionBank.from_questions(question_set)
 
 def test_select_questions_default(question_bank):

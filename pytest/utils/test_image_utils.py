@@ -1,4 +1,10 @@
-from mcqpy.utils.image import check_if_url, get_url_image_suffix, check_and_download_tmp, download_image, convert_image
+from mcqpy_pdf.utils.image import (
+    check_and_download_tmp,
+    check_if_url,
+    convert_image,
+    download_image,
+    get_url_image_suffix,
+)
 import pytest
 from dataclasses import dataclass
 from pathlib import Path

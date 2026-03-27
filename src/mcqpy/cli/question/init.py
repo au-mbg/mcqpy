@@ -7,7 +7,7 @@ from mcqpy.cli.question.main import question_group
 @question_group.command(name="init", help="Initialize question file.")
 @click.argument("path", type=click.Path(exists=False))
 def init_command(path):
-    from mcqpy.question import Question
+    from mcqpy_core.question import Question
     from rich.console import Console
     from rich.pretty import Pretty
 
