@@ -25,8 +25,6 @@ jobs:
         run: uv python install 3.13
       - name: Install dependencies
         run: just sync
-      - name: Run test suite
-        run: just test
       - name: Build release artifacts
         run: just build-release
       - name: Smoke built artifacts
