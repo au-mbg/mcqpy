@@ -1,9 +1,20 @@
+import importlib.util
+import sys
 from pathlib import Path
 
-from scripts.release.select_publish_files import (
-    discover_artifacts,
-    select_publishable_artifacts,
+
+MODULE_PATH = (
+    Path(__file__).resolve().parents[2] / "scripts" / "release" / "select_publish_files.py"
 )
+MODULE_SPEC = importlib.util.spec_from_file_location("select_publish_files", MODULE_PATH)
+assert MODULE_SPEC is not None
+assert MODULE_SPEC.loader is not None
+MODULE = importlib.util.module_from_spec(MODULE_SPEC)
+sys.modules[MODULE_SPEC.name] = MODULE
+MODULE_SPEC.loader.exec_module(MODULE)
+
+discover_artifacts = MODULE.discover_artifacts
+select_publishable_artifacts = MODULE.select_publishable_artifacts
 
 
 def test_discover_artifacts_parses_wheels_and_sdists(tmp_path: Path) -> None:
@@ -33,10 +44,7 @@ def test_select_publishable_artifacts_skips_existing_versions(monkeypatch, tmp_p
     def fake_exists(project_name: str, version: str) -> bool:
         return (project_name, version) == ("mcqpy-core", "0.1.1")
 
-    monkeypatch.setattr(
-        "scripts.release.select_publish_files.package_version_exists",
-        fake_exists,
-    )
+    monkeypatch.setattr(MODULE, "package_version_exists", fake_exists)
 
     selected = select_publishable_artifacts(artifacts)
 
