@@ -40,6 +40,7 @@ docs-copy-wheels:
 
 # Build all releasable distributions
 build-release:
+    rm -rf dist
     uv build --package mcqpy
     uv build --package mcqpy-core
     uv build --package mcqpy-pdf
