@@ -54,7 +54,7 @@ def build_command(config):
 
     config = QuizConfig.read_yaml(config)
     question_bank = QuestionBank.from_directories(
-        config.questions_paths, seed=config.selection.seed
+        config.questions_paths, seed=config.selection.seed, progress_bar=True
     )
     questions = select_questions(question_bank, config.selection)
 
