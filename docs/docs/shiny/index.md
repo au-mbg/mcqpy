@@ -44,7 +44,7 @@ The Shinylive app needs to read the quiz data from somewhere. The command
 ```sh
 mcqpy export web 
 ```
-Will produce a directory and a `.json`-file
+works similarly to `mcqpy build` but rather than producing a PDF based on a `config.yaml` it will produce web-bundle which is just a directory and a `.json`-file
 ```
 - quiz.json
 - assets/
