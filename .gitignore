@@ -9,6 +9,9 @@ wheels/
 # Virtual environments
 .venv
 
+# Docs
+docs/site/
+
 # Ignore 
 local_tests/
 .vscode/

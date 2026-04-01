@@ -30,7 +30,7 @@ app = create_app(
 ## file: requirements.txt
 shiny>=1.2.1
 pydantic
-https://au-mbg.github.io/mcqpy/wheels/mcqpy_core-0.1.1-py3-none-any.whl
-https://au-mbg.github.io/mcqpy/wheels/mcqpy_shiny-0.1.1-py3-none-any.whl
+mcqpy-core
+mcqpy-shiny
 ```
 :::

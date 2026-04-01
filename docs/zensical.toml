@@ -3,7 +3,6 @@ site_name = "MCQpy"
 nav = [
   {"Home" = "index.md"},
   {"Installation" = "installation.md"},
-  {"Wheels" = "wheels.md"},
   {"User Guide" = [
     "user_guide/index.md",
     {"Basic Usage" = [
@@ -17,6 +16,7 @@ nav = [
       "user_guide/advanced_usage/multi_quiz_project.md",
     ]},
   ]},
+  {"Web Interface" = "shiny/index.md"},
   {"CLI Reference" = "cli.md"},
 ]
 
