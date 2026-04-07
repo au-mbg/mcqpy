@@ -58,11 +58,12 @@ class StratifiedFilter(BaseFilter):
     def apply(self, questions: list["Question"]) -> list["Question"]:
         selected_questions = []
         total_questions = self.number_of_questions
+        rng = self.get_rng()
         
         for filt, prop in zip(self.filters, self.proportions):
             num_to_select = int(total_questions * prop)
             filtered = list(filt.apply(questions))
-            random.shuffle(filtered)
+            rng.shuffle(filtered)
             selected_questions.extend(filtered[:num_to_select])
         
         return selected_questions

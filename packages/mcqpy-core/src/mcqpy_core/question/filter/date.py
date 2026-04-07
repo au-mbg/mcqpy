@@ -1,6 +1,7 @@
 """
 Date filter for questions.
 """
+import random
 from typing import TYPE_CHECKING
 
 from mcqpy_core.question.filter.base_filter import BaseFilter

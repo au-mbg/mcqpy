@@ -1,6 +1,7 @@
 """Module for base-class for question filters."""
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any, Callable
+import random
 
 if TYPE_CHECKING:
     from mcqpy_core.question.question import Question
@@ -15,6 +16,16 @@ class BaseFilter(ABC):
     def __and__(self, other: 'BaseFilter') -> 'CompositeFilter':
         """Allow chaining filters with & operator."""
         return CompositeFilter([self, other])
+    
+    def set_rng(self, rng: random.Random):
+        """Set the random number generator for this filter and any sub-filters."""
+        self._rng = rng
+
+    def get_rng(self) -> random.Random:
+        """Get the random number generator for this filter."""
+        if hasattr(self, '_rng'):
+            return self._rng
+        return random.Random()  # Return a default RNG if not set
 
 
 class CompositeFilter(BaseFilter):

@@ -168,6 +168,9 @@ class QuestionBank:
         if not self._filters:
             questions = self.get_all_questions()
         else:
+            for f in self._filters:
+                f.set_rng(self._rng)
+
             comp_filter = CompositeFilter(self._filters)
             questions = comp_filter.apply(self.get_all_questions())
 
