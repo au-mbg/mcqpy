@@ -9,7 +9,7 @@ from scipy.stats import pearsonr
 from mcqpy_core.grading.analysis.utils import AnalysisFigure
 
 def get_points_array(graded_sets: list[GradedSet]):
-    point_arrays = np.zeros((len(graded_sets), 20))
+    point_arrays = np.zeros((len(graded_sets), len(graded_sets[0].graded_questions)))
     for i, graded_set in enumerate(graded_sets):
         for j, question in enumerate(graded_set.graded_questions):
             point_arrays[i, j] = question.point_value
