@@ -18,7 +18,7 @@ from rich.progress import track
 
 from mcqpy_pdf.cli.config import GradingConfig
 from mcqpy_pdf.compile.preamble import add_preamble
-from mcqpy_core.grading.types import GradedSet, get_grade_dataframe
+from mcqpy_core.grading import GradedSet, get_grade_dataframe
 from mcqpy_core.question import QuestionBank
 from mcqpy_core.grading.analysis.question_analysis import question_analysis
 from mcqpy_core.grading.analysis.overall_analysis import make_quiz_analysis

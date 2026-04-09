@@ -7,8 +7,13 @@ from .types import (
     GradedSet,
     ParsedQuestion,
     ParsedSet,
-    get_grade_dataframe,
+    GradeResult,
+    GradeState,
+    ParseResult,
+    ParseState,
 )
+
+from .helpers import get_grade_dataframe
 
 __all__ = [
     "MCQGrader",
@@ -18,6 +23,10 @@ __all__ = [
     "ParsedSet",
     "GradedQuestion",
     "GradedSet",
+    "GradeResult",
+    "GradeState",
+    "ParseResult",
+    "ParseState",
     "get_grade_dataframe",
     "grade_parsed_set",
 ]

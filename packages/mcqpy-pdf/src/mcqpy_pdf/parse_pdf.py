@@ -2,7 +2,7 @@ import re
 from pathlib import Path
 from pypdf import PdfReader
 
-from mcqpy_core.grading.types import ParsedQuestion, ParsedSet
+from mcqpy_core.grading.types import ParsedQuestion, ParsedSet, ParseState, ParseResult
 import contextlib
 from io import StringIO
 
@@ -10,7 +10,7 @@ from io import StringIO
 class MCQPDFParser:
     def parse_pdf(
         self, student_answer: str | Path, regex_pattern: str | None = None
-    ) -> str:
+    ) -> ParseResult:
         stdout_capture = StringIO()
         stderr_capture = StringIO()
 
@@ -21,7 +21,11 @@ class MCQPDFParser:
             reader = PdfReader(student_answer)
             fields = reader.get_fields()
 
+        if fields is None:
+            return ParseResult(state=ParseState.READER_ERROR, error_message="No form fields found in the PDF.")
+
         split_by_id = self._split_by_id(fields)
+            
         student_info = self._find_student_info(
             fields, regex_pattern=regex_pattern, filename=student_answer
         )
@@ -34,7 +38,7 @@ class MCQPDFParser:
             file=str(student_answer),
         )
 
-        return parsed_set
+        return ParseResult(state=ParseState.SUCCESS, parsed_set=parsed_set)
 
     def _split_by_id(self, fields):
         split_by_id = {}

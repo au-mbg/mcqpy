@@ -18,8 +18,8 @@ def perfect_filled_pdfs(built_mcq, tmp_path_factory):
 
 @pytest.fixture(params=[0], scope="module")
 def graded_set(request, grader, perfect_filled_pdfs) -> GradedSet:
-    graded_set = grader.grade(perfect_filled_pdfs[request.param])
-    return graded_set
+    graded_result = grader.grade(perfect_filled_pdfs[request.param])
+    return graded_result.graded_set
 
 @pytest.mark.requires_latex
 def test_grader_initialization(grader):

@@ -1,15 +1,18 @@
 """Grade student submissions from a quiz."""
 
-import rich_click as click
 from pathlib import Path
 
-from rich.progress import track
-
+import rich_click as click
 from mcqpy_core.grading import StrictRubric, get_grade_dataframe
+from mcqpy_core.grading.types import GradeState
 from mcqpy_core.question.question_bank import QuestionBank
-from mcqpy_pdf.compile.manifest import Manifest
+from rich.progress import track
+from rich.panel import Panel
+from rich.console import Console
+
 from mcqpy_pdf.cli.config import QuizConfig
 from mcqpy_pdf.cli.main import main
+from mcqpy_pdf.compile.manifest import Manifest
 from mcqpy_pdf.grader import grade_pdf
 
 
@@ -56,6 +59,7 @@ def grade_command(config, verbose: bool, file_format: str, analysis: bool):
     ```
     """
     # Load config
+    console = Console()
     config = QuizConfig.read_yaml(config)
     manifest_path = config.output_directory / f"{config.file_path.stem}_manifest.json"
     manifest = Manifest.load_from_file(manifest_path)
@@ -63,22 +67,48 @@ def grade_command(config, verbose: bool, file_format: str, analysis: bool):
     # Read & Grade submissions
     graded_sets = []
     submissions = list(config.submission_directory.glob("*.pdf"))
+    faulty_submissions = []
     for submission in track(
         submissions,
         description=f"Grading submissions ({len(submissions)})",
         total=len(submissions),
     ):
-        graded_set = grade_pdf(
+        grade_result = grade_pdf(
             submission,
             manifest=manifest,
             rubric=StrictRubric(),
             regex_pattern=config.grading.anonymous_pattern,
         )
-        graded_sets.append(graded_set)
+
+        if grade_result.state == GradeState.READER_ERROR:
+            console.print(f"Error grading {submission.name}: {grade_result.error_message}", style="bold red")
+            faulty_submissions.append(submission)
+            continue
+
+        if verbose:
+            if grade_result.other_info is not None:
+                text = []
+                for info in grade_result.other_info.values():
+                    text.append(f"{info}")
+
+                panel = Panel("\n".join(text))
+                panel.title = f"Grading info for {submission.name}"
+                console.print(panel)
+
+        graded_sets.append(grade_result.graded_set)
+
+
+    # Report faulty submissions
+    if faulty_submissions:
+        console.print("\nThe following submissions could not be graded due to errors:", style="bold red")
+        for submission in faulty_submissions:
+            console.print(f"- {submission.relative_to(Path.cwd())}", style="red")
 
     # Export grades to dataframe
     df = get_grade_dataframe(graded_sets, sort_key=config.grading.output_sort_key)
-    output_path = (config.root_directory / f"{config.file_path.stem}_grades.{file_format}")
+    output_path = (
+        config.root_directory / f"{config.file_path.stem}_grades.{file_format}"
+    )
     if file_format == "xlsx":
         df.to_excel(output_path, index=False)
     elif file_format == "csv":

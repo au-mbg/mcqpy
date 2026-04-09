@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-
+from enum import Enum
 
 @dataclass
 class ParsedQuestion:
@@ -33,35 +33,24 @@ class GradedSet:
     points: int = 0
     max_points: int = 0
 
+class ParseState(Enum):
+    READER_ERROR = "Error reading PDF file. The file may be corrupted or not a valid PDF."
+    SUCCESS = "Successfully parsed PDF file."
 
-def get_grade_dataframe(
-    graded_sets: list[GradedSet], sort_key: str | None = None
-):
-    try:
-        import pandas as pd
-    except ModuleNotFoundError as exc:  # pragma: no cover - environment dependent
-        raise ModuleNotFoundError(
-            "pandas is required for grade dataframe export. "
-            "Install mcqpy-core with the 'grading' extra."
-        ) from exc
+class GradeState(Enum):
+    READER_ERROR = ParseState.READER_ERROR.value
+    SUCCESS = "Successfully graded the parsed set."
 
-    records = []
-    for graded_set in graded_sets:
-        record = {}
-        record.update(graded_set.student_info)
-        record.update(
-            {
-                "total_points": graded_set.points,
-                "max_points": graded_set.max_points,
-            }
-        )
+@dataclass
+class ParseResult:
+    state: ParseState
+    parsed_set: ParsedSet | None = None
+    error_message: str | None = None
+    other_info: dict | None = None
 
-        for index, graded_question in enumerate(graded_set.graded_questions):
-            record[f"Q{index + 1}_points"] = graded_question.point_value
-
-        records.append(record)
-
-    df = pd.DataFrame.from_records(records)
-    if sort_key:
-        df.sort_values(by=sort_key, inplace=True)
-    return df
+@dataclass
+class GradeResult:
+    state: GradeState
+    graded_set: GradedSet | None = None
+    error_message: str | None = None
+    other_info: dict | None = None
