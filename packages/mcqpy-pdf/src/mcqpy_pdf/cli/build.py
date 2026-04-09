@@ -8,8 +8,8 @@ import rich_click as click
 from rich.pretty import Pretty
 from rich.console import Console
 
-from mcqpy_pdf.cli._selection import select_questions, _build_filter, build_filters
-from mcqpy_pdf.cli.config import QuizConfig
+from mcqpy_core.cli._selection import select_questions
+from mcqpy_core.cli.config import QuizConfig
 from mcqpy_pdf.cli.main import main
 from mcqpy_pdf.compile import MultipleChoiceQuiz
 from mcqpy_pdf.compile.manifest import Manifest

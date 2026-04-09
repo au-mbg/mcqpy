@@ -8,7 +8,7 @@ import rich_click as click
 from rich.console import Console
 
 from mcqpy_pdf.cli._selection import select_questions
-from mcqpy_pdf.cli.config import QuizConfig
+from mcqpy_core.cli.config import QuizConfig
 from mcqpy_pdf.cli.export.main import export_group
 from mcqpy_core.question import QuestionBank
 from mcqpy_core.web import build_web_quiz_bundle

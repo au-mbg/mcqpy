@@ -1,7 +1,7 @@
 """Initialize a new quiz project command."""
 import rich_click as click
 from mcqpy_pdf.cli.main import main
-from mcqpy_pdf.cli.config import QuizConfig
+from mcqpy_core.cli.config import QuizConfig
 
 from pathlib import Path
 

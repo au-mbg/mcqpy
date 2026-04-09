@@ -1,6 +1,7 @@
 """Quiz configuration management using Pydantic and YAML."""
 
 from pathlib import Path
+from sys import path
 from typing import Any, Literal
 
 from pydantic import BaseModel, Field, ConfigDict, field_validator, model_validator
@@ -142,6 +143,28 @@ class QuizConfig(BaseModel):
                 raise FileNotFoundError(f"Questions path does not exist: {resolved_path}")
 
         return data
+    
+    @model_validator(mode="before")
+    def selection_path_make_absolute(cls, data):
+        """Ensure that selection paths are relative to the config file's directory"""
+        selection = data.get("selection", None)
+        if selection is None:
+            return data
+
+        filters = selection.get("filters", None)
+
+        if filters is None:
+            return data
+
+        config_path = data.get("path")
+        for filter_name, filter_params in filters.items():
+            for name, param in filter_params.items():
+                if name.endswith("_path") and isinstance(param, str) and config_path is not None:
+                    absolute_path = (Path(config_path).parent / param).resolve()
+                    filter_params[name] = str(absolute_path)
+
+        return data
+
 
     def yaml_dump(self) -> str:
         """Dump the current configuration to a YAML string"""

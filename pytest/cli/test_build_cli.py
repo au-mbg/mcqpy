@@ -3,6 +3,10 @@ import pytest
 
 @pytest.mark.requires_latex
 def test_build_exit_code(built_project) -> None:
+
+    print('WHAT THE FUCK')
+    print(built_project)
+
     assert built_project.exit_code == 0
 
 

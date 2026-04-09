@@ -8,7 +8,7 @@ from pathlib import Path
 import rich_click as click
 from rich.progress import track
 
-from mcqpy_pdf.cli.config import QuizConfig
+from mcqpy_core.cli.config import QuizConfig
 from mcqpy_pdf.cli.utils.main import utils_group
 from mcqpy_pdf.compile.manifest import Manifest
 from mcqpy_pdf.utils.fill_form import fill_pdf_form

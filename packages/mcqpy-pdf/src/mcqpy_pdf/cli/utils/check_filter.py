@@ -21,7 +21,7 @@ def check_filter_command(config, filter_name, filter_params, yaml_input):
     """
     CLI command to check that filter expressions are valid.
     """
-    from mcqpy_pdf.cli.config import SelectionConfig, QuizConfig
+    from mcqpy_core.cli.config import SelectionConfig, QuizConfig
     from mcqpy_pdf.cli.build import _build_filter
     from rich.console import Console
     import yaml

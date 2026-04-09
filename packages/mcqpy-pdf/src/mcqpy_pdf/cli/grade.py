@@ -10,7 +10,7 @@ from rich.progress import track
 from rich.panel import Panel
 from rich.console import Console
 
-from mcqpy_pdf.cli.config import QuizConfig
+from mcqpy_core.cli.config import QuizConfig
 from mcqpy_pdf.cli.main import main
 from mcqpy_pdf.compile.manifest import Manifest
 from mcqpy_pdf.grader import grade_pdf

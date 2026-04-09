@@ -16,7 +16,7 @@ from pylatex import (
 from rich.console import Console
 from rich.progress import track
 
-from mcqpy_pdf.cli.config import GradingConfig
+from mcqpy_core.cli.config import GradingConfig
 from mcqpy_pdf.compile.preamble import add_preamble
 from mcqpy_core.grading import GradedSet, get_grade_dataframe
 from mcqpy_core.question import QuestionBank
