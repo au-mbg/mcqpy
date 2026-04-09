@@ -83,8 +83,10 @@ def grade_command(config, verbose: bool, file_format: str, analysis: bool):
         if grade_result.state == GradeState.READER_ERROR:
             faulty_submissions.append(submission)
             continue
-        elif grade_result.state != GradeState.SUCCESS:
+        elif grade_result.state == GradeState.SUCCESS:
             graded_sets.append(grade_result.graded_set)
+        else:
+            print(f"Unexpected grading result for {submission.name}: {grade_result.state}")
 
 
         if verbose:
