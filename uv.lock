@@ -641,7 +641,7 @@ dev = [
 
 [[package]]
 name = "mcqpy-core"
-version = "0.2.1"
+version = "0.2.3"
 source = { editable = "packages/mcqpy-core" }
 dependencies = [
     { name = "pydantic" },
@@ -679,7 +679,7 @@ provides-extras = ["yaml", "grading", "analysis", "cli"]
 
 [[package]]
 name = "mcqpy-pdf"
-version = "0.2.0"
+version = "0.2.2"
 source = { editable = "packages/mcqpy-pdf" }
 dependencies = [
     { name = "click" },
