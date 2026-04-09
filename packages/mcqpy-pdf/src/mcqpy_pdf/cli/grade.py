@@ -81,9 +81,11 @@ def grade_command(config, verbose: bool, file_format: str, analysis: bool):
         )
 
         if grade_result.state == GradeState.READER_ERROR:
-            console.print(f"Error grading {submission.name}: {grade_result.error_message}", style="bold red")
             faulty_submissions.append(submission)
             continue
+        elif grade_result.state != GradeState.SUCCESS:
+            graded_sets.append(grade_result.graded_set)
+
 
         if verbose:
             if grade_result.other_info is not None:
@@ -94,9 +96,6 @@ def grade_command(config, verbose: bool, file_format: str, analysis: bool):
                 panel = Panel("\n".join(text))
                 panel.title = f"Grading info for {submission.name}"
                 console.print(panel)
-
-        graded_sets.append(grade_result.graded_set)
-
 
     # Report faulty submissions
     if faulty_submissions:
