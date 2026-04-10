@@ -13,12 +13,17 @@ def get_grade_dataframe(
 
     records = []
     for graded_set in graded_sets:
+
+        # Determine the number of questions the student gave an answer to
+        answered_questions = sum(1 in q.student_answers for q in graded_set.graded_questions)
+
         record = {}
         record.update(graded_set.student_info)
         record.update(
             {
                 "total_points": graded_set.points,
                 "max_points": graded_set.max_points,
+                "answered_questions": answered_questions,
             }
         )
 
