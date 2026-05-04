@@ -1,7 +1,6 @@
 """
 Module for stratified question filtering.
 """
-import random
 from typing import TYPE_CHECKING
 from mcqpy_core.question.filter.base_filter import BaseFilter
 
@@ -56,15 +55,25 @@ class StratifiedFilter(BaseFilter):
         self.number_of_questions = number_of_questions
 
     def apply(self, questions: list["Question"]) -> list["Question"]:
-        selected_questions = []
         total_questions = self.number_of_questions
         rng = self.get_rng()
-        
+
+        remaining_questions = []
+        selected_questions = []
+
+        # Apply each filter        
         for filt, prop in zip(self.filters, self.proportions):
             num_to_select = int(total_questions * prop)
             filtered = list(filt.apply(questions))
             rng.shuffle(filtered)
-            selected_questions.extend(filtered[:num_to_select])
+            selected, remaining = filtered[:num_to_select], filtered[num_to_select:]
+            selected_questions.extend(selected)
+            remaining_questions.extend(remaining)
+
+        # If we have fewer than the desired number of questions, fill in from the remaining pool
+        if len(selected_questions) < total_questions:
+            rng.shuffle(remaining_questions)
+            selected_questions.extend(remaining_questions[:total_questions - len(selected_questions)])
         
         return selected_questions
     
