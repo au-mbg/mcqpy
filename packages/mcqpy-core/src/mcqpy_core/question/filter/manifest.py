@@ -19,7 +19,7 @@ class ManifestFilter(BaseFilter):
     def __init__(
         self,
         manifest: "Manifest" | None = None,
-        manifest_path: str | None = None,
+        manifest_path: str | list[str] | None = None,
         exclude: bool = True,
     ):
         """
@@ -33,17 +33,20 @@ class ManifestFilter(BaseFilter):
         manifest: 
             An instance of Manifest. If provided, it will be used directly.
         manifest_path: 
-            Path to the manifest file. Used if `manifest` is None.
+            Path to the manifest file or a list of paths. Used if `manifest` is None.
         exclude: 
             If True, questions in the manifest are excluded.
         """
 
         if manifest is not None:
-            self.manifest = manifest
+            self.manifests = [manifest]
         elif manifest_path is not None:
             from mcqpy_core.manifest import Manifest
 
-            self.manifest = Manifest.load_from_file(manifest_path)
+            if isinstance(manifest_path, list):
+                self.manifests = [Manifest.load_from_file(path) for path in manifest_path]
+            else:
+                self.manifests = [Manifest.load_from_file(manifest_path)]
         else:
             raise ValueError("Either manifest or manifest_path must be provided.")
 
@@ -51,7 +54,7 @@ class ManifestFilter(BaseFilter):
 
     def apply(self, questions: list["Question"]) -> list["Question"]:
         filtered_questions = []
-        manifest_qids = {item.qid for item in self.manifest.items}
+        manifest_qids = {item.qid for manifest in self.manifests for item in manifest.items}
 
         for question in questions:
             if question.qid in manifest_qids:

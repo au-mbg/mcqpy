@@ -162,6 +162,9 @@ class QuizConfig(BaseModel):
                 if name.endswith("_path") and isinstance(param, str) and config_path is not None:
                     absolute_path = (Path(config_path).parent / param).resolve()
                     filter_params[name] = str(absolute_path)
+                elif name.endswith("_path") and isinstance(param, list) and config_path is not None:
+                    absolute_paths = [(Path(config_path).parent / p).resolve() for p in param]
+                    filter_params[name] = [str(p) for p in absolute_paths]
 
         return data
 
