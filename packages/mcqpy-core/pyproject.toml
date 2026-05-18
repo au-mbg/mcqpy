@@ -1,6 +1,6 @@
 [project]
 name = "mcqpy-core"
-version = "0.2.5"
+version = "0.2.6"
 description = "Core question, manifest, grading, analysis, and browser-safe runtime logic for MCQPy"
 readme = "README.md"
 authors = [

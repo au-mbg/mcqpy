@@ -2,6 +2,7 @@
 
 from mcqpy_core.question.filter.base_filter import BaseFilter, CompositeFilter
 from mcqpy_core.question.filter.difficulty import DifficultyFilter
+from mcqpy_core.question.filter.slug import SlugFilter
 from mcqpy_core.question.filter.tag import TagFilter
 from mcqpy_core.question.filter.date import DateFilter
 from mcqpy_core.question.filter.stratified import StratifiedFilter
@@ -16,6 +17,7 @@ class FilterFactory:
         'date': DateFilter,
         'stratified': StratifiedFilter,
         'manifest': ManifestFilter,
+        'slug': SlugFilter
     }
     
     @classmethod
