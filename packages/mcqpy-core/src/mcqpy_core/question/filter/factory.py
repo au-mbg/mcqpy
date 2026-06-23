@@ -7,6 +7,7 @@ from mcqpy_core.question.filter.tag import TagFilter
 from mcqpy_core.question.filter.date import DateFilter
 from mcqpy_core.question.filter.stratified import StratifiedFilter
 from mcqpy_core.question.filter.manifest import ManifestFilter
+from mcqpy_core.question.filter.question_type import TypeFilter
 
 class FilterFactory:
     """Creates filters from configuration dictionaries."""
@@ -17,7 +18,8 @@ class FilterFactory:
         'date': DateFilter,
         'stratified': StratifiedFilter,
         'manifest': ManifestFilter,
-        'slug': SlugFilter
+        'slug': SlugFilter,
+        'type': TypeFilter
     }
     
     @classmethod
